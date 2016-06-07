@@ -1,0 +1,171 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% NIH Grant Proposal for the Specific Aims and Research Plan Sections
+% LaTeX Template
+% Version 1.0 (21/10/13)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original author:
+% Erick Tatro (erickttr@gmail.com) with modifications by:
+% Vel (vel@latextemplates.com)
+%
+% Adapted from:
+% J. Hrabe (http://www.magalien.com/public/nih_grants_in_latex.html)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[11pt,notitlepage]{article}
+
+% A note on fonts: As of 2013, NIH allows Georgia, Arial, Helvetica, and Palatino Linotype. LaTeX doesn't have Georgia or Arial built in; you can try to come up with your own solution if you wish to use those fonts. Here, Palatino & Helvetica are available, leave the font you want to use uncommented while commenting out the other one.
+\usepackage{palatino} % Palatino font
+%\usepackage{helvet} % Helvetica font
+\renewcommand\familydefault{\sfdefault} % Use the sans serif version of the font
+\usepackage[T1]{fontenc}
+\linespread{1.05} % A little extra line spread is better for the Palatino font
+
+\usepackage{lipsum} % Used for inserting dummy 'Lorem ipsum' text into the template
+\usepackage{amsfonts, amsmath, amsthm, amssymb} % For math fonts, symbols and environments
+\usepackage{graphicx} % Required for including images
+\usepackage{booktabs} % Top and bottom rules for table
+\usepackage{wrapfig} % Allows in-line images
+\usepackage[labelfont=bf]{caption} % Make figure numbering in captions bold
+\usepackage[top=0.5in,bottom=0.5in,left=0.5in,right=0.5in]{geometry} % Reduce the size of the margin
+\renewcommand\thesection{\arabic{section}}
+
+\pagestyle{empty} % Remove page numbers
+
+\hyphenation{ionto-pho-re-tic iso-tro-pic fortran} % Specifies custom hyphenation points for words or words that shouldn't be hyphenated at all
+
+\begin{document}
+
+%----------------------------------------------------------------------------------------
+%	SPECIFIC AIMS
+%----------------------------------------------------------------------------------------
+
+\section{Introduction}
+
+% \begin{figure}[b c] % Centered big figure at bottom of the page ([b] argument, could be "t" for top or "h" for here)
+% \centering
+% \includegraphics[scale = .80]{Figures/Fig2.pdf}
+% \caption{\footnotesize Big Figure legend Big Figure legend Big Figure legend Big Figure legend Big Figure legend Big Figure legend Big Figure legend Big Figure legend Big Figure legend.}
+% \label{fig2}
+% \end{figure}
+
+%It should also help you more clearly describe the design of your study and express what your overall problem statement is.
+
+\subsection{Research Question Identification \& Description}
+
+
+
+\subsection{Justification}
+
+
+\subsection{Hypothesis}
+The survey was designed to validate or dispute the following hypothesis:
+
+H0.  There is no correlation between session types and programmers...
+
+
+H1. Concern about security influences user behaviour (i.e. applications used, precautions taken) in the context of public Wifi
+
+Besides validating or disputing the hypothesis, we added some exploratory questions  to get more information about the participants’ behaviour and interests when using public Wifi and find any interesting correlations between these and security behaviour.
+
+
+%========INSTRUCTIONS FOR INNOVATION================
+
+\section{Experimental Description}
+The next part of this document is concerned with what will be evaluated and how.
+The following sections will define the methodology and approach that will be taken.
+
+\subsection{Tasks to complete}
+%For each of the research questions, what kind of tasks will the user carry out in your system(s) that will allow you to answer each research question.
+The participants will be given three main tasks to complete with various subtasks.
+
+\begin{enumerate}
+  \item Iterator example in Mungo. Code provided. Spot and correct the error. Add the remove operation.
+  \item SMTP\footnote{http://www.ietf.org/rfc/rfc2821.txt} example in Scribble and Mungo. Code provided. StMungo introduced as well. Spot and correct the error one in scribble specification, second one in Mungo specification.
+
+  \item Implement a small example based on an informal specification. Buyer seller would be a good candidate here.
+\end{enumerate}
+
+\subsection{Variable/Experimental conditions}
+%What are you comparing or testing?
+
+%Independent variables (IVs) are the things to be manipulated. You can have as many IVs as you like but the more you have, the more complicated it becomes to isolate the effect of each in your study.
+
+%Dependent variables (DVs) are the things that change or vary because of your manipulation of the IVs. For example – time, number
+
+%Independent variables are assumed to have a causal impact on the dependent variable.
+
+Independent variables:
+\begin{itemize}
+  \item Programming expertise
+\end{itemize}
+
+Dependent variables to be measured:
+\begin{itemize}
+  \item time to complete each task
+  \item how many times the code is compiled
+  \item how many bugs/errors
+  \item is the end result correct
+\end{itemize}
+
+\subsection{Data Collection/Measurements/Observations}
+The purpose of this study is exploratory.
+Dependent variables to be measured:
+\begin{itemize}
+  \item time to complete each task
+  \item how many times the code is compiled
+  \item how many bugs/errors are encountered in the process
+  \item is the end result correct
+  \item participants' opinion about the tools/session types
+\end{itemize}
+
+
+\subsection{Design}
+
+Considering that the aim of this experiment is exploratory and the learning effect (performance improving with experience, even over very short periods of time) is of little concern in this case a within subjects design, every participant perform every task under every condition, will be used.
+
+\subsection{Participants/Subjects/Users (Controlled Variable)}
+
+The only requirement for participants is that they have some Java experience. Factors like level of programming proficiency, background, or upfront knowledge of behavioural types or session types will be taken into consideration.
+
+\subsection{Experimental location}
+%Where will you carry out the experiment? Are there particular services or requirements needed? E.g. Wi-Fi. If carrying out a location based experiment where will you do this? How will you ensure participants are safe?
+
+The experiment will be carried out in Sir Alwyn Williams building, room F112. This office has been chosen as it allows a higher degree of control over the environment, the programming one in particular.
+
+\subsection{Experimental schedule}
+
+This section outlines all of the parts of the experiment and a rough estimate how long each will take. After completing all tasks, anticipated to take roughly 45 minutes, the participants will be asked to answer a short survey rating their experience using session types. The time taken to complete the experiment may be longer or shorter depending on the level of programming expertise.
+
+\begin{enumerate}
+  \item 5 minutes to explain the experiment
+  \item 15 minute practical tutorial on session types, typestate, the tools to be used
+  \item approximately 10 minutes for task 1
+  \item approximately 15 minutes for task 2
+  \item approximately 20 minutes for task 3
+  \item 5 minute short informal interview
+  \item 5 minute to complete survey
+  \item 5 minutes for any questions the participant might have
+\end{enumerate}
+
+%	BIBLIOGRAPHY
+%----------------------------------------------------------------------------------------
+
+\newpage
+
+\bibliography{study_proposal} % Use the NIHGrant.bib file for the reference list
+\bibliographystyle{nihunsrt} % Use the custom nihunsrt bibliography style included with the template
+
+%----------------------------------------------------------------------------------------
+
+\end{document}

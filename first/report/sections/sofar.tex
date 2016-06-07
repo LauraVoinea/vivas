@@ -1,0 +1,258 @@
+\section{Research Activities}
+\label{sec:Research}
+
+\subsection{Mungo}
+\label{sub:Mungo}
+Mungo\footnote{http://www.dcs.gla.ac.uk/research/mungo/} is a Java front-end tool used to statically check the order of method calls. It is implemented using the JastAdd framework\footnote{http://jastadd.org/web/extendj/}. A protocol or session type is represented as a separate typestate file, associated with a Java class.  The protocol definition is described as a sequence of method calls, the order of which determines the validity of the protocol.
+
+The Mungo checks that the object instantiating the class performs method calls as defined by its typestate. If the protocol is not violated, standard .java files are produced for every .mungo file in the package.  The resulting code can then be ran as any standard Java code.
+
+Typestate is a refinement of the concept of a type in programming [7, 8]. Typestate is the con- straining of a sequence of calls. In programming certain methods can sometimes only be called in certain states. Typestate checks what method is available to be called in which state and what the subsequence state of each method is. Furthermore Typestate can check at compile time that specifications are followed. Through Typestate analysis, it is possible to track the degree of initialisation of variables, guaranteeing that operations would never be applied on improperly initialised data.
+
+The following work was undertaken on the Mungo tool:
+\begin{itemize}
+  \item the tool has been moved from the Java 1.4 compiler to the Java 1.8 compiler and adapted to work with the new framework.(joint work with Dr. Dimitrios Kouzapas)
+  \item moving the tool to a new compiler framework was a good opportunity for some refactoring.
+  \item the tool has been extended to support Java enumerations.(joint work with Dr. Dimitrios Kouzapas)
+  \item updated repositories
+  \item work has been undertaken to support generic types
+  \item work has been undertaken to typecheck exceptions, in a simple form at the moment
+\end{itemize}
+
+
+Areas of future work:
+\begin{itemize}
+  \item aliasing
+  \item typecheck generic types
+  \item support annotations
+\end{itemize}
+
+\subsection{StMungo}
+\label{sub:StMungo}
+
+StMungo (Scribble to Mungo)\footnote{http://www.dcs.gla.ac.uk/research/mungo/} is a Java-based tool for translating Scribble\footnote{http://www.scribble.org} local protocol specifications into typestate specifications.
+
+Scribble is a language that can describe application-level protocols among communicating systems. A protocol represents an agreement on how participating entities interact with each other.
+
+After the Scribble protocol is translated to a Mungo specification, Mungo\ref{Mungo} is used to generate a Java implementation for the protocol. This tool allows an easy transition from a Scribble global protocol definition to working Java implementation. We start by specifying distributed multiparty protocol in Scribble. We can then use the Scribble tool chain to validate and project the global protocol into a local one describing the interactions from the point of view of a specific participant. For every Scribble local protocol, StMungo will produce .mungo files containing: a typestate specification describing the local protocol as a sequence of method calls, an API for the participant implementing the typestate methods and a main class skeleton calling the methods in the typestate.
+
+To improve this tool various extensions, refactoring has been undertaken:
+
+\begin{itemize}
+  \item extended the tool to translate messages with no payload i.e.
+  \begin{lstlisting}[basicstyle=\footnotesize]
+    message_operator ()
+  \end{lstlisting}
+  \item extended the tool to translate messages with multiple payload i.e.
+  \begin{lstlisting}[basicstyle=\footnotesize]
+    message_operator ( payload_type1, ..., payload_typen )
+  \end{lstlisting}
+  \item extended the tool to translate messages without a message signature i.e.
+  \begin{lstlisting}[basicstyle=\footnotesize]
+    ( payload_type1, ..., payload_typen )
+  \end{lstlisting}
+  \item extended the tool to translate messages with annotated payloads i.e.
+  \begin{lstlisting}[basicstyle=\footnotesize]
+    message_operator ( annotation:payload_type)
+  \end{lstlisting}
+  \item various small improvements to allow most translations to run without having to be edited by a human
+  \item various improvements allowing the tool to crash gracefully
+  \item adapted the tool to work with multiple versions of scribble specification
+  \item improved the tool by implementing support for special cases of recursions nested in choice structures
+  A simple example of a problematic scribble specification is:
+  \begin{lstlisting}[basicstyle=\footnotesize]
+    global protocol Example(role S, role C) {
+    choice at C{
+            rcpt(String) from C to S;
+        } or {
+            msg(String) from C to S;
+            rec loop {
+                    subject(String) from C to S;
+                    continue loop;
+                }
+            }
+        }
+    }
+  \end{lstlisting}
+  \item improved the tool by implementing support for special cases of nested choice inside a recursion
+
+  A simple example of a problematic scribble specification is:
+  \begin{lstlisting}[basicstyle=\footnotesize]
+  global protocol ProtocolName(role S, role C) {
+    command(String) from C to S;
+    rec overall {
+    choice at S
+    	{
+    	ok(String) from S to C;
+    			choice at S {end(String) from S to C;}
+    			or {
+    			sum(String) from S to C;
+    			}
+    			message(String) from S to C;
+    	} or {	 error(String) from S to C;	}
+    	continue overall;
+    }
+    }
+  \end{lstlisting}
+
+  \item extending the tool to translate to support inlined protocols and sub-protocols(ongoing)
+  \item kept it up to date with changes in Mungo
+  \item refactoring to keep it simple
+  \item regression testing to find any new bugs introduced
+\end{itemize}
+
+Areas of future work:
+\begin{itemize}
+  \item test harness
+  \item extension to translate more complex constructs such as interruptible or parallel
+  \item keeping it up to date with changes in Scribble and Mungo
+\end{itemize}
+
+
+\subsection{Usecases}
+\label{sub:Usecases}
+
+To better understand the expressive power of current session type technology together with any limitations that may need to be addressed, the current use case repository\footnote{https://github.com/epsrc-abcd/session-types-use-cases} was surveyed as a first step. As a second step, new real-world examples were sought. From the various protocols looked after, representations were attempted for two, Paxos and the File Transfer Protocol(FTP).
+
+The first protocol chosen as a usecase was Paxos. Paxos is a protocol for solving consensus in a network of unreliable processes. It ensures that a single value among the proposed values can be chosen. It assumes an asynchronous, non-Byzantine model.\cite{paxos}
+
+Two major advantages of Paxos are that it is provably correct in asynchronous networks that eventually become synchronous and it does not block if a majority of participants are available.Furthermore it has provably minimal message delays in the best case.
+Despite it's reputation of being difficult to understand \& implement it is widely, a couple of examples would be Google in Chubby, Yahoo use something based on it in ZooKeeper.
+The protocol comes with three roles and a two-phase approach. A proposer
+responsible for initiating the protocol, that handles client requests and
+proposes values to be chosen. An acceptor that responds to messages from proposers by either rejecting them or agreeing in principle and making a promise about the proposals it will accept in the future. An a listener or learner, who
+wants to know which value was chosen. Each Paxos server can act as any or all 3 roles.
+
+% Concepts
+% proposalNumber: used to order the proposals so that acceptors can agree on which proposals came before or after
+% acceptedProposal: the number of the last proposal the server has accepted
+% acceptedValue: the value from the most recent proposal the server has accepted
+% minProposal: the number of the smallest proposal this server will accept
+%
+%
+% 2-phase approach
+% Phase 1: broadcast Prepare
+% find out about any chosen values
+% block older proposals that have not yet completed
+% Phase 2: broadcast Accept
+% ask acceptors to accept a specific value
+% acceptors can reply with reject or accept
+% Consensus is reached when a majority of the nodes have accepted; and the coordinator broadcasts a commit message to all nodes.
+
+%
+%  A node is elected to be a Proposer
+% The Proposer selects a value and sends it to all nodes (called Acceptors in Paxos) in an accept-request message.
+% Acceptors can reply with reject or accept
+% Consensus is reached when a majority of the nodes have accepted; and the coordinator broadcasts a commit message to all nodes.
+%
+% Algorithm
+% Proposer side
+% 1. Choose new proposal number n
+% 2. Broadcast Prepare(n, value) to all Acceptors
+% 4. When responses received from the majority
+% If any acceptedValue returned, replace internalValue with acceptedValue for highest acceptedProposal
+% 5. Broadcast Accept(n, value) to all servers
+% 7. When responses received from majority:
+% any rejections(result > n)? goto 1
+% Otherwise, the value is chosen
+% Acceptor side
+% 3. Respond to Prepare(n, value)
+% if n > minProposal then minProposal = n
+% Return(acceptedProposal, acceptedValue)
+% 6. Respond to Accept(n, value):
+% if n>= minProposal then acceptedProposal = minProposal = n acceptedValue = value
+% Return(minProposal)
+% Acceptors must record minProposal, acceptedProposal, and acceptedValue on stable storage(disk)
+%
+% each Paxos server can contains both components
+
+Some representations of the algorithm have been attempted using Scribble, combined with StMungo and Mungo to give a working Java code. However in trying to represent it some shortcomings of the toolset became apparent:
+\begin{itemize}
+  \item representing broadcasting
+  \item representing quorum/a majority
+  \item representing express the dynamic aspects such as processes failing, restarting
+  \item express multiple instances of the protocol
+\end{itemize}
+
+The work on Paxos has been presented during the last ABCD meeting in January 2016. Work on a better Paxos representation has been paused for the moment, other tasks taking priority such as improving the tools.
+
+
+The second protocol chosen was the File Transfer Protocol described by Request for Comments(RFC): 959\footnote{https://tools.ietf.org/html/rfc959}. FTP is a standard network protocol for transferring  files between a client and server on a network.  FTP is an unusual protocol in that it utilizes two ports, a data port and a command(control) port. FTP may run in active or passive mode, which determines how the data connection is established. In both cases, the client creates a TCP control connection from a random, usually an unprivileged, port number to the FTP server command port 21.
+%
+% In active mode, the client starts listening for incoming data connections from the server on a port {\it port\_number}. It sends the FTP command PORT {\it  port\_number} to inform the server on which port it is listening. The server then initiates a data channel to the client from its port 20, the FTP server data port.
+%
+% In situations where the client is behind a firewall and unable to accept incoming TCP connections, passive mode may be used. In this mode, the client uses the control connection to send a PASV command to the server and then receives a server IP address and server port number from the server, which the client then uses to open a data connection from an arbitrary client port to the server IP address and server port number received.
+Some representations of the algorithm have been attempted using Scribble, combined with StMungo and Mungo to give a working Java code. However in trying to represent it some shortcomings of StMungo became apparent. Hence, work on an FTP representation has been paused to improve StMungo and Mungo, to allow a better representation. It is planned to be restarted in the autumn. 
+
+\subsection{User study}
+\label{us}
+
+
+Session types good for programmers. Will like/use/find helpful in their day to day programming.
+
+This phd aims to explore how programmers can interact with session types, if they find them useful and in which ways. Make this intrecation more meaningful.
+
+
+%Programming language designers are often accused of inventing new programming constructs without having any notion of how well suited such techniques are to industrial soft- ware development. While they may be able to show small, pedagogical examples of how a new technique can counter a class of bugs, or allow a more compact expression of a particu- lar concept, this is rarely supported by a study which demonstrates that the technique fits the following important criteria:
+%• Worth learning — the overall productivity gains made possible by the new feature outweigh the effort of learning the new feature, and any overheads associated with its use.
+%• Clearlyexpressed—theparticularsyntacticelementsusedintheexpressionofthenew feature are the best that could be found, or equivalent to other evaluated possibilities.
+%• Justified—theincreaseincomplexityofthelanguageduetotheadditionofthefeature is justifiable, in that the feature is of greater general utility than some other feature that could be added. All languages have a notional “complexity budget” that cannot be exceeded without causing confusion and misuse. The feature set of a language must be chosen carefully to provide the greatest overall utility within that budget for the domain in which the language is expected to be used.
+
+
+Stuff done in preparation of the user study:
+\begin{itemize}
+  \item literature survey of existing studies; some of it summaried
+  \item plan \ref{appendix:usertrial}
+  \item tool develpoment to enable this
+\end{itemize}
+
+
+%Programming language designers are often accused of inventing new programming constructs without having any notion of how well suited such techniques are to industrial soft- ware development. While they may be able to show small, pedagogical examples of how a new technique can counter a class of bugs, or allow a more compact expression of a particu- lar concept, this is rarely supported by a study which demonstrates that the technique fits the following important criteria:
+%• Worth learning — the overall productivity gains made possible by the new feature outweigh the effort of learning the new feature, and any overheads associated with its use.
+%• Clearlyexpressed—theparticularsyntacticelementsusedintheexpressionofthenew feature are the best that could be found, or equivalent to other evaluated possibilities.
+%• Justified—theincreaseincomplexityofthelanguageduetotheadditionofthefeature is justifiable, in that the feature is of greater general utility than some other feature that could be added. All languages have a notional “complexity budget” that cannot be exceeded without causing confusion and misuse. The feature set of a language must be chosen carefully to provide the greatest overall utility within that budget for the domain in which the language is expected to be used.
+
+%The introduction of typestate to a language should be evaluated against these criteria as well. Can a competent programmer learn what typestate is, identify where it should be used, and reason about code which interacts with objects that have typestate constraints? There are many aspects of this problem that are difficult to quantify:
+
+%What qualifies a programmer as “competent”? In other words, what is the expected or required knowledge that a programmer must have for typestate to be a worthwhile addition to a language?
+%• What constitutes effective reasoning? Building an accurate mental model of what code does is notoriously difficult and a source of many bugs — despite the best efforts of a type system, mistakes are likely. In the case of typestate, assessing whether a programmer can reason about state transitions most of the time, such that they are not constantly surprised by a static analysis tool disagreeing with their mental model, should be sufficient.
+%• How can we quantify whether a feature is of more value than another? Such a question is subjective. The features of a programming language interact in non-trivial ways such that swapping one feature for another is not always possible; assessing the impact of such a change is likely to be difficult.
+
+
+Regardless, assessing the utility of typestate through experimentation is likely to be essential in convincing those outwith the research community that it has value, and should be included in contemporary programming languages.
+
+
+In order to evaluate the practicality of the Hanoi language for typestate modelling, an experimental design was desired with the aim of evaluating the following research questions:
+• Can programmers reason effectively about the semantics of Hanoi?
+• Is the effectiveness with which a programmer can reason about a Hanoi model influ- enced by the presentation of the model?
+5.1. Experimentsconsidered 117
+ • Will programmers prefer either the DSL or annotation model types?
+These questions should be evaluated in the context of one or more of the following tasks:
+• Deciding whether a Hanoi model is semantically valid.
+• Writing code that does not violate constraints in a Hanoi model.
+• Producing a semantically valid Hanoi model against an informal specification. • Identifying whether code violates constraints in a Hanoi model.
+Different experimental designs were considered, oriented around questions related to these tasks, before settling on a final experimental design.
+
+
+\section{Other Activities}
+\label{sec:Activities}
+
+Besides staring at code and trying to make sense of greek symbols the following activities were undertaken throughout the year.
+
+\textbf{Project Group Meetings} of various sizes. Weekly meetings consisted mostly of people working on the project in Glasgow, at which I even once lead a paper discussion. Monthly meetings consisted mostly of people working on the project in Edinburgh and Glasgow. As well as three longer meetings that consisted of all project partners: Glasgow, Edinburgh, London and Industry Representatives (which form the Advisory board).
+
+As required by the Graduate School, I attended eight \textbf{postgraduate research programmes}, which were designed to help build skills necessary for a researcher in within the University.
+
+
+
+As part of the first year of my PhD, I have attended \textbf{various seminars, talks and events} in order to get a better understanding of Computing Science as a whole and of my research groups and consecutively the projects place within it.
+
+During this year I have attended various seminars and talks which improved my knowledge of my own ignorance of the field as a whole.
+
+\begin{itemize}
+  \item SPLS
+  The Scottish programming language seminar series
+  \item FATA seminar series.over-view of what is worked on in the research group as well as to enhance my understanding of my own topic area.
+  \item BETTY (Behavioural Types for Reliable Large-Scale Software Systems) meeting 2016.
+  \item Wadlerfest \& LFCS30. Event held in celebration of Philip Wadler's 60th birthday. LFCS30, to celebrate the 30th anniversary of the founding of the LFCS.
+\end{itemize}

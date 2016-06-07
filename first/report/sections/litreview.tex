@@ -1,0 +1,65 @@
+\section{Litrerature review}
+
+\subsection{Intro}
+\label{sub: intro}
+% \textbf{What are session types}
+% Session types -- a way to model communication.
+%             -- and have it type checked
+%
+% Session types describe the structure of bi-directional point- to-point communication channels by specifying the sequence and format of messages on each channel. A session type defines a communication protocol. Type systems that include session types are able to statically verify that communication-based code generates, and responds to, mes- sages according to a specified protocol
+%
+%
+% \textbf{Why are session types important}
+%
+% \textbf{Short history}
+
+
+\subsection{Session types, a short history}
+\label{sub: st}
+
+%Session types model communication protocols between processes in distributed systems [71, 143]. A session type defines the flow of typed messages on a bi-directional channel between two processes, and enables static checking of channel usage to ensure that a peer sends and receives messages in the order dictated by the session type.
+
+Session types have been introduced by Honda[12], and further extended by Takeuchi et al.[19], Honda et al.[13], and others.
+
+One fundamental class of communication error is for one process to send an
+ message to another process. A simple type may be associated with a communication channel in order to prevent this, but then a higher-level problem becomes apparent — communication between processes is typically structured, with an expected order to the flow of messages. Messages typically contain different content at different times, and therefore cannot really be considered to be of one type. Session types provide the mechanism to enforce both the order of communication, and the types of the messages that may be sent. Each end of the channel has a session type which is the “mirror image” or dual of the other, which is to say that if the session type for one process dictates that it may only send an integer, then the other party may only receive an integer.
+
+ A session type describes the types of individual messages and the state transitions of the protocol i.e. the allowed sequences of messages. A session type is associated with a communication channel upon creation. Type-checking may be used to verify processes’ compliance to the session type system and establish properties such as deadlock and race freedom, or session fidelity between two parties.
+
+
+Session types have thus far been the subject of a wide body of work aimed at extending its theoretical foundations as well as developing new tools and techniques. For example, session types have been augmented with subtyping polymorphism to enable protocols to describe richer behaviours[10]. They have been extended to ensure the progress property and deadlock freedom [7]. Session type theory has also been extended from binary session types to multiparty session types to support communication instances with more than two participants while still guaranteeing the absence of deadlock[14]. In other work [5], global session types have been used to detect choreographies that can be realized in the context of web services.
+Session types have been successfully applied in functional programming languages [20], [4], object-oriented languages like Java [15], [11], low-level programming languages like C in [18], dynamically-typed languages like Python[17] or Erlang [16], or in the operating systems context with the Sing\# language [9].
+
+
+Typestate at Glasgow uni with Mungo and StMungo tools\ref{mungo}. So let's look at typestate.
+
+From my reading this year two areas of interest will be presented bellow, namely typestate and language usability and evaluation.
+
+\subsection{Typestate}
+In this section, Plural and Fugue shall be explored in detail as they are recent examples of typestate systems which have usable implementations for popular languages. Each provides subtly different semantics for their typestate models and alias control strategy. Plural primarily was used as a vehicle to explore flexible typestate modelling and alias control, and so provides a rich environment in which to explore these topics. Fugue is notionally a successor to Vault and attempts to tackle resource disposal directly, with a simpler typestate model and alias control technique. The similarity of the semantics of the host languages for these sys- tems (Java and C#, respectively) allows for direct comparison between the chosen typestate semantics and alias control strategies of each.
+2.1. Typestatesystems 9
+ Plaid is also considered in more detail due to its novel presentation as a gradually typed programming language designed with deeply integrated support for typestate modelling and enforcement. Its hybrid object-functional nature also presents some interesting possibilities and challenges which do not exist for Plural and Fugue.
+
+
+Aldrich et al. investigated typestate verification for Java using data flow analysis in their system known as Plural [3, 12, 16]. The work of Aldrich’s group is interesting for a number of reasons:
+• The data flow analysis is modular, meaning it should scale to large, component- oriented software systems, unlike whole program analyses.
+• Sophisticated alias control techniques based on Boyland’s fractional permissions [24] are employed, allowing stateful objects to be shared in a controlled manner.
+• States within the machine can be “refined” — that is, the state machine includes a form of state subtyping. This can be useful in reducing the number of declarations required to define a model, by grouping together states based on common properties and restrictions.
+• Java annotations are used to define the state machine associated with an object. This is necessary to facilitate the modular analysis and declare the fractional permission requirements of a particular method.
+Plural covers many important aspects of defining state-based preconditions in real systems, but the method of expression in the form of annotations is not ideal — annotations are con- venient for attaching arbitrary extra information to types that can be consumed by tools, but the syntactic restrictions make the expression of complex concepts difficult.
+Plural’s semantics are complex, and no contextual information is given in typestate violation warnings produced by its static analysis that would help the programmer understand what is wrong and how to fix it. With even the simplest code, many typestate violations will be found that are subtly related and often fixed as a group by small changes to the code or typestate annotations.
+
+
+
+To date, the only comprehensive attempt at designing and implementing a full general pur- pose programming language from scratch which draws together the state of the art in the theory of typestate is the Plaid language [2, 141]. I participated in the development of this language while working under the supervision of Jonathan Aldrich at Carnegie Mellon Uni- versity in 2011.
+Plaid is a gradually typed [136, 137, 153] language, meaning that it is a dynamically typed language in which type requirements and guarantees can be specified and statically checked in a selective manner. This technique largely mitigates the cost to the programmer of large type annotations, as they are optional, with the trade-off that method availability must be checked on every method call which adds a significant runtime overhead.
+Plaid defines objects as a collection of related state declarations that define a hierarchical, parallel finite state machine. The state hierarchy is defined explicitly by declaring one state to be a sub-state of another; Listing 2.3 demonstrates this through the definition of an option type. Explicitly defined constructors are not necessary in Plaid — instead, a default con- structor exists for each defined state that initialises all fields and methods that are defined with an initial value. Other fields can be initialised through the use of an associated code block as shown on Line 12 of Listing 2.3, where an object is instantiated in state Some with the value field initialised to the result of f(value).
+Plaid does not support parametric polymorphism for states, meaning that we cannot annotate the Option type with a type parameter and insist that the field value be of this type statically. As the language is dynamically typed this is of little practical consequence, but is a major limitation for the static analysis.
+Plaid obviates the need for dynamic state test methods by allowing pattern matching on an object’s type, as shown on Line 22. The hasValue method is defined for option values, but exists purely for programmer convenience rather than as a necessary part of the object’s protocol.
+
+\subsection{Language usability and evaluation}
+\label{sub: evaluation}
+Why is evaluation important in the context of programming languages?
+Why evaluate session types?
+PLATEAU Workshop on Evaluation and Usability of Programming Languages and Tools
+Programming languages, programming tools, and human-computer interaction
