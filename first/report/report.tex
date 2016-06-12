@@ -24,6 +24,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \title{Session types in the wild}
 
+
 \author{A. Laura Voinea}
 \date{\today}
 
@@ -38,19 +39,36 @@
 
 \renewcommand*\thesection{\arabic{section}}
 \input{sections/introduction.tex}
-%\input{sections/litreview.tex}
+\input{sections/litreview.tex}
 \input{sections/sofar.tex}
-%\input{sections/yearplan.tex}
-
+ 
 \clearpage
+
 \appendix
+%----------------------------------------------------------------------------------------
 \section{Second Year Plan}
 \label{appendix:gantt}
 \begin{figure}[h!]
     \includegraphics[height=0.9\vsize, width=1.1\hsize]{SecondYear.png}
 \end{figure}
+
 %----------------------------------------------------------------------------------------
 \section{User Study Plan}
 \label{appendix:usertrial}
 \includepdf[pages=-]{../study/study_proposal.pdf}
+
+%----------------------------------------------------------------------------------------
+\section{Training Needs Analysis Form}
+\label{sec:traininglog}
+\includepdf[pages=-,landscape=true]{traininglog.pdf}
+%\includepdf[pages=-,pagecommand=\thispagestyle{plain}]{include/form.pdf}
+
+%	BIBLIOGRAPHY
+%----------------------------------------------------------------------------------------
+
+\newpage
+\bibliographystyle{plain}
+\bibliography{report}
+
+
 \end{document}

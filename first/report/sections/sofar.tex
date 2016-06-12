@@ -3,16 +3,16 @@
 
 \subsection{Mungo}
 \label{sub:Mungo}
-Mungo\footnote{http://www.dcs.gla.ac.uk/research/mungo/} is a Java front-end tool used to statically check the order of method calls. It is implemented using the JastAdd framework\footnote{http://jastadd.org/web/extendj/}. A protocol or session type is represented as a separate typestate file, associated with a Java class.  The protocol definition is described as a sequence of method calls, the order of which determines the validity of the protocol.
+Mungo\footnote{http://www.dcs.gla.ac.uk/research/mungo/} is a Java front-end tool, developed by Dr. Dimitrios Kouzapas at the University of Glasgow, used to statically check the order of method calls i.e. its typestate. It is implemented using the JastAdd framework\footnote{http://jastadd.org/web/extendj/}. A protocol or session type is represented as a separate typestate file, associated with a Java class.  The protocol definition is described as a sequence of method calls, the order of which determines the validity of the protocol.
 
-The Mungo checks that the object instantiating the class performs method calls as defined by its typestate. If the protocol is not violated, standard .java files are produced for every .mungo file in the package.  The resulting code can then be ran as any standard Java code.
+Mungo checks that the object instantiating the class performs method calls as defined by its typestate. If the protocol is not violated, standard .java files are produced for every .mungo file in the package.  The resulting code can then be ran as any standard Java code.
 
 Typestate is a refinement of the concept of a type in programming [7, 8]. Typestate is the con- straining of a sequence of calls. In programming certain methods can sometimes only be called in certain states. Typestate checks what method is available to be called in which state and what the subsequence state of each method is. Furthermore Typestate can check at compile time that specifications are followed. Through Typestate analysis, it is possible to track the degree of initialisation of variables, guaranteeing that operations would never be applied on improperly initialised data.
 
 The following work was undertaken on the Mungo tool:
 \begin{itemize}
   \item the tool has been moved from the Java 1.4 compiler to the Java 1.8 compiler and adapted to work with the new framework.(joint work with Dr. Dimitrios Kouzapas)
-  \item moving the tool to a new compiler framework was a good opportunity for some refactoring.
+  \item moving the tool to a new compiler framework was a good opportunity for some refactoring(such as getting rid of dead code or method extraction).
   \item the tool has been extended to support Java enumerations.(joint work with Dr. Dimitrios Kouzapas)
   \item updated repositories
   \item work has been undertaken to support generic types
@@ -30,7 +30,7 @@ Areas of future work:
 \subsection{StMungo}
 \label{sub:StMungo}
 
-StMungo (Scribble to Mungo)\footnote{http://www.dcs.gla.ac.uk/research/mungo/} is a Java-based tool for translating Scribble\footnote{http://www.scribble.org} local protocol specifications into typestate specifications.
+StMungo (Scribble to Mungo)\footnote{http://www.dcs.gla.ac.uk/research/mungo/} is a Java-based tool, developed by Dr. Ornela Dardha at the University of Glasgow, that translates Scribble\footnote{http://www.scribble.org} local protocol specifications into Mungo specifications.
 
 Scribble is a language that can describe application-level protocols among communicating systems. A protocol represents an agreement on how participating entities interact with each other.
 
@@ -97,7 +97,7 @@ To improve this tool various extensions, refactoring has been undertaken:
 
   \item extending the tool to translate to support inlined protocols and sub-protocols(ongoing)
   \item kept it up to date with changes in Mungo
-  \item refactoring to keep it simple
+  \item refactoring(such as method extraction or getting rid of dead code) to keep everything simple
   \item regression testing to find any new bugs introduced
 \end{itemize}
 
@@ -110,7 +110,7 @@ Areas of future work:
 
 
 \subsection{Usecases}
-\label{sub:Usecases}
+\label{sub:usecases}
 
 To better understand the expressive power of current session type technology together with any limitations that may need to be addressed, the current use case repository\footnote{https://github.com/epsrc-abcd/session-types-use-cases} was surveyed as a first step. As a second step, new real-world examples were sought. From the various protocols looked after, representations were attempted for two, Paxos and the File Transfer Protocol(FTP).
 
@@ -182,77 +182,76 @@ The second protocol chosen was the File Transfer Protocol described by Request f
 % In active mode, the client starts listening for incoming data connections from the server on a port {\it port\_number}. It sends the FTP command PORT {\it  port\_number} to inform the server on which port it is listening. The server then initiates a data channel to the client from its port 20, the FTP server data port.
 %
 % In situations where the client is behind a firewall and unable to accept incoming TCP connections, passive mode may be used. In this mode, the client uses the control connection to send a PASV command to the server and then receives a server IP address and server port number from the server, which the client then uses to open a data connection from an arbitrary client port to the server IP address and server port number received.
-Some representations of the algorithm have been attempted using Scribble, combined with StMungo and Mungo to give a working Java code. However in trying to represent it some shortcomings of StMungo became apparent. Hence, work on an FTP representation has been paused to improve StMungo and Mungo, to allow a better representation. It is planned to be restarted in the autumn. 
+Some representations of the algorithm have been attempted using Scribble, combined with StMungo and Mungo to give a working Java code. However in trying to represent it some shortcomings of StMungo became apparent. Hence, work on an FTP representation has been paused to improve StMungo and Mungo, to allow a better representation. 
+
+Work on both usecases is planned to be restarted in the autumn, and make the base for a paper later on in the year. 
 
 \subsection{User study}
 \label{us}
 
 
-Session types good for programmers. Will like/use/find helpful in their day to day programming.
+% Session types good for programmers. Will like/use/find helpful in their day to day programming.
 
-This phd aims to explore how programmers can interact with session types, if they find them useful and in which ways. Make this intrecation more meaningful.
+% This phd aims to explore how programmers can interact with session types, if they find them useful and in which ways. Make this intrecation more meaningful.
 
+New programming language constructs are more often than not introduced without first exploring how well suited their are for their purpose or how they would be used in the real world. While proving they solve the problem is a good thing, checking how well they solve it would be nice.
+To explore how well programmers would interact with session types an initial study has been devised. This can be found in appendix \ref{usertrial}. It is intended to explore whether programmers can learn what session types are, identify how they should be used, and reason about session typed code correctly. At this stage there are little constraints on the type of participant. Since one of the claims behind session types is that they make reasoning about communication easier, participants with less programming experience are welcome. It would be interesting to see if there are any differences and what differences there are between participants of different backgrounds. The only requirement in this case being a working knowledge of Java.
 
-%Programming language designers are often accused of inventing new programming constructs without having any notion of how well suited such techniques are to industrial soft- ware development. While they may be able to show small, pedagogical examples of how a new technique can counter a class of bugs, or allow a more compact expression of a particu- lar concept, this is rarely supported by a study which demonstrates that the technique fits the following important criteria:
-%• Worth learning — the overall productivity gains made possible by the new feature outweigh the effort of learning the new feature, and any overheads associated with its use.
-%• Clearlyexpressed—theparticularsyntacticelementsusedintheexpressionofthenew feature are the best that could be found, or equivalent to other evaluated possibilities.
-%• Justified—theincreaseincomplexityofthelanguageduetotheadditionofthefeature is justifiable, in that the feature is of greater general utility than some other feature that could be added. All languages have a notional “complexity budget” that cannot be exceeded without causing confusion and misuse. The feature set of a language must be chosen carefully to provide the greatest overall utility within that budget for the domain in which the language is expected to be used.
-
-
-Stuff done in preparation of the user study:
-\begin{itemize}
-  \item literature survey of existing studies; some of it summaried
-  \item plan \ref{appendix:usertrial}
-  \item tool develpoment to enable this
-\end{itemize}
+Difficulties: choosing meaningful for the user to carry out, deciding what constitutes a good understanding of session types.
 
 
-%Programming language designers are often accused of inventing new programming constructs without having any notion of how well suited such techniques are to industrial soft- ware development. While they may be able to show small, pedagogical examples of how a new technique can counter a class of bugs, or allow a more compact expression of a particu- lar concept, this is rarely supported by a study which demonstrates that the technique fits the following important criteria:
-%• Worth learning — the overall productivity gains made possible by the new feature outweigh the effort of learning the new feature, and any overheads associated with its use.
-%• Clearlyexpressed—theparticularsyntacticelementsusedintheexpressionofthenew feature are the best that could be found, or equivalent to other evaluated possibilities.
-%• Justified—theincreaseincomplexityofthelanguageduetotheadditionofthefeature is justifiable, in that the feature is of greater general utility than some other feature that could be added. All languages have a notional “complexity budget” that cannot be exceeded without causing confusion and misuse. The feature set of a language must be chosen carefully to provide the greatest overall utility within that budget for the domain in which the language is expected to be used.
+% Session types are formal descriptions of communication protocols.
+% The formal nature of session types enables their incorporation
+% into programming languages and tools so they can be used
+% to drive the software development process.
+% %which can be incorporated into programming languages and tools
+% %so that typechecking can be used to verify the dynamic structure
+% %of communication as well as the static structure of data.
+% Research on session types has moved from theoretical studies
+% towards practical applications, and the field is maturing to the
+% point where session types can be integrated into software
+% engineering methodologies.
+% However, most of the literature is not sufficiently accessible to a
+% wider academic and industrial audience;
+% more systematic technology transfer is required.
+% The present paper provides an entry point to a substantial repository
+% of practical use-cases for session types in a range of application domains.
+% It aims to be an accessible introduction to session types as a practical
+% foundation for the development of communication-oriented software, and to
+% encourage the adoption of session-type-based tools.
 
-%The introduction of typestate to a language should be evaluated against these criteria as well. Can a competent programmer learn what typestate is, identify where it should be used, and reason about code which interacts with objects that have typestate constraints? There are many aspects of this problem that are difficult to quantify:
 
-%What qualifies a programmer as “competent”? In other words, what is the expected or required knowledge that a programmer must have for typestate to be a worthwhile addition to a language?
-%• What constitutes effective reasoning? Building an accurate mental model of what code does is notoriously difficult and a source of many bugs — despite the best efforts of a type system, mistakes are likely. In the case of typestate, assessing whether a programmer can reason about state transitions most of the time, such that they are not constantly surprised by a static analysis tool disagreeing with their mental model, should be sufficient.
-%• How can we quantify whether a feature is of more value than another? Such a question is subjective. The features of a programming language interact in non-trivial ways such that swapping one feature for another is not always possible; assessing the impact of such a change is likely to be difficult.
+% Regardless, assessing the utility of typestate through experimentation is likely to be essential in convincing those outwith the research community that it has value, and should be included in contemporary programming languages.
 
 
-Regardless, assessing the utility of typestate through experimentation is likely to be essential in convincing those outwith the research community that it has value, and should be included in contemporary programming languages.
-
-
-In order to evaluate the practicality of the Hanoi language for typestate modelling, an experimental design was desired with the aim of evaluating the following research questions:
-• Can programmers reason effectively about the semantics of Hanoi?
-• Is the effectiveness with which a programmer can reason about a Hanoi model influ- enced by the presentation of the model?
-5.1. Experimentsconsidered 117
- • Will programmers prefer either the DSL or annotation model types?
-These questions should be evaluated in the context of one or more of the following tasks:
-• Deciding whether a Hanoi model is semantically valid.
-• Writing code that does not violate constraints in a Hanoi model.
-• Producing a semantically valid Hanoi model against an informal specification. • Identifying whether code violates constraints in a Hanoi model.
-Different experimental designs were considered, oriented around questions related to these tasks, before settling on a final experimental design.
+% In order to evaluate the practicality of the Hanoi language for typestate modelling, an experimental design was desired with the aim of evaluating the following research questions:
+% • Can programmers reason effectively about the semantics of Hanoi?
+% • Is the effectiveness with which a programmer can reason about a Hanoi model influ- enced by the presentation of the model?
+% 5.1. Experimentsconsidered 117
+%  • Will programmers prefer either the DSL or annotation model types?
+% These questions should be evaluated in the context of one or more of the following tasks:
+% • Deciding whether a Hanoi model is semantically valid.
+% • Writing code that does not violate constraints in a Hanoi model.
+% • Producing a semantically valid Hanoi model against an informal specification. • Identifying whether code violates constraints in a Hanoi model.
+% Different experimental designs were considered, oriented around questions related to these tasks, before settling on a final experimental design.
 
 
 \section{Other Activities}
 \label{sec:Activities}
 
-Besides staring at code and trying to make sense of greek symbols the following activities were undertaken throughout the year.
-
-\textbf{Project Group Meetings} of various sizes. Weekly meetings consisted mostly of people working on the project in Glasgow, at which I even once lead a paper discussion. Monthly meetings consisted mostly of people working on the project in Edinburgh and Glasgow. As well as three longer meetings that consisted of all project partners: Glasgow, Edinburgh, London and Industry Representatives (which form the Advisory board).
-
-As required by the Graduate School, I attended eight \textbf{postgraduate research programmes}, which were designed to help build skills necessary for a researcher in within the University.
+As part of the first year of my PhD, various additional activities have been undertaken, such as training courses(detailed in appendix\ref{traininglog}), ABCD group meetings of various sizes, seminars and talks(e.g. Tht Scottish programming language seminar series, FATA seminars) which improved my knowledge of the field and gave me some insight of the exciting research ongoing, as well as my own ignorance. Some notable events attended were the BETTY (Behavioural Types for Reliable Large-Scale Software Systems)\footnote{http://www.behavioural-types.eu/meetings/wg-mc-meetings-17th-18th-march-2016-in-malta} meeting in March, and Wadlerfest\footnote{http://events.inf.ed.ac.uk/wf2016/}, held in celebration of Philip Wadler's 60th birthday, or LFCS30\footnote{http://events.inf.ed.ac.uk/lfcs30/}, to celebrate the 30th anniversary of the founding of the LFCS.
 
 
+\section{Future Work}
+\label{sec:future}
 
-As part of the first year of my PhD, I have attended \textbf{various seminars, talks and events} in order to get a better understanding of Computing Science as a whole and of my research groups and consecutively the projects place within it.
-
-During this year I have attended various seminars and talks which improved my knowledge of my own ignorance of the field as a whole.
-
+Some of the future work planned has been highlighted throughout this report. The activities planed for next year fall into several interconnected themes:
 \begin{itemize}
-  \item SPLS
-  The Scottish programming language seminar series
-  \item FATA seminar series.over-view of what is worked on in the research group as well as to enhance my understanding of my own topic area.
-  \item BETTY (Behavioural Types for Reliable Large-Scale Software Systems) meeting 2016.
-  \item Wadlerfest \& LFCS30. Event held in celebration of Philip Wadler's 60th birthday. LFCS30, to celebrate the 30th anniversary of the founding of the LFCS.
+\item Language usability and evaluation. As mentioned above in \ref{us} a user study is in plan for the near future, its results to be analysed and written up and submitted to PLATEAU 2016\footnote{http://2016.splashcon.org/track/plateau2016}. A second more focused study is also in plan for the later part of the year. 
+\item Tool development. Some of the work that is to be done has already been discussed earlier, however it is expected that the need for various different improvements will arise. Thus this will be an ongoing activity through the year. 
+\item Training and development. This category contains any training courses required by the school as well as any academic events to be attended. Over the summer, I will attend BETTY (Behavioural Types for Reliable Large-Scale Software Systems) in Limassol, Cyprus. The summer school will cover closely related areas of interest such as multiparty session types, linear logic, Practical programming with session types. In September I will help with the PPDP, LOPSTR and SAS conferences in Edinburgh.
+\item Refining initial research objectives and questions. This is really the miscellaneous category, containing work to be continued such as the usecases\ref{usecases}, and any new ideas that will arise from the user study.
 \end{itemize}
+
+For a detailed plan, a Ganntt chart is available in appendix \ref{appendix:gantt}.
+
