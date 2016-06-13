@@ -3,11 +3,11 @@
 
 \subsection{Mungo}
 \label{sub:Mungo}
-Mungo\footnote{http://www.dcs.gla.ac.uk/research/mungo/} is a Java front-end tool, developed by Dr. Dimitrios Kouzapas at the University of Glasgow, used to statically check the order of method calls i.e. its typestate. It is implemented using the JastAdd framework\footnote{http://jastadd.org/web/extendj/}. A protocol or session type is represented as a separate typestate file, associated with a Java class.  The protocol definition is described as a sequence of method calls, the order of which determines the validity of the protocol.
+Mungo\footnote{http://www.dcs.gla.ac.uk/research/mungo/} is a Java front-end tool, developed by Dr. Dimitrios Kouzapas at the University of Glasgow, used to statically check the order of method calls i.e. its typestate. It is implemented using the JastAdd framework\footnote{http://jastadd.org/web/extendj/}\cite{jastadd}. A protocol or session type is represented as a separate typestate file, associated with a Java class.  The protocol definition is described as a sequence of method calls, the order of which determines the validity of the protocol.
 
 Mungo checks that the object instantiating the class performs method calls as defined by its typestate. If the protocol is not violated, standard .java files are produced for every .mungo file in the package.  The resulting code can then be ran as any standard Java code.
 
-Typestate is a refinement of the concept of a type in programming [7, 8]. Typestate is the con- straining of a sequence of calls. In programming certain methods can sometimes only be called in certain states. Typestate checks what method is available to be called in which state and what the subsequence state of each method is. Furthermore Typestate can check at compile time that specifications are followed. Through Typestate analysis, it is possible to track the degree of initialisation of variables, guaranteeing that operations would never be applied on improperly initialised data.
+% Typestate is a refinement of the concept of a type in programming [7, 8]. Typestate is the constraining of a sequence of calls. In programming certain methods can sometimes only be called in certain states. Typestate checks what method is available to be called in which state and what the subsequence state of each method is. Furthermore Typestate can check at compile time that specifications are followed. Through Typestate analysis, it is possible to track the degree of initialisation of variables, guaranteeing that operations would never be applied on improperly initialised data.
 
 The following work was undertaken on the Mungo tool:
 \begin{itemize}
@@ -30,11 +30,13 @@ Areas of future work:
 \subsection{StMungo}
 \label{sub:StMungo}
 
-StMungo (Scribble to Mungo)\footnote{http://www.dcs.gla.ac.uk/research/mungo/} is a Java-based tool, developed by Dr. Ornela Dardha at the University of Glasgow, that translates Scribble\footnote{http://www.scribble.org} local protocol specifications into Mungo specifications.
+StMungo (Scribble to Mungo)\footnote{http://www.dcs.gla.ac.uk/research/mungo/} is a Java-based tool, developed by Dr. Ornela Dardha at the University of Glasgow, that translates a Scribble\cite{scribble, YHNN2013} local protocol into a Mungo specification and skeleton socket-based implementation code. The resulting code is typechecked using Mungo. Scribble is a protocol description language that can describe how two or more participating entities interact should interact with each other. 
+% The Scribble language is supported by the Scribble toolchain. 
 
-Scribble is a language that can describe application-level protocols among communicating systems. A protocol represents an agreement on how participating entities interact with each other.
+% In many use cases, it will be global protocols which designers will specify, which are automatically projected to local protocols. Local protocols are used to guide the implementation of individual system components, and may be used to statically verify, e.g. by type-checking programs at compile time, or dynamically verify, by monitoring runtime messages, that each component conforms to the original global protocol.
 
-After the Scribble protocol is translated to a Mungo specification, Mungo\ref{Mungo} is used to generate a Java implementation for the protocol. This tool allows an easy transition from a Scribble global protocol definition to working Java implementation. We start by specifying distributed multiparty protocol in Scribble. We can then use the Scribble tool chain to validate and project the global protocol into a local one describing the interactions from the point of view of a specific participant. For every Scribble local protocol, StMungo will produce .mungo files containing: a typestate specification describing the local protocol as a sequence of method calls, an API for the participant implementing the typestate methods and a main class skeleton calling the methods in the typestate.
+
+After the Scribble protocol is translated to a Mungo specification, Mungo\ref{Mungo} is used to generate a Java implementation for the protocol. This tool allows an easy transition from a Scribble global protocol definition to working Java implementation. We start by specifying distributed multiparty protocol in Scribble. We can then use the Scribble toolchain to validate and project the global protocol into a local one describing the interactions from the point of view of a specific participant. For every Scribble local protocol, StMungo will produce .mungo files containing: a typestate specification describing the local protocol as a sequence of method calls, an API for the participant implementing the typestate methods and a main class skeleton calling the methods in the typestate.
 
 To improve this tool various extensions, refactoring has been undertaken:
 
@@ -103,9 +105,10 @@ To improve this tool various extensions, refactoring has been undertaken:
 
 Areas of future work:
 \begin{itemize}
-  \item test harness
   \item extension to translate more complex constructs such as interruptible or parallel
   \item keeping it up to date with changes in Scribble and Mungo
+  \item formalise the translation and its semantics
+  \item test harness
 \end{itemize}
 
 
@@ -114,14 +117,14 @@ Areas of future work:
 
 To better understand the expressive power of current session type technology together with any limitations that may need to be addressed, the current use case repository\footnote{https://github.com/epsrc-abcd/session-types-use-cases} was surveyed as a first step. As a second step, new real-world examples were sought. From the various protocols looked after, representations were attempted for two, Paxos and the File Transfer Protocol(FTP).
 
-The first protocol chosen as a usecase was Paxos. Paxos is a protocol for solving consensus in a network of unreliable processes. It ensures that a single value among the proposed values can be chosen. It assumes an asynchronous, non-Byzantine model.\cite{paxos}
+The first protocol chosen as a usecase was Paxos. Paxos is a protocol for solving consensus in a network of unreliable processes. It ensures that a single value among the proposed values can be chosen. It assumes an asynchronous, non-Byzantine model.\cite{lamport1998part}
 
-Two major advantages of Paxos are that it is provably correct in asynchronous networks that eventually become synchronous and it does not block if a majority of participants are available.Furthermore it has provably minimal message delays in the best case.
-Despite it's reputation of being difficult to understand \& implement it is widely, a couple of examples would be Google in Chubby, Yahoo use something based on it in ZooKeeper.
+Two major advantages of Paxos are that it is provably correct in asynchronous networks that eventually become synchronous and it does not block if a majority of participants are available. Furthermore it has provably minimal message delays in the best case.
+Despite it's reputation of being difficult to understand \& implement it is widely, a couple of examples would be Google in Chubby\cite{chandra2007paxos}, Yahoo use something based on it in ZooKeeper.
 The protocol comes with three roles and a two-phase approach. A proposer
 responsible for initiating the protocol, that handles client requests and
 proposes values to be chosen. An acceptor that responds to messages from proposers by either rejecting them or agreeing in principle and making a promise about the proposals it will accept in the future. An a listener or learner, who
-wants to know which value was chosen. Each Paxos server can act as any or all 3 roles.
+wants to know which value was chosen. Each Paxos server can act as any or all 3 roles.\cite{lamport2001paxos}
 
 % Concepts
 % proposalNumber: used to order the proposals so that acceptors can agree on which proposals came before or after
@@ -177,14 +180,14 @@ Some representations of the algorithm have been attempted using Scribble, combin
 The work on Paxos has been presented during the last ABCD meeting in January 2016. Work on a better Paxos representation has been paused for the moment, other tasks taking priority such as improving the tools.
 
 
-The second protocol chosen was the File Transfer Protocol described by Request for Comments(RFC): 959\footnote{https://tools.ietf.org/html/rfc959}. FTP is a standard network protocol for transferring  files between a client and server on a network.  FTP is an unusual protocol in that it utilizes two ports, a data port and a command(control) port. FTP may run in active or passive mode, which determines how the data connection is established. In both cases, the client creates a TCP control connection from a random, usually an unprivileged, port number to the FTP server command port 21.
+The second protocol chosen was the File Transfer Protocol described by Request for Comments(RFC): 959\cite{FTP-rfc}. FTP is a standard network protocol for transferring  files between a client and server on a network.  FTP is an unusual protocol in that it utilizes two ports, a data port and a command(control) port. FTP may run in active or passive mode, which determines how the data connection is established. In both cases, the client creates a TCP control connection from a random, usually an unprivileged, port number to the FTP server command port 21.
 %
 % In active mode, the client starts listening for incoming data connections from the server on a port {\it port\_number}. It sends the FTP command PORT {\it  port\_number} to inform the server on which port it is listening. The server then initiates a data channel to the client from its port 20, the FTP server data port.
 %
 % In situations where the client is behind a firewall and unable to accept incoming TCP connections, passive mode may be used. In this mode, the client uses the control connection to send a PASV command to the server and then receives a server IP address and server port number from the server, which the client then uses to open a data connection from an arbitrary client port to the server IP address and server port number received.
 Some representations of the algorithm have been attempted using Scribble, combined with StMungo and Mungo to give a working Java code. However in trying to represent it some shortcomings of StMungo became apparent. Hence, work on an FTP representation has been paused to improve StMungo and Mungo, to allow a better representation. 
 
-Work on both usecases is planned to be restarted in the autumn, and make the base for a paper later on in the year. 
+Work on both usecases is planned to be restarted in the autumn, and together with tool extensions make the base for a paper later on in the year. 
 
 \subsection{User study}
 \label{us}

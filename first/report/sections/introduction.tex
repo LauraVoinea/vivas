@@ -27,11 +27,12 @@ The main goal of the ABCD project\cite{abcd} is to improve the practice of softw
 
 %Recent years have seen a rapid increase in research on behavioural types, driven partly by the need to formalize and codify communication structures as computing moves from the data-processing era to the communication era, and partly by the realization that type-theoretic techniques can provide insight into the fine structure of computation.
 
-\subsection{Thesis Outline}
+\subsection{Research Outline}
 
-Eaten by apple
+% Eaten by apple
 
 % The theory behind defining and checking typestate constraints is now well-established for object oriented languages with nominal subtyping such as Java, however little work has been done to investigate whether such type system extensions fulfil the following important prac- tical criteria: Can typestate be understood by “real” programmers? How should typestate constraints be expressed in the source code and documentation of a program? Can the an- notation burden be reduced, or eliminated, through type inference? How should typestate errors be presented to the user, to facilitate diagnosis and resolution?
+
 % This thesis attempts to answer all of these questions, considering both the theoretical and practical aspects of this promising branch of object oriented type theory. The work presented herein specifically attempts to answer the following questions:
 % 1. What essential features of a typestate constrained object must be modelled in order to accurately capture its protocol? What options exists for expressing typestate con- straints? What are the strengths and weaknesses of the options for expressing type- state constraints? These questions are studied in more detail in Chapter 3, where a new method of expressing typestate constraints for Java is presented and compared to existing typestate constraint modelling methods.
 % 2. Can a lightweight dynamic checker for typestate constraints be provided for Java-like languages, without significant modification of the language? This question is studied in detail in Chapter 4, which evaluates multiple options for providing dynamic enforce- ment of typestate constraints in Java, and provides a proof-of-concept implementation of the two most promising options.
@@ -42,18 +43,22 @@ Eaten by apple
 % \begin{enumerate}
 %   \item
 % \end{enumerate}
+
+This PhD will attempt to answer the following questions considering both the theoretical and practical aspects of session types.
+
+\begin{itemize} 
+\item How can programmers use session types in meaningful ways?
+\begin{itemize}
+\item What are the strengths and weaknesses of the options for programming with session types?
+\item Can programmers reason effectively about communication using session types?
+\item Does the method of expressing session types influence the programmers' the ability to reason effectively about the system?
+\end{itemize}
+These questions will be explored mainly trough user studies, the first of which is outlined below in \ref{us}.
+
+\item What are the theoretical and practical challenges to expressing “real” life protocols with session types? 
+How does the theory need to be extended to help overcome these? How do existing tools need to be improved? Is there a need for additional tools?
+\end{itemize}
 \subsection{Thesis Statement}
 
 Session types are a useful addition to the syntax and semantics of modern languages. Programming with session types and the constraints that this comes with i.e. linearity can be understood and used by real world programmers. Moreover session types can help programmers understand the problem they are tying to solve with more ease and structure their code better.
 Session typed languages provide useful additional safeguards and diagnostic information that lead to a system with the expected behaviour with less effort.
-
-% communication-based software
-
-
-
-%
-% communication-based software everywhere!! aaaa!
-%
-%
-%
-% is the additional complexity justifiable? Can typestate be reasoned about effectively by “real” programmers?
