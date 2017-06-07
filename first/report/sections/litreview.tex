@@ -1,18 +1,10 @@
 \section{Literature review}
-% \textbf{What are session types}
-% Session types -- a way to model communication.
-%             -- and have it type checked
-%
-% Session types describe the structure of bi-directional point- to-point communication channels by specifying the sequence and format of messages on each channel. A session type defines a communication protocol. Type systems that include session types are able to statically verify that communication-based code generates, and responds to, mes- sages according to a specified protocol
-%
-%
-% \textbf{Why are session types important}
-%
-% \textbf{Short history}
+\label{litreview}
 
+% //From the literature surveyed, two main areas of interest will be presented bellow, namely typestate and language usability and evaluation.
 
 \subsection{Session types, a short history}
-\label{sub: st}
+\label{st}
 
 
 Session types have been introduced by Honda\cite{honda93}, and further extended by Takeuchi et al.\cite{tk94}, Honda et al.\cite{honda98}, and others. 
@@ -51,85 +43,38 @@ They have been extended to ensure the progress property and deadlock freedom \ci
 Session types have been successfully applied in functional programming languages \cite{v06, bhargavan2009cryptographic}, object-oriented languages like Java \cite{hu2008session, gay2010modular}, low-level programming languages like C in \cite{ng2012multiparty}, dynamically-typed languages like Python\cite{neykova2013session} or Erlang \cite{erlang},  or in the operating systems context with the Sing\# language \cite{singularity}. 
 
 
-From the literature surveyed, two main areas of interest will be presented bellow, namely typestate and language usability and evaluation.
-
 \subsection{Typestate}
-
-% What typestate is 
-
-% Why is it useful to session types
-
-% Plural, Plaid, Fugue, Mungo
 
 
 Typestate is a refinement of the concept of a type in programming. A typestate defines the valid sequence of operations that can be performed on an instance of a certain type by associating state information with variables of that type. This state information can then be used at compile-time to determine the operations that can be invoked with valid results on an instance of a type.
 A typical example is that of a file, which can be read or written only after being open, and never after being closed. In most cases such constraints on the sequences of method calls are at best informally documented through method descriptions or comments. However in this form, the information cannot be used by the compiler to detect any violations. 
 
 Since typestate has been introduced in\cite{typestates}, there have been many efforts to add it to practical programming languages.
-In \cite{FahndrichM:typo}, the concept of typestate, originally introduced for imperative programs, was extended for the object-oriented paradigm, resulting in the Fugue system.
-%, which are a form of session type,
-Sing\# \cite{FahndrichM:lansfr} is an extension of C\# which incorporates typestate-like contracts, to specify protocols. Sing\# has been successfully used to implement Singularity, a message-passing based operating system used for research at Microsoft. A core calculus for \emph{Sing\#} has been introduced in Bono {et al.} \cite{BonoV:typcmp} proved type safe.
+In \cite{FahndrichM:typo}, the concept of typestate, originally introduced for imperative programs, was extended for the object-oriented paradigm, resulting in the Fugue system. Sing\# \cite{FahndrichM:lansfr} is an extension of C\# which incorporates typestate-like contracts, to specify protocols. Sing\# has been successfully used to implement Singularity, a message-passing based operating system used for research at Microsoft. A core calculus for \emph{Sing\#} has been introduced in Bono {et al.} \cite{BonoV:typcmp} proved type safe.
 
-Plural\cite{Bierhoff.etal:practicalapichecking} is another noteworthy example. Based on Java, it has been used to study access control systems\cite{BierhoffAldrich:aliasedobjects} and transactional memory\cite{Beckman.etal:atomicblockstypestates}, and to evaluate the effectiveness of typestate in Java APIs\cite{Bierhoff.etal:practicalapichecking}. However, Plural's use of annotations to define typestates is not ideal, while annotations are convenient for attaching extra information that can be consumed by tools, it makes expressing more complex concepts difficult and can be a burden on the programmer. Plural provides static analysis, and does not alter the runtime representation of classes in any way.  Consequently, dynamic checking might still be needed if the system will interact with components that are not trusted.
-
-
-%but dynamic checking is often still required for systems that include components that are not entirely trusted.  as a result, code which retrieves an object of type and interacts with it through runtime reflection will be able to violate the constraints of the object. 
-
-
-To date, the only comprehensive attempt at designing and implementing a full general pur- pose programming language from scratch which draws together the state of the art in the theory of typestate is the Plaid language [2, 141]. 
-
-Plaid is a gradually typed [136, 137, 153] language, meaning that it is a dynamically typed language in which type requirements and guarantees can be specified and statically checked in a selective manner. This technique largely mitigates the cost to the programmer of large type annotations, as they are optional, with the trade-off that method availability must be checked on every method call which adds a significant runtime overhead.
-Plaid defines objects as a collection of related state declarations that define a hierarchical, parallel finite state machine. The state hierarchy is defined explicitly by declaring one state to be a sub-state of another; Listing 2.3 demonstrates this through the definition of an option type. Explicitly defined constructors are not necessary in Plaid — instead, a default con- structor exists for each defined state that initialises all fields and methods that are defined with an initial value. Other fields can be initialised through the use of an associated code block as shown on Line 12 of Listing 2.3, where an object is instantiated in state Some with the value field initialised to the result of f(value).
-Plaid does not support parametric polymorphism for states, meaning that we cannot annotate the Option type with a type parameter and insist that the field value be of this type statically. As the language is dynamically typed this is of little practical consequence, but is a major limitation for the static analysis.
-Plaid obviates the need for dynamic state test methods by allowing pattern matching on an object’s type, as shown on Line 22. The hasValue method is defined for option values, but exists purely for programmer convenience rather than as a necessary part of the object’s protocol.
-
-
-Aldrich {et
-  al.}~\cite{DBLP:conf/oopsla/AldrichSSS09,DBLP:conf/oopsla/SunshineNSAT11}
-have proposed \emph{typestate-oriented programming} that goes one step further and incorporates typestates as native feature of the programming language, and encourages developers  to design objects around their protocol. 
-
-
-Languages supporting TSOP provide explicit constructs for defining state-dependent object interfaces and implementa- tions, for changing and possibly querying at runtime an ob- ject’s typestate, and for annotating the signature of methods so as to describe their effect on the state of an object [1].
-
-implemented in the Plaid language. The aim is to integrate typestate
-into a language design from the beginning. Instead of class definitions,
+Plural\cite{Bierhoff.etal:practicalapichecking} is another noteworthy example. Based on Java, it has been used to study access control systems\cite{BierhoffAldrich:aliasedobjects} and transactional memory\cite{Beckman.etal:atomicblockstypestates}, and to evaluate the effectiveness of typestate in Java APIs\cite{Bierhoff.etal:practicalapichecking}. However, Plural's use of annotations to define typestates is not ideal, while annotations are convenient for attaching extra information that can be consumed by tools, it makes expressing more complex concepts difficult and can be a burden on the programmer. Plural provides static analysis, and does not alter the runtime representation of classes in any way. Consequently, dynamic checking might still be needed if the system will interact with components that are not trusted.
+Stemmed from the research on Plural, is Plaid, a general purpose programming language that goes one step further and incorporates typestates as native feature of the programming language, and encourages developers  to design objects around their protocol~\cite{DBLP:conf/oopsla/AldrichSSS09,DBLP:conf/oopsla/SunshineNSAT11}. Instead of class definitions,
 a program consists of state definitions containing methods that cause
 transitions to other states. Transitions are specified in a similar way
-to Plural's pre- and post-conditions. Like classes, states are organised
-into an inheritance hierarchy. The most recent work
-\cite{GarciaR:foutop,WolffR:grat} uses gradual typing to integrate
-static and dynamic typestate checking. We focus on the object-oriented
-paradigm in order to be able to apply our results to Java.
+to Plural's pre- and post-conditions. Similarly to classes, states can be structured
+into an inheritance hierarchy.
 
 
-
-Typestate systems must control aliasing, otherwise method calls via
-aliases can cause inconsistent state changes. We have not yet
-investigated alias control systems that are more sophisticated than
-linear typing. There is a large literature, which includes the
-``adoption and focus'' approach of Vault and Fugue, the permission-based
-approaches of Plural and Plaid, and an expressive fine-grained system by
-Milit\~ao {et al.} \cite{MilitaoFetal:aliasing-control}. We expect that
-many of these systems can be applied to Mungo. However, linear typing
-has not been a limiting factor for the applications described in the
-present pape
+Typestates are are well-suited to represent behavioral type refinements, such as session types. In \cite{gay.vasconcelos.etal_modular-session-types} Gay et al. proposed the integration of session types and object-oriented programming by using typestate.
+% Gay et al. \cite{gay.vasconcelos.etal_modular-session-types} proposed the integration of session types and object-oriented programming through the discipline of typestate\cite{typestates}, in which methods are constrained to be called only in a particular order.
+A session type is considered as being a special case of typestate in \cite{gay.vasconcelos.etal_modular-session-types}, constraining the use of send and receive methods, and introduce a session-inspired notation for specifying method sequences.
 
 
-Gay et al. \cite{gay.vasconcelos.etal_modular-session-types} proposed the integration of session types and object-oriented programming through the discipline of typestate\cite{typestates}, in which methods are constrained to be called only in a particular order.
-They consider a session type as being a special case of typestate, constraining the use of send and receive methods, and introduce a session-inspired notation for specifying method sequences. 
+% Mungo\cite{mungo} follows Gay et al. which is inspired by session types; the possible sequences of method calls are explicitly defined, rather than being consequences of pre- and post-conditions as in the Plural system. A typestate in Mungo can depend on the return value of a method call.
 
-In contrast Mungo follows Gay et al. which is inspired by session types; the possible sequences of method calls are explicitly defined, rather than being consequences of pre- and post-conditions. Like Plural, a typestate in Mungo can depend on the return value of a method call.
+For the Mungo tool\cite{mungo}, the approach of \cite{gay.vasconcelos.etal_modular-session-types} is followed, to formalise a typestate inference system for a core object-oriented language, Java, and prove its correctness. Mungo is implemented as a front-end typechecking tool for a subset of Java. Inference removes the need for typestate annotations on parameters and return types as in the system by Gay et al \cite{gay.vasconcelos.etal_modular-session-types}. The possible sequences of method calls are explicitly defined, rather than being consequences of pre- and post-conditions as in the Plural system. A typestate in Mungo can depend on the return value of a method call.
 
-For the Mungo tool\cite{mungo}, the approach of \cite{gay.vasconcelos.etal_modular-session-types} is followed, to formalise a typestate inference system for a core object-oriented language and prove its correctness. Mungo is implemented as a front-end typechecking tool for a subset of Java. Inference removes the need for typestate annotations on parameters and return types as in the system by Gay et al \cite{gay.vasconcelos.etal_modular-session-types}.
-
-
-Mungo does not allow aliasing of objects that have a typestate protocol, to avoid the possibility of conflicting state changes through different aliases. It should be possible to orthogonally add more flexible alias control systems; there is a large literature to draw on.On the other hand, aliasing control that takes into account the particularities of session-based concurrency is a subject for future research.
+The basic difference between Mungo and other typestate approaches is the Java-like syntax for describing state machine protocols, instead of associating pre- and post-conditions with methods. The motivation for developing such a typestate syntax is the ability to globally describe object behaviour and subsequently the general integration of session behaviour in objects.
 
 
- The basic difference between Mungo and other typestate approaches is the Java-like syntax for describing state machine protocols, instead of associating pre- and post-conditions with methods. The motivation for developing such a typestate syntax is the ability to globally describe object behaviour and subsequently the general integration of session behaviour in objects.
+One of the challenges in typestate analysis is the problem of aliasing. Aliasing occurs when an object has more than one reference or pointer that points to it. For a correct analysis, a state change to a given object must be reflected in all references that point to that object. Otherwise method calls via aliases can cause inconsistent state changes. However tracking all such references is a difficult problem. Fugue follows an ``adoption and focus'' approach, while Plural and Plaid follow permission-based approaches.
 
-
-
+To avoid the possibility of conflicting state changes through different aliases, Mungo goes for linearity and does not allow aliasing of objects that have a typestate protocol. It should however be possible to orthogonally add more a more flexible aliasing control. 
 
 % Aldrich et al. investigated typestate verification for Java using data flow analysis in their system known as Plural [3, 12, 16]. The work of Aldrich’s group is interesting for a number of reasons:
 % • The data flow analysis is modular, meaning it should scale to large, component- oriented software systems, unlike whole program analyses.
@@ -149,110 +94,106 @@ Mungo does not allow aliasing of objects that have a typestate protocol, to avoi
 
 \subsection{Language usability and evaluation}
 \label{sub: evaluation}
-% Why is evaluation important in the context of programming languages?
-
-% Workshop on Evaluation and Usability of Programming Languages and Tools (PLATEAU) at SPLASH
 
 
-Programming languages exist to enable programmers to develop software effectively. But how efficiently programmers can write software depends on the usability of the languages and tools that they develop with. The aim of this workshop is to discuss methods, metrics and techniques for evaluating the usability of languages and language tools. The supposed benefits of such languages and tools cover a large space, including making programs easier to read, write, and maintain; allowing programmers to write more flexible and powerful programs; and restricting programs to make them more safe and secure.
+Programming languages should help programmers develop software effectively. With advances in technology, they should be concerned more with programmer efficiency rather than programming language efficiency. The most successful languages are not necessarily the most efficient ones, but the ones that are the easiest to use to satisfactorily achieve one's goals. Languages such as Java or Python are widely used, despite known flaws, while languages like Agda, or Idris are rarely even heard of outside academic circles. 
+Language designers seem to overlook the people that will use their language. New language features are advertised as being an improvement over existing work, and, so, desirable, however, little evidence is usually brought forth to support such claims.
+In recent years, this has become a more visible issue, and there are now more efforts to improve it. 
 
-PLATEAU gathers the intersection of researchers in the programming language, programming tool, and human-computer interaction communities to share their research and discuss the future of evaluation and usability of programming languages and tools.
-
-Some particular areas of interest are:
-A user study for comparing the programming efficiency of modifying executable multimodal interaction descriptions. A domain-specific language versus equivalent event-callback code.
+One such effort is the Workshop on Evaluation and Usability of Programming Languages and Tools (PLATEAU) at SPLASH\footnote{http://2016.splashcon.org/track/plateau2016}. The aim of the workshop is to discuss methods, metrics and techniques for evaluating the usability of languages and language tools. The workshop highlights some areas of interest as: empirical studies of programming languages, methodologies and philosophies behind language and tool evaluation, software design metrics and their relations to the underlying language, user studies of language features and software engineering tools, visual techniques for understanding programming languages, critical comparisons of programming paradigms, tools to support evaluating programming languages, psychology of programming, domain specific language usability and evaluation.
+As such it seemed to be the perfect place to start when trying to design an empirical study for a new construct. 
 
 
+% Author[s]: Fredy Cuenca, Jan Van den Bergh, Kris Luyten, Karin Coninx
+% Summary: This paper describes an empirical user study intended to compare the programming efficiency of our proposed domain-specific language(Hasselt) versus a mainstream event language(C\#) when it comes to modifying multimodal interactions(multiple input modalities).
 
-Author[s]: Fredy Cuenca, Jan Van den Bergh, Kris Luyten, Karin Coninx
-Summary: This paper describes an empirical user study intended to compare the programming efficiency of our proposed domain-specific language(Hasselt) versus a mainstream event language(C\#) when it comes to modifying multimodal interactions(multiple input modalities).
-
- By concerted use of observations, interviews, and standardized questionnaires, they measured the completion rates, completion time, code testing effort, and perceived difficulty of the programming tasks along with the perceived usability and perceived learnability of the tool supporting the proposed language(Hasselt UIMS- User Interface Management Systems). propose some guidelines for designing comparative user studies of programming languages.
-Problem Solved: 
-User Interface Management Systems = tools aiming at simplifying and speeding up the prototyping of multimodal systems
+%  By concerted use of observations, interviews, and standardized questionnaires, they measured the completion rates, completion time, code testing effort, and perceived difficulty of the programming tasks along with the perceived usability and perceived learnability of the tool supporting the proposed language(Hasselt UIMS- User Interface Management Systems). propose some guidelines for designing comparative user studies of programming languages.
+% Problem Solved: 
+% User Interface Management Systems = tools aiming at simplifying and speeding up the prototyping of multimodal systems
 				
 			
-Problems with the adoption of UIMSs and domain-specific languages in the past.  		 	 	 		
+% Problems with the adoption of UIMSs and domain-specific languages in the past.  		 	 	 		
 		
 					
-At runtime, the UIMS responds to its end users by launching the methods of an externally developed application. At design time, the programmer has already specified, through a domain-specific language, the methods that have to be launched for each set of user inputs.
+% At runtime, the UIMS responds to its end users by launching the methods of an externally developed application. At design time, the programmer has already specified, through a domain-specific language, the methods that have to be launched for each set of user inputs.
 				
 			
 		
 
 
-Evaluate UIMSs in user studies
-Approach: concerted use of observations, interviews, and standardized questionnaires
+% Evaluate UIMSs in user studies
+% Approach: concerted use of observations, interviews, and standardized questionnaires
 
-Method:
-12 participants, all male from the department with overall programming experience ranged from 4 to 13 years; and their C\# experience, between 1 and 8 years
-Participants were evaluated one by one
-Asked to modify a multimodal interaction that was described with both Hasselt and C\#
-10-minutes tutorial about Hasselt
-multi-modal prototype with which they had to interact according to the indications of the researcher
-Each participant had to sequentially perform the changes with both Hasselt and C\#.
-The changes had to be performed within a time limit of 30 minutes per language
-Observations during the task, usability questionnaires(Single Ease Question (SEQ) questionnaire -> 7-point rating scale to assess how difficult users find a task, administered immediately after a user attempts a task in a usability test \& System Usability Scale (SUS) 10 item questionnaire with five response options for respondents; from Strongly agree to Strongly disagree ) and immediately interviewed by the researcher.
-Results:
+% Method:
+% 12 participants, all male from the department with overall programming experience ranged from 4 to 13 years; and their C\# experience, between 1 and 8 years
+% Participants were evaluated one by one
+% Asked to modify a multimodal interaction that was described with both Hasselt and C\#
+% 10-minutes tutorial about Hasselt
+% multi-modal prototype with which they had to interact according to the indications of the researcher
+% Each participant had to sequentially perform the changes with both Hasselt and C\#.
+% The changes had to be performed within a time limit of 30 minutes per language
+% Observations during the task, usability questionnaires(Single Ease Question (SEQ) questionnaire -> 7-point rating scale to assess how difficult users find a task, administered immediately after a user attempts a task in a usability test \& System Usability Scale (SUS) 10 item questionnaire with five response options for respondents; from Strongly agree to Strongly disagree ) and immediately interviewed by the researcher.
+% Results:
 					
-12 participants completed the experiment when using Hasselt; but only 10 succeeded with C\# –the others exceeded their allotted time.  			
-Completion time:		 	 	 		
+% 12 participants completed the experiment when using Hasselt; but only 10 succeeded with C\# –the others exceeded their allotted time.  			
+% Completion time:		 	 	 		
 			
-On average, changes made with Hasselt took 4.4 minutes in comparison with the 24.7 minutes when using C\#. 			
+% On average, changes made with Hasselt took 4.4 minutes in comparison with the 24.7 minutes when using C\#. 			
 					
-Code testing effort 
-On average, programmers tested their code 1.8 times when using Hasselt and 3.3 times when using C\#. 
-					 							-? video recording the computer screen during the experiment is essential. 
+% Code testing effort 
+% On average, programmers tested their code 1.8 times when using Hasselt and 3.3 times when using C\#. 
+% 					 							-? video recording the computer screen during the experiment is essential. 
 	
 
 
 
 		
-Aiding Programmers using Lightweight Integrated Code Visualization
+% Aiding Programmers using Lightweight Integrated Code Visualization
 
-Author[s]:  Per Ola Kristensson, Chung Leung Lam
-Summary: This paper introduces a Lightweight Integrated Code Visualization (LICV) tool designed to aid programmers using Integrated Development Environments (IDEs), implemented as a plugin for Eclipse IDE for Java. 
+% Author[s]:  Per Ola Kristensson, Chung Leung Lam
+% Summary: This paper introduces a Lightweight Integrated Code Visualization (LICV) tool designed to aid programmers using Integrated Development Environments (IDEs), implemented as a plugin for Eclipse IDE for Java. 
 
-LICV continuously tracks the active editor in the IDE and visualizes up to 24 code features in a designated non-intrusiveview.  LICV is designed to facilitate fast understanding of the structure of the code in order to help users carry out routine programming tasks.
+% LICV continuously tracks the active editor in the IDE and visualizes up to 24 code features in a designated non-intrusiveview.  LICV is designed to facilitate fast understanding of the structure of the code in order to help users carry out routine programming tasks.
 
-The LICV tool is evaluated by carrying out 2 user studies that compared LICV against regular Eclipse in four tasks. LICV significantly reduced participants’ completion times by nearly 50% for three out of four tasks. Further, participants significantly preferred using LICV to perform the tasks.
+% The LICV tool is evaluated by carrying out 2 user studies that compared LICV against regular Eclipse in four tasks. LICV significantly reduced participants’ completion times by nearly 50% for three out of four tasks. Further, participants significantly preferred using LICV to perform the tasks.
  
-Problem Solved:  Programming is a difficult error-prone process and as consequence tremendous research efforts have been devoted to aiding programmers. A third approach is to aid programmers via software visualization. However, most of these interfaces radically modify a part of the programmer’s existing user interface. we explore an alternative lightweight approach which does not radically change the user interface. Instead, it provides a complementary interactive visualization view that enables users to perceive structures in their active code editor at a glance.
+% Problem Solved:  Programming is a difficult error-prone process and as consequence tremendous research efforts have been devoted to aiding programmers. A third approach is to aid programmers via software visualization. However, most of these interfaces radically modify a part of the programmer’s existing user interface. we explore an alternative lightweight approach which does not radically change the user interface. Instead, it provides a complementary interactive visualization view that enables users to perceive structures in their active code editor at a glance.
 
 		 	 	 		
 			
 				
 					
-three dependent variables: completion time (in seconds), number of errors, and users’ subjective pref- erence on an ordinal scale 
+% three dependent variables: completion time (in seconds), number of errors, and users’ subjective pref- erence on an ordinal scale 
 				
 			
 		
 
-Approach:
-To test this hypothesis we carried out an initial formative evaluation in order to determine if there is any merit to the LICV paradigm at all. One relatively inexpensive yet reasonably rigorous approach to assess the initial viability of LICV is controlled experiments, in particular, in the context of software engineering, controlled experiments have been criticised for being “one-off” results that are seldom replicated [15]. To increase the validity of our findings we therefore decided to carry out the same experimental design twice with two different sets of participants (and slightly different setups). As we we will see, the second replication experiment confirmed the results of the first experiment.
+% Approach:
+% To test this hypothesis we carried out an initial formative evaluation in order to determine if there is any merit to the LICV paradigm at all. One relatively inexpensive yet reasonably rigorous approach to assess the initial viability of LICV is controlled experiments, in particular, in the context of software engineering, controlled experiments have been criticised for being “one-off” results that are seldom replicated [15]. To increase the validity of our findings we therefore decided to carry out the same experimental design twice with two different sets of participants (and slightly different setups). As we we will see, the second replication experiment confirmed the results of the first experiment.
 
-Method:
-4 tasks
-Experiment 1: 
-9 computer science students via convenience sampling. The participants had on average four years of experience with Java (sd = 1.6) and three years of experience with the Eclipse IDE for Java (sd = 1.6). The least experienced participant had one year of experience and the most experienced participant had six years of experience with Java and Eclipse.
-Before testing participants were demonstrated how LICV works within Eclipse and offered a few minutes to familiarize themselves with the laptop and the Eclipse environment.
-In summary, the two experiments are neither large enough, nor diverse enough in terms of the tasks they explore, to conclusively state whether LICV is successful in aiding programmers with routine tasks.
+% Method:
+% 4 tasks
+% Experiment 1: 
+% 9 computer science students via convenience sampling. The participants had on average four years of experience with Java (sd = 1.6) and three years of experience with the Eclipse IDE for Java (sd = 1.6). The least experienced participant had one year of experience and the most experienced participant had six years of experience with Java and Eclipse.
+% Before testing participants were demonstrated how LICV works within Eclipse and offered a few minutes to familiarize themselves with the laptop and the Eclipse environment.
+% In summary, the two experiments are neither large enough, nor diverse enough in terms of the tasks they explore, to conclusively state whether LICV is successful in aiding programmers with routine tasks.
 
 		
 						
-Evaluation 2: Replication with Remote Users
+% Evaluation 2: Replication with Remote Users
 						
-In the replication experiment we recruited seven participants via convenience sampling. The participants had on average five years of experience with Java (sd = 1.6) and three years of experience with the Eclipse IDE for Java (sd = 1.3). The least experienced participant had three years of experience with Java and one year of experience with Eclipse, while the most experienced participant had eight years of experience with Java and five years of experience with Eclipse.
+% In the replication experiment we recruited seven participants via convenience sampling. The participants had on average five years of experience with Java (sd = 1.6) and three years of experience with the Eclipse IDE for Java (sd = 1.3). The least experienced participant had three years of experience with Java and one year of experience with Eclipse, while the most experienced participant had eight years of experience with Java and five years of experience with Eclipse.
 						
-The overall experimental procedure was identical to the first experiment. However, unlike the first experiment, in this experiment participants performed the experiment on their own laptops. They were instructed and supervised on the tasks via a videoconferencing facility. 
+% The overall experimental procedure was identical to the first experiment. However, unlike the first experiment, in this experiment participants performed the experiment on their own laptops. They were instructed and supervised on the tasks via a videoconferencing facility. 
 	
 				
 					
-GoHotDraw: Evaluating the Go Programming Language with Design Patterns (2010)						
-Go, a new programming language backed by Google vs Java and C++
+% GoHotDraw: Evaluating the Go Programming Language with Design Patterns (2010)						
+% Go, a new programming language backed by Google vs Java and C++
 					
-In this study, we evalu- ate Go by implementing design patterns Singleton, Adaptor, and Template Method, and porting the “pattern- dense” drawing framework HotDraw into Go, producing GoHotDraw. We show how Go’s language features affect the implementation of Design Patterns, identify some potential Go programming patterns, and demonstrate how studying design patterns can contribute to the evaluation of a programming language. 			
+% In this study, we evalu- ate Go by implementing design patterns Singleton, Adaptor, and Template Method, and porting the “pattern- dense” drawing framework HotDraw into Go, producing GoHotDraw. We show how Go’s language features affect the implementation of Design Patterns, identify some potential Go programming patterns, and demonstrate how studying design patterns can contribute to the evaluation of a programming language. 			
 					
-Go is a language which aims to do things differently, adopting a new object model that is significantly different from most object- oriented languages. At least for classical object-oriented programs, such as drawing editors and frameworks, designs in Go do not seem to be significantly different to designs in Java or C++. In some circumstances, the differences between embedding and inheritance can make some patterns more difficult to implement, but Go-specific idioms (or patterns) can resolve most of these difficulties. 
+% Go is a language which aims to do things differently, adopting a new object model that is significantly different from most object- oriented languages. At least for classical object-oriented programs, such as drawing editors and frameworks, designs in Go do not seem to be significantly different to designs in Java or C++. In some circumstances, the differences between embedding and inheritance can make some patterns more difficult to implement, but Go-specific idioms (or patterns) can resolve most of these difficulties. 
 
 % Why evaluate session types?
 % PLATEAU Workshop on Evaluation and Usability of Programming Languages and Tools

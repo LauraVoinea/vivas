@@ -8,7 +8,7 @@ all:
 			$(BIBTEX) $(PROJECT)
 			$(BUILDTEX)
 			$(BUILDTEX)
-			open paxos.pdf
+			open report.pdf
 
 clean-all:
 	rm -f *.dvi *.log *.bak *.aux *.bbl *.blg *.idx *.ps *.eps *.pdf *.toc *.out *~

@@ -1,0 +1,72 @@
+% Listings.
+\newlength\lsthorizontalpadding
+\setlength\lsthorizontalpadding{3pt}
+\newcommand*\lstnumberstyle{\ttfamily\scriptsize\textcolor{lightgray}}
+\newlength\lstnumbersep
+\setlength\lstnumbersep{10pt}
+\newlength\lstnumberwidth
+\setlength\lstnumberwidth{\widthof{\lstnumberstyle00}+\lstnumbersep+\lsthorizontalpadding}
+\lstset{
+    ,basicstyle=\ttfamily%
+%    ,breaklines=true%
+    ,commentstyle=\itshape\color{mediumgray},%
+    ,keywordstyle=\color{blue},
+    ,tabsize=4%
+    ,showstringspaces=false%
+    ,numbers=left%
+    ,numbersep=\lstnumbersep%
+    ,numberstyle=\lstnumberstyle%
+    ,framesep=0pt%
+    ,xleftmargin=3pt%\lstnumberwidth%
+    ,framexleftmargin=\lsthorizontalpadding%
+    ,xrightmargin=\lsthorizontalpadding%
+    ,framexrightmargin=\lsthorizontalpadding%
+    ,backgroundcolor=\color{verylightgray}%
+    ,postbreak=\ding{229}\space%
+    ,mathescape=true%
+}
+\lstdefinelanguage{scribble}{%
+   morekeywords={
+      at,
+      choice,
+      continue,
+      from,
+      global,
+      local,
+      or,
+      protocol,
+      rec,
+      role,
+      self,
+      to
+   }%
+  ,morecomment=[s]{\{-}{-\}}%
+}
+\lstdefinelanguage{mungo}{%
+   morekeywords={
+      import,
+      return,
+      implements,
+      break,
+      continue,
+      case,
+      class,
+      end,
+      enum,
+      int,
+      true,
+      false,
+      null,
+      new,
+      package,
+      public,
+      private,
+      static,
+      switch,
+      this,
+      typestate,
+      void
+   }%
+  ,morecomment=[s]{\{-}{-\}}%
+}
+\lstnewenvironment{codecol}[1][]{\lstset{language=code,#1,moredelim=*[is][\textcolor{mediumgray}]{|}{|}}}{}

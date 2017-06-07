@@ -1,9 +1,9 @@
 \section{Research Activities}
-\label{sec:Research}
+\label{Research}
 
 \subsection{Mungo}
 \label{sub:Mungo}
-Mungo\footnote{http://www.dcs.gla.ac.uk/research/mungo/} is a Java front-end tool, developed by Dr. Dimitrios Kouzapas at the University of Glasgow, used to statically check the order of method calls i.e. its typestate. It is implemented using the JastAdd framework\footnote{http://jastadd.org/web/extendj/}\cite{jastadd}. A protocol or session type is represented as a separate typestate file, associated with a Java class.  The protocol definition is described as a sequence of method calls, the order of which determines the validity of the protocol.
+Mungo\cite{mungo} is a Java front-end tool, developed by Dr. Dimitrios Kouzapas at the University of Glasgow, used to statically check the order of method calls i.e. its typestate. It is implemented using the JastAdd framework\footnote{http://jastadd.org/web/extendj/}\cite{jastadd}. A protocol or session type is represented as a separate typestate file, associated with a Java class.  The protocol definition is described as a sequence of method calls, the order of which determines the validity of the protocol.
 
 Mungo checks that the object instantiating the class performs method calls as defined by its typestate. If the protocol is not violated, standard .java files are produced for every .mungo file in the package.  The resulting code can then be ran as any standard Java code.
 
@@ -38,7 +38,7 @@ StMungo (Scribble to Mungo)\footnote{http://www.dcs.gla.ac.uk/research/mungo/} i
 
 After the Scribble protocol is translated to a Mungo specification, Mungo\ref{Mungo} is used to generate a Java implementation for the protocol. This tool allows an easy transition from a Scribble global protocol definition to working Java implementation. We start by specifying distributed multiparty protocol in Scribble. We can then use the Scribble toolchain to validate and project the global protocol into a local one describing the interactions from the point of view of a specific participant. For every Scribble local protocol, StMungo will produce .mungo files containing: a typestate specification describing the local protocol as a sequence of method calls, an API for the participant implementing the typestate methods and a main class skeleton calling the methods in the typestate.
 
-To improve this tool various extensions, refactoring has been undertaken:
+To improve this tool various extensions have been implemented:
 
 \begin{itemize}
   \item extended the tool to translate messages with no payload i.e.
@@ -246,14 +246,14 @@ As part of the first year of my PhD, various additional activities have been und
 
 
 \section{Future Work}
-\label{sec:future}
+\label{future}
 
 Some of the future work planned has been highlighted throughout this report. The activities planed for next year fall into several interconnected themes:
 \begin{itemize}
 \item Language usability and evaluation. As mentioned above in \ref{us} a user study is in plan for the near future, its results to be analysed and written up and submitted to PLATEAU 2016\footnote{http://2016.splashcon.org/track/plateau2016}. A second more focused study is also in plan for the later part of the year. 
 \item Tool development. Some of the work that is to be done has already been discussed earlier, however it is expected that the need for various different improvements will arise. Thus this will be an ongoing activity through the year. 
 \item Training and development. This category contains any training courses required by the school as well as any academic events to be attended. Over the summer, I will attend BETTY (Behavioural Types for Reliable Large-Scale Software Systems) in Limassol, Cyprus. The summer school will cover closely related areas of interest such as multiparty session types, linear logic, Practical programming with session types. In September I will help with the PPDP, LOPSTR and SAS conferences in Edinburgh.
-\item Refining initial research objectives and questions. This is really the miscellaneous category, containing work to be continued such as the usecases\ref{usecases}, and any new ideas that will arise from the user study.
+\item Miscellaneous. This category contains work to be continued such as the usecases\ref{usecases}, and any new ideas that will arise from the user study.
 \end{itemize}
 
 For a detailed plan, a Ganntt chart is available in appendix \ref{appendix:gantt}.

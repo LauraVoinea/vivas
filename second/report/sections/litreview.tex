@@ -1,0 +1,67 @@
+\section{Literature review}
+\label{litreview}
+
+% //From the literature surveyed, two main areas of interest will be presented bellow, namely typestate and language usability and evaluation.
+
+\subsection{Session types, a short history}
+\label{st}
+
+
+Session types have been introduced by Honda\cite{HondaK:typdi}, and further extended by Takeuchi et al.\cite{HondaK:intblt1}, Honda et al.\cite{HondaK:lanptd}, and others.
+
+Session types are a way of modelling communication between different entities and enforcing the order of communication, as well as the types of the messages that may be sent.
+
+% A session type describes the types of individual messages and the state transitions of the protocol i.e. the allowed sequences of messages. Each end of a communication channel is associated with a session type, which is the dual of the other, meaning that if the session type for one process prescribes that it may only send a string, then the other party may only receive an string. Type-checking may be used to verify processes’ compliance to the session type system and establish properties such as deadlock and race freedom, or session fidelity between two parties.
+
+% Three main properties are ensured for a session:
+% \begin{itemize}
+% 	\item Linearity.
+%   \item Duality.
+% 	\item Type matching.
+% \end{itemize}
+
+% A session typing system ensures three main properties for a session:
+% 1. The linearity of usage. A session name is a linear resource used as a communication link between at most two endpoints. The term linearity is used here to identify a session name as a finite resource.
+% 2. The duality of usage. Two session endpoints that implement the same session should have a dual send/receive correspondence, i.e. the send/receive sequence of one endpoint is dual to the send/receive sequence of the other endpoint.
+% 3. Type matching. On a communication interaction, the type of the object being sent should be the same with the type of the object being received.
+% The above three main characteristics offer solutions for fundamental problems in concur- rent computing. A linear typing system ensures the sound access to scarce and/or limited resources. The duality of communication on session types excludes the possibility of communication deadlocks inside a session. Furthermore, if we combine duality with linearity we can avoid other communication related erroneous situations such as starvation. Type match- ing ensures the soundness of the message exchange and ensures the safety of a program.
+%
+
+
+Session types have and continue to be the subject of a wide body of work aimed at extending their theoretical foundations as well as developing new tools and techniques. For example, session types have been augmented with subtyping polymorphism to enable protocols to describe richer behaviours\cite{GaySJ:substp}.
+They have been extended to ensure the progress property and deadlock freedom \cite{dyl08}. Session types have also been extended to multiparty session types to support communication instances with more than two participants while still guaranteeing the absence of deadlock\cite{HondaK:mulast}. In other work \cite{ch07}, global session types have been used to detect choreographies that can be realized in the context of web services.
+
+Session types have been successfully applied in functional programming languages \cite{VasconcelosVT:sestfm}, object-oriented languages like Java \cite{HuR:sesbdp, gay.vasconcelos.etal_modular-session-types}, low-level programming languages like C in \cite{NgYH12}, dynamically-typed languages like Python\cite{DBLP:conf/rv/NeykovaYH13} or Erlang \cite{erlang},  or in the operating systems context with the Sing\# language \cite{FahndrichM:lansfr}.
+
+
+\subsection{Typestate}
+
+
+% Typestate is the idea that the type of an object should specify  not only which operations are possible, but also when they are  possible.
+% Roughly speaking: some sequences of method calls are not  allowed.
+Typestate is a refinement of the concept of a type in programming. A typestate defines the valid sequence of operations that can be performed on an instance of a certain type by associating state information with variables of that type. This state information can then be used at compile-time to determine the operations that can be invoked with valid results on an instance of a type.
+A typical example is that of a file, which can be read or written only after being open, and never after being closed. In most cases such constraints on the sequences of method calls are at best informally documented through method descriptions or comments. However in this form, the information cannot be used by the compiler to detect any violations.
+
+Since typestate has been introduced in\cite{typestates}, there have been many efforts to add it to practical programming languages. In \cite{FahndrichM:typo}, the concept of typestate, originally introduced for imperative programs, was extended for the object-oriented paradigm, resulting in the Fugue system. Sing\# \cite{FahndrichM:lansfr} is an extension of C\# which incorporates typestate-like contracts, to specify protocols. Sing\# has been successfully used to implement Singularity, a message-passing based operating system used for research at Microsoft. A core calculus for \emph{Sing\#} has been introduced in Bono {et al.} \cite{BonoV:typcmp} proved type safe.
+
+Plural\cite{Bierhoff.etal:practicalapichecking} is another noteworthy example. Based on Java, it has been used to study access control systems\cite{BierhoffAldrich:aliasedobjects} and transactional memory\cite{Beckman.etal:atomicblockstypestates}, and to evaluate the effectiveness of typestate in Java APIs\cite{Bierhoff.etal:practicalapichecking}. However, Plural's use of annotations to define typestates is not ideal, while annotations are convenient for attaching extra information that can be consumed by tools, it makes expressing more complex concepts difficult and can be a burden on the programmer. Plural provides static analysis, and does not alter the runtime representation of classes in any way. Consequently, dynamic checking might still be needed if the system will interact with components that are not trusted. Stemmed from the research on Plural, is Plaid, a general purpose programming language that goes one step further and incorporates typestates as native feature of the programming language, and encourages developers  to design objects around their protocol~\cite{DBLP:conf/oopsla/AldrichSSS09,DBLP:conf/oopsla/SunshineNSAT11}. Instead of class definitions,
+a program consists of state definitions containing methods that cause
+transitions to other states. Transitions are specified in a similar way
+to Plural's pre- and post-conditions. Similarly to classes, states can be structured into an inheritance hierarchy.
+
+
+Typestates are are well-suited to represent behavioral type refinements, such as session types. In \cite{gay.vasconcelos.etal_modular-session-types} Gay et al. proposed the integration of session types and object-oriented programming by using typestate. A session type is considered as being a special case of typestate in \cite{gay.vasconcelos.etal_modular-session-types}, constraining the use of send and receive methods, and introduce a session-inspired notation for specifying method sequences. A  channel with a session type can be viewed as an object with non-uniform method availability: send and receive are only available when the session type says that they should be available. \Mungo \cite{kouzapas16} follows this approach of \cite{gay.vasconcelos.etal_modular-session-types} to formalise a typestate inference system for a core object-oriented language, Java, and prove its correctness. \Mungo is implemented as a front-end typechecking tool for a subset of Java. Inference removes the need for typestate annotations on parameters and return types as in the system by Gay et al \cite{gay.vasconcelos.etal_modular-session-types}. The possible sequences of method calls are explicitly defined, rather than being consequences of pre- and post-conditions as in the Plural system. A typestate in \Mungo can depend on the return value of a method call. The basic difference between \Mungo and other typestate approaches is the Java-like syntax for describing state machine protocols, instead of associating pre- and post-conditions with methods. The motivation for developing such a typestate syntax is the ability to globally describe object behaviour and subsequently the general integration of session behaviour in objects.
+
+
+One of the challenges in typestate analysis is the problem of aliasing. Aliasing occurs when an object has more than one reference or pointer that points to it. For a correct analysis, a state change to a given object must be reflected in all references that point to that object. Otherwise method calls via aliases can cause inconsistent state changes. However tracking all such references is a difficult problem. Fugue follows an ``adoption and focus'' approach, while Plural and Plaid follow permission-based approaches. To avoid the possibility of conflicting state changes through different aliases, \Mungo goes for linearity and does not allow aliasing of objects that have a typestate protocol.
+
+\subsection{Language usability and evaluation}
+\label{sub: evaluation}
+
+
+Programming languages should help programmers develop software effectively. With advances in technology, they should be concerned more with programmer efficiency rather than programming language efficiency. The most successful languages are not necessarily the most efficient ones, but the ones that are the easiest to use to satisfactorily achieve one's goals. Languages such as Java or Python are widely used, despite known flaws, while languages like Agda, or Idris are rarely even heard of outside academic circles.
+Language designers seem to overlook the people that will use their language. New language features are advertised as being an improvement over existing work, and, so, desirable, however, little evidence is usually brought forth to support such claims.
+In recent years, this has become a more visible issue, and there are now more efforts to improve it.
+
+One such effort is the Workshop on Evaluation and Usability of Programming Languages and Tools (PLATEAU) at SPLASH\footnote{http://2016.splashcon.org/track/plateau2016}. The aim of the workshop is to discuss methods, metrics and techniques for evaluating the usability of languages and language tools. The workshop highlights some areas of interest as: empirical studies of programming languages, methodologies and philosophies behind language and tool evaluation, software design metrics and their relations to the underlying language, user studies of language features and software engineering tools, visual techniques for understanding programming languages, critical comparisons of programming paradigms, tools to support evaluating programming languages, psychology of programming, domain specific language usability and evaluation.
+As such it seemed to be the perfect place to start when trying to design an empirical study for a new construct.

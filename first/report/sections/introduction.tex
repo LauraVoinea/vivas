@@ -8,41 +8,8 @@ Communication is usually standardised via protocols that specify the possible in
 
 To allow formal protocol specification within the programming language session types have been devised. Session types describe communication by specifying the type and direction of messages exchanged between two parties[6]. Programmers can express a protocol specification as a session type, which can guarantee, within the scope where the session type applies, that communications will always match and the system will never deadlock.
 The main goal of the ABCD project\cite{abcd} is to improve the practice of software development for concurrent and distributed systems through the use of session types. This is to be accomplished through built-in language support for protocol codification in existing languages such as Java or Python, in new languages such as Links\cite{abcd}, inter-language interoperability via session types, and through adapting interactive development environments and modelling techniques to support session types. Logical and automata foundations of session types will be further developed to express a wider class of behaviour and, as need arises, to support the former. Empirical studies to assess methodologies and tools are to be carried out, with results being used to improve language and tool design and implementation.
-% To help improve the practice of software development and improve developer adoption there is a need for extending integrated development environments(IDEs) and for carrying
-% out empirical studies to investigate the impact of session types.
 
-
-
-
-
-% Mainstream programming languages and methodologies fail to adequately support communication-centred programming. Support is required to exclude insidious programming errors at the development stage; this is key to avoiding the deployment of programs which may be faulty at the execution stage.
-
-% communication is a prominent feature of distributed software systems.
-
-%Building upon IT paradigms such as service-orientation and cloud computing, these infrastructures are rapidly converging into so-called ‘communication - centred’ software systems, that is, systems in which software artefacts rely on communication protocols to achieve their goal
-
-
-
-
-
-%Recent years have seen a rapid increase in research on behavioural types, driven partly by the need to formalize and codify communication structures as computing moves from the data-processing era to the communication era, and partly by the realization that type-theoretic techniques can provide insight into the fine structure of computation.
-
-\subsection{Research Outline}
-
-% Eaten by apple
-
-% The theory behind defining and checking typestate constraints is now well-established for object oriented languages with nominal subtyping such as Java, however little work has been done to investigate whether such type system extensions fulfil the following important prac- tical criteria: Can typestate be understood by “real” programmers? How should typestate constraints be expressed in the source code and documentation of a program? Can the an- notation burden be reduced, or eliminated, through type inference? How should typestate errors be presented to the user, to facilitate diagnosis and resolution?
-
-% This thesis attempts to answer all of these questions, considering both the theoretical and practical aspects of this promising branch of object oriented type theory. The work presented herein specifically attempts to answer the following questions:
-% 1. What essential features of a typestate constrained object must be modelled in order to accurately capture its protocol? What options exists for expressing typestate con- straints? What are the strengths and weaknesses of the options for expressing type- state constraints? These questions are studied in more detail in Chapter 3, where a new method of expressing typestate constraints for Java is presented and compared to existing typestate constraint modelling methods.
-% 2. Can a lightweight dynamic checker for typestate constraints be provided for Java-like languages, without significant modification of the language? This question is studied in detail in Chapter 4, which evaluates multiple options for providing dynamic enforce- ment of typestate constraints in Java, and provides a proof-of-concept implementation of the two most promising options.
-% 3. Can programmers reason effectively about typestate-constrained objects? Does the method of expressing typestate constraints influence the ability for programmers to reason effectively about typestate? These questions are studied in detail in Chapter 5, where a user study comparing two methods of expressing typestate constraints is analysed.
-% 4. Is type inference feasible for code which interacts with typestate-constrained objects? This question is explored in detail in Chapter 6, where the TS language is defined and studied with the express purpose of determining what type information can and cannot be reasonably inferred.
-% 5. What theoretical challenges still remain for future typestate oriented languages? Chap- ter 7 outlines a hypothetical language based upon Scala, and describes the potential utility of such a language in addition to the many unanswered questions that the inter- actions between closures, alias control and effects present.
-
-% \begin{enumerate}
-%   \item
-% \end{enumerate}
+\subsection{Research Questions}
 
 This PhD will attempt to answer the following questions considering both the theoretical and practical aspects of session types.
 
@@ -62,3 +29,12 @@ How does the theory need to be extended to help overcome these? How do existing 
 
 Session types are a useful addition to the syntax and semantics of modern languages. Programming with session types and the constraints that this comes with i.e. linearity can be understood and used by real world programmers. Moreover session types can help programmers understand the problem they are tying to solve with more ease and structure their code better.
 Session typed languages provide useful additional safeguards and diagnostic information that lead to a system with the expected behaviour with less effort.
+
+% \subsection{Outline}
+\subsection{Outline}
+
+I have spent the first 9 months of my PhD reviewing existing work within the fields of session types, typestate, and language usability and evaluation. A short literature review of the most relevant work can be found in \ref{litreview}. Alongside that, I have done some implementation work on two session type tools developed at the University of Glasgow as part of the ABCD project\cite{abcd}, namely Mungo, and StMungo\cite{mungo}, as well as looked at some possible usecases. This will be discussed in more detail in section \ref{Research}. At present my focus is on defining a suitable methodology and carrying out a user study to explore how "real-world" programmers will interact with session types through Mungo, StMungo and Scribble. More on this can be found in \ref{us}.
+
+Future work along with a plan for the second year is discussed in section \ref{future}.
+
+
