@@ -9,29 +9,36 @@ Communication is usually standardised via protocols that specify the possible in
 To allow formal protocol specification within the programming language session types have been devised. Session types describe communication by specifying the type and direction of messages exchanged between parties[6]. Programmers can express a protocol specification as a session type, which can guarantee, within the scope where the session type applies, that communications will always match and the system will never deadlock.
 The main goal of the ABCD project\cite{abcd} is to improve the practice of software development for concurrent and distributed systems through the use of session types. This is to be accomplished through built-in language support for protocol codification in existing languages such as Java or Python, in new languages such as Links\cite{links}, inter-language interoperability via session types, and through adapting interactive development environments and modelling techniques to support session types. Logical and automata foundations of session types will be further developed to express a wider class of behaviour and, as need arises, to support the former. Empirical studies to assess methodologies and tools are to be carried out, with results being used to improve language and tool design and implementation.
 
-\subsection{Research Questions}
+
+\subsection{Thesis Statement}
+Session types are a useful addition to the syntax and semantics of modern languages. Programming with session types and the constraints that this comes with i.e. linearity can be understood and used by real world programmers. Moreover session types can help programmers understand the problem they are tying to solve with more ease and structure their code better.
+Session typed languages provide useful additional safeguards and diagnostic information that lead to a system with the expected behaviour with less effort.
+
+\subsection{Thesis Outline}
 
 
-The aim of this PhD is to explore the extend to which session types are useful in practice. To that effect some questions will be considered:
+The aim of this PhD is to explore the extend to which session types are useful in practice. To that effect these questions are being considered:
 
 \begin{itemize}
-% \item How can programmers use session types in meaningful ways?
-% \begin{itemize}
-% \item What are the strengths and weaknesses of the options for programming with session types?
-% \item Can programmers reason effectively about communication using session types?
-% \item Does the method of expressing session types influence the programmers' the ability to reason effectively about the system?
-% \end{itemize}
-% These questions will be explored mainly trough user studies, the first of which is outlined below in \ref{us}.
-
 \item What are the theoretical and practical challenges to expressing `real' life protocols with session types?
 \item How does the theory need to be extended to help overcome these?
 \item How do existing tools need to be improved?
 \item Is there a need for additional tools?
 \end{itemize}
 
-\subsection{Thesis Statement}
-Hypothesis: Session types are a useful addition to the syntax and semantics of modern languages. Programming with session types and the constraints that this comes with i.e. linearity can be understood and used by real world programmers. Moreover session types can help programmers understand the problem they are tying to solve with more ease and structure their code better.
-Session typed languages provide useful additional safeguards and diagnostic information that lead to a system with the expected behaviour with less effort.
+% Overall, this thesis attempts to examine session types in a holistic manner, and determine whether session types are practical, useful and worthy of further research.
+These interconnected are interconnected and serve to give a holistic picture of session type practicality, usefulness and identify areas of further work to improve these aspects. It is expected that the outline of the final dissertation will be:
+
+\begin{itemize}
+  \item Introduction
+  \item Literature Review
+  \item Background( more in depth description of Mungo/StMungo tools, and their previous state)
+  \item Theoretical work on the Mungo tool \footnote{http://www.dcs.gla.ac.uk/research/mungo/index.html}, described later on in \ref{sub:Mungo}
+  \item Practical/implementation work on the Mungo tool, described later on in \ref{sub:Mungo}
+  \item Work on the StMungo tool, described later on in \ref{sub:StMungo} \footnote{http://www.dcs.gla.ac.uk/research/mungo/index.html}
+  \item Language usability and evaluation, described later on in \ref{sub:eval}
+  \item Conclusion
+\end{itemize}
 
 
 \subsection{Outline}

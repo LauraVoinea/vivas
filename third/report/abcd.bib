@@ -1,0 +1,1545 @@
+@PREAMBLE( "\newcommand{\noopsort}[1]{}" )
+@STRING{acmp    = "ACM Press"}
+@STRING{addison = "Addison-Wesley"}
+@STRING(ai      = "Acta Informatica" )
+@STRING(asean   = "Asian Computing Science Conference (ASIAN)" )
+@STRING(brics   = "Danish Institute of Basic Research on Computer Science (BRICS)" )
+@STRING(btcs    = "Bulletin of the European Association for Theoretical Computer Science (EATCS)" )
+@STRING(cacm    = "Communications of the ACM" )
+@STRING(ch      = "Chapman \& Hall" )
+@STRING(concur  = "International Conference on Concurrency Theory (CONCUR)" )
+@STRING(csp     = "Computer Society Press" )
+@STRING(cup     = "Cambridge University Press" )
+@STRING(dmist   = "Department of Mathematics, Instituto Superior T{\'e}cnico, Technical University of Lisbon, Portugal" )
+@STRING(dcsfcul = "Department of Computer Science, University of Lisbon, Portugal" )
+@STRING(docs    = "Department of Computer Systems, Uppsala University, Sweden" )
+@STRING(eatcs   = "European Association for Theoretical Computer Science (EATCS)" )
+@STRING(ecoop   = "European Conference on Object-Oriented Programming (ECOOP)" )
+@STRING(esp     = "Elsevier Science Publishers" )
+@STRING(entcs	= "Electronic Notes in Theoretical Computer Science (ENTCS)" )
+@STRING(europar = "European Conference on Parallel Processing (Euro-Par)" )
+@STRING(fac     = "Journal of Formal Aspects of Computing" )
+@STRING(fmoods  = "{IFIP} Conference on Formal Methods for Open Object-based Distributed Systems" )
+@STRING(hlcl    = "International Workshop on High-Level Concurrent Languages" )
+@STRING(icalp   = "Colloquium on Automata, Languages and Programming (ICALP)" )
+@STRING(i3ecsp  = "IEEE Computer Society Press" )
+@STRING(ipl     = "Information Processing Letters" )
+@STRING(jic     = "Journal of Information and Computation" )
+@STRING(joc     = "SIAM Journal on Computing" )
+@STRING(jucs    = "Journal of Universal Computer Science" )
+@STRING(lfcs    = "Laboratory for Foundations of Computer Science, University of Edinburgh, U.~K." )
+@STRING(lics    = "Annual Symposium on Logic in Computer Science (LICS)" )
+@STRING(lncs	= "Lecture Notes in Computer Science" )
+@STRING(mfcs    = "Mathematical Foundations of Computer Science" )
+@STRING(mfps    = "Mathematical Foundations of Programming Semantics" )
+@STRING(mit     = "M.~I.~T.\ Press" )
+@STRING(mscs    = "Mathematical Structures in Computer Science" )
+@COMMENT{nato-f	= "Series F: Computer and System Sciences" }@STRING(nato-f="Series F" )
+@COMMENT{natoasi= "NATO Advanced Study Institute" }@STRING(natoasi="NATO ASI" )
+@STRING(nh      = "North-Holland" )
+@STRING(njoc    = "Nordic Journal of Computing" )
+@STRING(ph      = "Prentice Hall" )
+@STRING(podc    = "Annual Symposium on Principles of Distributed Computing (PODC)" )
+@STRING(popl    = "Annual Symposium on Principles of Programming Languages (POPL)" )
+@STRING(ppdp    = "International Conference on Principles and Practice of Declarative Programming (PPDP)" )
+@STRING(soap    = "Semantics of Objects as Processes (SOAP)" )
+@STRING(slfp    = "Symposium on {\sc Lisp} and Functional Programming" )
+@STRING(sussex  = "School of Cognitive and Computing Sciences, University of Sussex, UK" )
+@STRING(sv	= "Springer-Verlag" )
+@STRING(tapos   = "Theory and Practice of Object Systems" )
+@STRING(tacas   = "Tools and Algorithms for the Construction and Analysis of Systems" )
+@STRING(tcs     = "Theoretical Computer Science" )
+@STRING(toplas  = "ACM Transactions on Programming Languages and Systems" )
+
+@misc{SMTP-rfc,
+  key = {SMTP},
+  title = {Simple Mail Transfer Protocol, {RFC} 821},
+  note = {\url{https://tools.ietf.org/html/rfc821}}
+}
+
+@misc{ESMTP-rfc,
+  key = {SMTP},
+  title = {Extended Simple Mail Transfer Protocol, {RFC} 5321},
+  note = {\url{https://tools.ietf.org/html/rfc5321}}
+}
+
+@misc{a4,
+  key = {ANTLR},
+  title = {ANTLR Project Homepage},
+  note = {\url{www.antlr.org}}
+}
+
+@book{Parr07,
+ author = {Parr, Terence},
+ title = {The Definitive {ANTLR} Reference: Building Domain-Specific Languages},
+ year = {2007},
+ isbn = {0978739256},
+ publisher = {Pragmatic Bookshelf}
+}
+
+// Scribble
+@misc{scribble,
+  key = {SCRIBBLE},
+  title = {Scribble Project Homepage},
+  note = {\url{www.scribble.org}}
+}
+
+@inproceedings{scribble10,
+  Author = {Kohei Honda and Aybek Mukhamedov and Gary Brown and Tzu-Chun Chen and Nobuko Yoshida},
+  Booktitle = {ICDCIT 2011},
+  Publisher = {Springer},
+  Series = {LNCS},
+  Title = {Scribbling Interactions with a Formal Foundation},
+  Volume = {6536},
+  Year = {2011},
+  doi = {10.1007/978-3-642-19056-8\_4}
+}
+
+@inproceedings{YHNN2013,
+  author = "Nobuko Yoshida and Raymond Hu and Rumyana Neykova and Nicholas Ng",
+  title = "The {S}cribble Protocol Language",
+  booktitle = "Proceedings of the 8th International Symposium on Trustworthy Global Computing (TGC)",
+  series = "Springer Lecture Notes in Computer Science",
+  volume = "8358",
+  publisher_ = "Springer",
+  pages = "22--41",
+  year = "2013"
+}
+
+@inproceedings{HHNCDDY2014,
+  author = "Kohei Honda and Raymond Hu and Rumyana Neykova and Tzu-Chun Chen and Romain Demangeon and Pierre-Malo Deni\'{e}lou and Nobuko Yoshida",
+  title = "Structuring Communication with Session Types",
+  booktitle = "Concurrent Objects and Beyond---Papers dedicated to Akinori Yonezawa
+               on the Occasion of his 65th Birthday",
+  series = "Springer Lecture Notes in Computer Science",
+  volume = "8665",
+  publisher_ = "Springer",
+  pages = "105--127",
+  year = {2014}
+}
+
+
+@article{foster.etal:flow-sensitive-type-qualifiers,
+ author = {Jeffrey S. Foster and Tachio Terauchi and Alex Aiken},
+ title = {Flow-sensitive type qualifiers},
+ journal = {PLDI, ACM SIGPLAN Notices},
+ volume = {37},
+ number = {5},
+ year = {2002},
+ pages = {1--12},
+ _doi = {http://doi.acm.org/10.1145/512529.512531}
+ }
+
+
+@inproceedings{HondaK:mulast,
+  author    = {K. Honda and
+               N. Yoshida and
+               M. Carbone},
+  title     = {Multiparty Asynchronous Session Types},
+  booktitle = {Proceedings of the 35th ACM SIGACT-SIGPLAN Symposium on Principles of Programming Languages (POPL)},
+  year      = {2008},
+  pages     = {273--284},
+  volume_ = {43},
+  number_ = {1},
+  publisher = {ACM Press}
+}
+
+@article{BonelliE:mulstd,
+  author = {E. Bonelli and A. Compagnoni},
+  journal = {TGC, Springer LNCS},
+  title = {{Multipoint session types for a distributed calculus}},
+  year = {2007},
+  pages = {240-256},
+  volume = {4912}
+}
+
+@inproceedings{BonelliE:mulstdold,
+  author = {E. Bonelli and A. Compagnoni},
+  series = {Lecture Notes in Computer Science},
+  booktitle = {Proceedings of the Third International Symposium
+on Trustworthy Global Computing},
+  title = {{Multipoint Session Types for a Distributed Calculus}},
+  publisher = {Springer-Verlag},
+  year = {2007},
+  pages = {240-256},
+  volume = {4912},
+  editor = {G. Barthe and C. Fournet}
+}
+
+@ARTICLE{DamianiF:typssa,
+journal		= {Acta Informatica},
+title		= {{A type safe state abstraction for coordination in Java-like languages}},
+ISSN		= {0001-5903},
+author		= {Damiani, Ferruccio and Giachino, Elena and Giannini, Paola and Drossopoulou, Sophia},
+volume={45},
+number={7--8},
+pages={479--536},
+year		= {2008},
+url		= {http://pubs.doc.ic.ac.uk/stateAbstrCoordJava/}}
+
+
+@InProceedings{Ostlund.etal:ownership-uniqueness-immutability,
+  author = 	 {Johan \"{O}stlund and Tobias Wrigstad and Dave Clarke and Beatrice {\AA}kerblom},
+  title = 	 {Ownership, Uniqueness and Immutability},
+_booktitle = {International Workshop on Aliasing, Confinement and Ownership in object-oriented programming (IWACO)},
+booktitle = {IWACO (ECOOP workshop)},
+  year = 	 {2007}
+}
+
+@article{CapecchiS:amasmo,
+  title = {Amalgamating sessions and methods in object-oriented languages with generics},
+  author = {Sara Capecchi and Mario Coppo and Mariangiola Dezani-Ciancaglini and Sophia Drossopoulou and Elena Giachino},
+  journal = {Theoret.\ Comp.\ Sci.},
+  volume = {410},
+  issue = {2--3},
+  pages = {142--167},
+  year = 2009
+}
+
+
+@unpublished{DrossopoulouS:amasto,
+  url = {http://homepages.fh-regensburg.de/~mpool/mpool07/programme.html},
+  title = {Amalgamating the Session Types and the Object Oriented Programming
+           Paradigms},
+  author = {Sophia Drossopoulou and Mariangiola Dezani-Ciancaglini and Mario
+            Coppo},
+  year = 2007,
+  _note = {Presented at MPOOL'07},
+  note = {Manuscript}
+}
+
+@article{DezaniCiancagliniM:bousto1,
+  volume = {4709},
+  pdf = {http://www.di.unito.it/~dezani/papers/ddgy.pdf},
+  author = {Mariangiola Dezani-Ciancaglini and Sophia Drossopoulou and Elena
+            Giachino and Nobuko Yoshida},
+  series = {LNCS},
+  journal = {FMCO, Springer LNCS},
+  editor = {Frank de Boer and Marcello Bonsangue},
+  title = {Bounded Session Types for Object-Oriented Languages},
+  abstract = {Earlier work explored the introduction of session types into
+              object oriented languages. Following the session types literature,
+              two parties would start communicating, provided the types attached
+              to that communication, i.e. the corresponding session types, were
+              dual of each other. Then, the type system was able to ensure
+              soundness, in the sense that two communicating partners were
+              guaranteed to receive/send sequences of values following the order
+              specified by their session types. In the current paper we improve
+              upon our earlier work in two ways: we extend the type system to
+              support bounded polymorphism, and we make the selection more
+              object-oriented, so that control structures determine how to
+              continue evaluation, depending on the class of the object being
+              sent/received. Interestingly, although our notion of selection is
+              more powerful than that in earlier work, the ensuing system turned
+              out not to be more complex, except for the notion of duality,
+              which needed to be extended, to correctly deal with bounded
+              polymorphism, and to capture the new notion of selection. The
+              paper contains an example, informal explanations, a formal
+              description of the operational semantics and of type system, and a
+              proof of subject reduction. },
+  publisher = {Springer},
+  pages = {207--245},
+  year = {2007},
+}
+
+@inproceedings{DezaniCiancagliniM:bousto,
+  author    = {Mariangiola Dezani{-}Ciancaglini and
+               Elena Giachino and
+               Sophia Drossopoulou and
+               Nobuko Yoshida},
+  title     = {Bounded Session Types for Object Oriented Languages},
+  booktitle = {Proceedings of the 5th International Symposium on Formal Methods for Components and Objects (FMCO)},
+  pages     = {207--245},
+  year      = {2006},
+series    = {Springer Lecture Notes in Computer Science},
+  volume    = {4709},
+  crossref_  = {DBLP:conf/fmco/2006},
+  url       = {http://dx.doi.org/10.1007/978-3-540-74792-5_10},
+  doi       = {10.1007/978-3-540-74792-5_10},
+  timestamp = {Thu, 07 Aug 2008 14:36:41 +0200},
+  biburl    = {http://dblp.uni-trier.de/rec/bib/conf/fmco/Dezani-CiancagliniGDY06},
+  bibsource = {dblp computer science bibliography, http://dblp.org}
+}
+
+
+@inproceedings{DDGY07old,
+  volume = {4709},
+  pdf = {http://www.di.unito.it/~dezani/papers/ddgy.pdf},
+  author = {Mariangiola Dezani-Ciancaglini and Sophia Drossopoulou and Elena
+            Giachino and Nobuko Yoshida},
+  series = {LNCS},
+  booktitle = {{FMCO'06}},
+  editor = {Frank de Boer and Marcello Bonsangue},
+  title = {Bounded Session Types for Object-Oriented Languages},
+  abstract = {Earlier work explored the introduction of session types into
+              object oriented languages. Following the session types literature,
+              two parties would start communicating, provided the types attached
+              to that communication, i.e. the corresponding session types, were
+              dual of each other. Then, the type system was able to ensure
+              soundness, in the sense that two communicating partners were
+              guaranteed to receive/send sequences of values following the order
+              specified by their session types. In the current paper we improve
+              upon our earlier work in two ways: we extend the type system to
+              support bounded polymorphism, and we make the selection more
+              object-oriented, so that control structures determine how to
+              continue evaluation, depending on the class of the object being
+              sent/received. Interestingly, although our notion of selection is
+              more powerful than that in earlier work, the ensuing system turned
+              out not to be more complex, except for the notion of duality,
+              which needed to be extended, to correctly deal with bounded
+              polymorphism, and to capture the new notion of selection. The
+              paper contains an example, informal explanations, a formal
+              description of the operational semantics and of type system, and a
+              proof of subject reduction. },
+  publisher = {Springer},
+  pages = {207--245},
+  year = {2007},
+}
+
+@article{DeLineR:enfhplold,
+ author = {Robert DeLine and Manuel F\"ahndrich},
+ title = {Enforcing high-level protocols in low-level software},
+  volume = 	 {36},
+number={5},
+  journal =       {PLDI, ACM SIGPLAN Notices},
+ pages = {59--69},
+ year = {2001},
+ publisher = {ACM}
+}
+
+@inproceedings{DeLineR:enfhpl,
+  author    = {Robert DeLine and
+               Manuel F{\"{a}}hndrich},
+  title     = {Enforcing High-Level Protocols in Low-Level Software},
+  booktitle = {Proceedings of the {ACM} {SIGPLAN} Conference on Programming
+               Language Design and Implementation (PLDI)},
+  pages     = {59--69},
+  year      = {2001},
+  publisher = {ACM Press},
+  crossref_  = {DBLP:conf/pldi/2001},
+  url       = {http://doi.acm.org/10.1145/378795.378811},
+  doi       = {10.1145/378795.378811},
+  timestamp = {Mon, 21 May 2012 16:19:53 +0200},
+  biburl    = {http://dblp.uni-trier.de/rec/bib/conf/pldi/DeLineF01},
+  bibsource = {dblp computer science bibliography, http://dblp.org}
+}
+
+@article{FahndrichM:typo1,
+title={Typestates for Objects},
+author={Manuel F\"ahndrich and Robert DeLine},
+journal={ESOP, Springer LNCS},
+pages={465--490},
+year={2004},
+volume={3086} }
+
+@inproceedings{FahndrichM:typo,
+title        = {Typestates for objects},
+author       = {Robert DeLine and Manuel F{\"a}hndrich},
+booktitle    = {Proceedings of the 18th European Conference on Object-Oriented Programming (ECOOP)},
+month_        = {June},
+pages        = {465-490},
+publisher_    = {Springer Verlag},
+series       = {Springer Lecture Notes in Computer Science},
+url          = {http://research.microsoft.com/apps/pubs/default.aspx?id=67463},
+volume       = {3086},
+year         = {2004}
+}
+
+@techreport{DeLineR:fugpcy,
+ author = {Robert DeLine and Manuel F\"ahndrich},
+ title = {The {F}ugue protocol checker: is your software {B}aroque?},
+ institution={Microsoft Research},
+ number={MSR-TR-2004-07},
+ year = {2004}
+}
+
+@article{FahndrichM:adofpl1,
+  author =       {Manuel F\"ahndrich and Robert DeLine},
+  title =        {Adoption and focus: practical linear types for
+                 imperative programming},
+  volume = 	 {37},
+  journal =       {PLDI, ACM SIGPLAN Notices},
+  number = {5},
+  pages =        {13--24},
+  year =         {2002}
+}
+
+@inproceedings{FahndrichM:adofpl,
+  author    = {Manuel F{\"{a}}hndrich and
+               Robert DeLine},
+  title     = {Adoption and Focus: Practical Linear Types for Imperative Programming},
+  booktitle = {Proceedings of the 2002 {ACM} {SIGPLAN} Conference on Programming
+               Language Design and Implementation (PLDI)},
+  pages     = {13--24},
+  year      = {2002},
+  crossref_  = {DBLP:conf/pldi/2002},
+  url       = {http://doi.acm.org/10.1145/512529.512532},
+  doi       = {10.1145/512529.512532},
+  timestamp = {Mon, 21 May 2012 16:19:53 +0200},
+  biburl    = {http://dblp.uni-trier.de/rec/bib/conf/pldi/FahndrichD02},
+  bibsource = {dblp computer science bibliography, http://dblp.org}
+}
+
+@inproceedings{FahndrichM:lansfr,
+author={Manuel F\"ahndrich and Mark Aiken and Chris Hawblitzel and Orion Hodson and Galen Hunt and James R. Larus and Steven Levi},
+title={Language Support for Fast and Reliable Message-based Communication in {S}ingularity {OS}},
+booktitle={Proceedings of the EuroSys Conference},
+pages     = {177--190},
+publisher={ACM Press},
+year={2006}}
+
+
+@article{GrossmanD:regbmm,
+ author = {Dan Grossman and Greg Morrisett and Trevor Jim and Michael Hicks and Yanling Wang and James Cheney},
+ title = {Region-based memory management in {Cyclone}},
+  volume = 	 {37},
+  number = {5},
+  journal =       {PLDI, ACM SIGPLAN Notices},
+ year = {2002},
+ pages = {282--293}
+ }
+
+@article{GrossmanD:typsmc,
+  author = 	 {Dan Grossman},
+  title = 	 {Type-Safe Multithreading in {Cyclone}},
+  volume = 	 {38},
+  number = {3},
+  journal =       {TLDI, ACM SIGPLAN Notices},
+  pages={13--25},
+  year = 	 {2003}
+}
+
+@article{CarboneM:strgpc,
+author={Marco Carbone and Kohei Honda and Nobuko Yoshida},
+title={Structured Global Programming for Communication Behaviour},
+journal={ESOP, Springer LNCS},
+volume={4421},
+pages={2--17},
+year={2007}
+}
+
+@inproceedings{CarboneM:strgpcold,
+author={Marco Carbone and Kohei Honda and Nobuko Yoshida},
+title={Structured Global Programming for Communication Behaviour},
+booktitle={ESOP},
+publisher={Springer},
+series={LNCS},
+number={4421},
+pages={2--17},
+year={2007}
+}
+
+@inproceedings{Carbone:2008:SIE,
+ author = {Carbone, Marco and Honda, Kohei and Yoshida, Nobuko},
+ title = {Structured Interactional Exceptions in Session Types},
+ booktitle = {Proceedings of the 19th International Conference on Concurrency Theory (CONCUR)},
+ series = {Springer Lecture Notes in Computer Science},
+ volume={5201},
+ year = {2008},
+ isbn = {978-3-540-85360-2},
+ location_ = {Toronto, Canada},
+ pages = {402--417},
+ numpages = {16},
+ url = {http://dx.doi.org/10.1007/978-3-540-85361-9_32},
+ doi = {10.1007/978-3-540-85361-9_32},
+ acmid = {1431532},
+ publisher_ = {Springer-Verlag},
+ address_ = {Berlin, Heidelberg},
+}
+
+@inproceedings{CYH2009,
+  author = "Marco Carbone and Nobuko Yoshida and Kohei Honda",
+  title = "Asynchronous Session Types: Exceptions and Multiparty Interactions",
+  booktitle = "Formal Methods for Web Services, 9th International School on Formal Methods for the Design of Computer, Communication, and Software Systems (SFM)",
+  series = "Springer Lecture Notes in Computer Science",
+  volume = "5569",
+  publisher_ = "Springer",
+  pages = "187--212",
+  year = "2009"
+}
+
+@article{CGY2015,
+  author = "Sara Capecchi and Elena Giachino and Nobuko Yoshida",
+  title = "Global Escape in Multiparty Sessions",
+  journal = mscs,
+  volume = "FirstView",
+  month = {6},
+  issue_ = "5",
+  publisher = "Cambridge University Press",
+  pages = "1--50",
+  year = "2015"
+}
+
+@article{ WrightAK:synats,
+    author = "Andrew K. Wright and Matthias Felleisen",
+    title = "A Syntactic Approach to Type Soundness",
+    journal = "Information and Computation",
+    volume = "115",
+    number = "1",
+    pages = "38-94",
+    year = "1994"}
+
+@article{GaySJ:substp,
+author={Simon J. Gay and Malcolm J. Hole},
+title={Subtyping for Session Types in the Pi Calculus},
+journal={Acta Informatica},
+volume={42},
+number={2/3},
+pages={191--225},
+year={2005}
+}
+
+@techreport{GaySJ:sestip,
+author={Simon J. Gay and Ant\'{o}nio Ravara and Vasco T. Vasconcelos},
+title={Session Types for Inter-Process Communication},
+institution={Comp.\ Sci., Univ.\ Glasgow},
+year={2003},
+_month={March},
+number={TR-2003-133}
+}
+
+@book{PierceBC:typpl,
+author={Benjamin C. Pierce},
+title={Types and Programming Languages},
+publisher={MIT Press},
+year={2002}}
+
+
+
+@Article{boudol:direct-style,
+ author  = {G{\'e}rard Boudol},
+ title   = {The $\pi$-Calculus in Direct Style},
+ journal = {Higher-Order and Symbolic Computation},
+ year    = 1998,
+ volume  = 11,
+ pages   = {177--208},
+ note    = {Also in POPL'97, pages 228--241}
+}
+
+@INPROCEEDINGS{boudol:typing-use,
+ author   = {G\'{e}rard Boudol},
+ title    = {Typing the use of resources in a concurrent calculus},
+ pages    = {239--253},
+ booktitle={ASIAN},
+ publisher={Springer},
+ series = {LNCS},
+ volume={1345},
+ year={1997}
+}
+
+@InCollection{brinksma.ea:lotos-spec,
+ author    = {Ed Brinksma and Giuseppe Scollo and Chris Steenbergen},
+ title     = {{LOTOS} Specifications, their Implementations and their Tests},
+ booktitle = {Protocol Specification, Testing and Verification VI (IFIP)},
+ publisher = nh,
+ year      = 1987,
+ pages     = {349--360},
+}
+
+@article{chakietal:types-as-models,
+ author    = {Sagar Chaki and Sriram K.~Rajamani and Jakob Rehof},
+ title     = {Types as models: model checking message-passing programs},
+ journal = {POPL, ACM SIGPLAN Notices},
+ volume={37},
+ number={1},
+ year      = 2002,
+ pages     = {45--57}
+}
+
+@PhdThesis{colaco:cap,
+ author = {Jean-Louis Cola\c{c}o},
+ title  = {Analyses Statiques d'un calcul d'acteurs par typage},
+ school = {Institut National Polytechnique de Toulouse, France},
+ year   = 1997,
+ type   = {Th{\`e}se d'{{\'E}}tat},
+}
+
+@INPROCEEDINGS{colaco.ea:set-constraint,
+ author   = {Jean-Louis Cola\c{c}o and Mark Pantel and Patrick Sall\'{e}},
+ title    = {A set constraint-based analyses of actors},
+ crossref = {fmoods97},
+}
+
+@INPROCEEDINGS{colaco.ea:safety-analysis,
+ author   = {Jean-Louis Cola\c{c}o and Mark Pantel and Fabien Dagnat and
+ 	           Patrick Sall\'{e}},
+ title    = {Safety analysis for non-uniform service availability in Actors},
+ crossref = {fmoods99},
+}
+
+@article{igarashi.kobayashi:generic-type,
+ author  = {Atsushi Igarashi and Naoki Kobayashi},
+ title   = {A Generic Type System for the Pi-Calculus},
+ journal = tcs,
+ volume  = 311,
+ number  = {1-3},
+ year    = 2004,
+ pages   = {121-163},
+}
+
+@article{kobayashi:type-systems,
+ author       = {Naoki Kobayashi},
+ title        = {Type Systems for Concurrent Processes: From Deadlock-Freedom
+                 to Livelock-Freedom, Time-Boundedness},
+ journal      = {IFIP TCS, Springer LNCS},
+ publisher    = {Springer},
+ series       = {LNCS},
+ volume       = 1872,
+ year         = 2000,
+ pages        = {365--389},
+}
+
+@InProceedings{kobayashi:type-systemsold,
+ author       = {Naoki Kobayashi},
+ title        = {Type Systems for Concurrent Processes: From Deadlock-Freedom
+                 to Livelock-Freedom, Time-Boundedness},
+ booktitle    = {IFIP TCS},
+ publisher    = {Springer},
+ series       = {LNCS},
+ volume       = 1872,
+ year         = 2000,
+ pages        = {365--389},
+}
+
+@InProceedings{kobayashi.saito.ea:implicitly-typed-deadlock-free,
+ author    = {Naoki Kobayashi and Shin Saito and Eijiro Sumii},
+ title     = {An Implicitly-Typed Deadlock-Free Process Calculus},
+ booktitle = {CONCUR},
+ publisher = {Springer},
+ series    = {LNCS},
+ volume    = 1877,
+ year      = 2000,
+ pages     = {489--503},
+}
+
+@INPROCEEDINGS{najm.nimour:cob,
+ author   = {Elie Najm and Abdelkrim Nimour},
+ title    = {A calculus of object bindings},
+ crossref = {fmoods97},
+}
+
+@INPROCEEDINGS{najm.ea:infinite-types,
+ author   = {Elie Najm and Abdelkrim Nimour and Jean-Bernard Stefani},
+ title    = {Infinite Types for Distributed Objects Interfaces},
+ crossref = {fmoods99},
+}
+
+@INPROCEEDINGS{najm.ea:liveness,
+ author    = {Elie Najm and Abdelkrim Nimour and Jean-Bernard Stefani},
+ title     = {Guaranteeing liveness in an object calculus through behavioral
+              typing},
+ booktitle = {FORTE/PSTV},
+ publisher = {Kluwer Academic Publishers},
+ year      = 1999,
+}
+
+@INCOLLECTION{nierstrasz:regular-types,
+ author    = {Oscar Nierstrasz},
+ title     = {Regular types for active objects},
+ booktitle = {Object-Oriented Software Composition},
+ publisher = ph,
+ year      = 1995,
+ pages     = {99--121},
+}
+
+@Article{puntigam:coordinating,
+ author  = {Franz Puntigam},
+ title   = {Strong types for coordinating active objects},
+ journal = {Concurrency and Computation: Practice and Experience},
+ year    = 2001,
+ volume  = 13,
+ pages   = {293--326},
+}
+
+@Article{puntigam:stateinference,
+ author  = {Franz Puntigam},
+ title   = {State inference for dynamically changing interfaces},
+ journal = {Computer Languages},
+ year    = 2002,
+ volume  = 27,
+ pages   = {163--202},
+}
+
+@Article{puntigam.peter:deadlock,
+  author  = {Franz Puntigam and Christof Peter},
+  title   = {Types for Active Objects with Static Deadlock Prevention},
+  journal = {Fundamenta Informatic\ae},
+  year    = 2001,
+  volume  = 49,
+  pages   = {1--27},
+}
+
+@article{rajamani:behv-system,
+ author    = {Sriram K.~Rajamani and Jakob Rehof},
+ title     = {A Behavioral Module System for the Pi-Calculus},
+ journal   = {SAS, Springer LNCS},
+ pages     = {375--394},
+ year      = {2001},
+ volume    = {2126},
+ series    = {LNCS},
+ publisher = {Springer}
+}
+
+@InProceedings{rajamani:behv-systemold,
+ author    = {Sriram K.~Rajamani and Jakob Rehof},
+ title     = {A Behavioral Module System for the Pi-Calculus},
+ booktitle = {SAS},
+ pages     = {375--394},
+ year      = {2001},
+ volume    = {2126},
+ series    = {LNCS},
+ publisher = {Springer}
+}
+
+@phdthesis{ravara:phd-thesis,
+ author = {Ant\'{o}nio Ravara},
+ title  = {Typing Non-Uniform Concurrent Objects},
+ school = {Instituto Superior T{\'{e}}cnico, Technical University of Lisbon,
+           Portugal},
+ year   = 2000,
+}
+
+@TechReport{ravara.lopes:prog-implem-nutyco,
+ author      = {Ant\'{o}nio Ravara and Lu\'{\i}s Lopes},
+ title       = {Programming and Implementation Issues in Non-Unifom {T}y{CO}},
+ institution = {Department of Computer Science, Faculty of Sciences,
+                University of Porto},
+ address     = {Portugal},
+ year        = 1999
+}
+
+@article{ravara.vasconcelos:typco,
+ author    = {Ant\'{o}nio Ravara and Vasco T.~Vasconcelos},
+ title     = {Typing Non-Uniform Concurrent Objects},
+ journal   = {CONCUR, Springer LNCS},
+ publisher = {Springer},
+ series    = {LNCS},
+ volume    = 1877,
+ pages     = {474--488},
+ year      = 2000
+}
+
+@INPROCEEDINGS{ravara.vasconcelos:typcoold,
+ author    = {Ant\'{o}nio Ravara and Vasco T.~Vasconcelos},
+ title     = {Typing Non-Uniform Concurrent Objects},
+ booktitle = {CONCUR},
+ publisher = {Springer},
+ series    = {LNCS},
+ volume    = 1877,
+ pages     = {474--488},
+ year      = 2000
+}
+
+@InProceedings{wegner.zdonik:inheritance,
+ author    = {Peter Wegner and Stanley B.~Zdonik},
+ title     = {Inheritance as an Incremental Modification Mechanism
+              or What Like Is and Isn't Like},
+ booktitle = {ECOOP},
+ year      = 1988,
+ volume    = 322,
+ series    = {LNCS},
+ publisher = {Springer},
+ pages     = {55--77}
+}
+
+@InProceedings{yoshida:graph-types,
+ author    = {Nobuko Yoshida},
+ title     = {Graph Types for Monadic Mobile Processes},
+ booktitle = {Proceedings of the 16th Conference on Foundations of
+              Software Technology and Theoretical Computer Science ({FST/TCS})},
+ year      = 1996,
+ volume    = 1180,
+ series    = lncs,
+ publisher = sv,
+ pages     = {371--386},
+ note      = {Extended version as Technical Report ECS-LFCS-96-350,
+              University of Edinburgh},
+}
+
+@Proceedings(asian97,
+ title        = {Advances in Computing Science,
+                 the 3rd Asian Computing Science Conference, Kathmandu, Nepal},
+ booktitle    = {Proceedings of ASIAN'97},
+ editor       = {R.~K.~Shyamasundar and Kazunori Ueda},
+ publisher    = sv,
+ series       = lncs,
+ volume       = 1345,
+ year         = 1997,
+ crossrefonly = 1,
+)
+
+@Proceedings(fmoods97,
+ title        = {2nd } # fmoods # {, Canterbury, U.~K.},
+ booktitle    = {Proceedings of FMOODS'97},
+ year         = 1997,
+ editor       = {Howard Bowman and John Derrick},
+ publisher    = ch,
+ crossrefonly = 1,
+)
+
+@Proceedings(fmoods99,
+ title        = {3rd } # fmoods # {, Florence, Italy},
+ booktitle    = {Proceedings of FMOODS'99},
+ year         = 1999,
+ editor       = {Paolo Ciancarini and Alesandro Fantechi and Roberto Gorrieri},
+ publisher    = {Kluwer Academic Publishers},
+ crossrefonly = 1,
+)
+
+@article{HondaK:intblt1,
+title={An Interaction-Based Language and its Typing System},
+author={Kaku Takeuchi and Kohei Honda and Makoto Kubo},
+journal={PARLE, Springer LNCS},
+pages={398--413},
+year={1994},
+publisher={Springer},
+series={LNCS},
+volume={817} }
+
+@inproceedings{HondaK:intblt,
+title={An Interaction-Based Language and its Typing System},
+author={Kaku Takeuchi and Kohei Honda and Makoto Kubo},
+booktitle={Proceedings of the 6th International Conference on Parallel Languages and Architectures Europe (PARLE)},
+pages={398--413},
+year={1994},
+publisher_={Springer},
+series={Springer Lecture Notes in Computer Science},
+volume={817} }
+
+@article{HondaK:lanptd1,
+title={Language Primitives and Type Discipline for Structured Communication-Based Programming},
+author={Kohei Honda and Vasco Vasconcelos and Makoto Kubo},
+journal={ESOP, Springer LNCS},
+year={1998},
+publisher={Springer},
+volume={1381},
+pages={122--138},
+series={LNCS}}
+
+@inproceedings{HondaK:lanptd,
+title={Language Primitives and Type Discipline for Structured Communication-Based Programming},
+author={Kohei Honda and Vasco Vasconcelos and Makoto Kubo},
+booktitle={Proceedings of the 7th European Symposium on Programming (ESOP)},
+year={1998},
+publisher_={Springer},
+volume={1381},
+pages={122--138},
+series={Springer Lecture Notes in Computer Science}}
+
+
+
+@inproceedings{HondaK:typdi,
+author={Kohei Honda},
+title={Types for Dyadic Interaction},
+booktitle={Proceedings of the 4th International Conference on Concurrency Theory (CONCUR)},
+series={Springer Lecture Notes in Computer Science},
+volume={715},
+pages={509--523},
+year={1993} }
+
+@article{DezaniCiancagliniM:disool1,
+author={Mariangiola Dezani-Ciancaglini and Nobuko Yoshida and Alexander Ahern and Sophia Drossopolou},
+title={A Distributed Object-Oriented Language with Session Types},
+journal={TGC, Springer LNCS},
+publisher={Springer},
+series={LNCS},
+volume={3705},
+pages={299--318},
+year={2005}
+}
+
+@inproceedings{DezaniCiancagliniM:disool,
+author={Mariangiola Dezani-Ciancaglini and Nobuko Yoshida and Alexander Ahern and Sophia Drossopolou},
+title={A Distributed Object-Oriented Language with Session Types},
+booktitle={Proceedings of the International Symposium on Trustworthy Global Computing},
+publisher_={Springer},
+series={Springer Lecture Notes in Computer Science},
+volume={3705},
+pages={299--318},
+year={2005}
+}
+
+@article{HuR:sesbdp1,
+author={Raymond Hu and Nobuko Yoshida and Kohei Honda},
+title={Session-Based Distributed Programming in {J}ava},
+journal={ECOOP, Springer LNCS},
+publisher={Springer},
+series={LNCS},
+volume={5142},
+pages={516--541},
+year={2008}
+}
+
+@inproceedings{HuR:sesbdp,
+author={Raymond Hu and Nobuko Yoshida and Kohei Honda},
+title={Session-Based Distributed Programming in {J}ava},
+booktitle={Proceedings of the 22nd European Conference on Object-Oriented Programming (ECOOP)},
+publisher_={Springer},
+series={Springer Lecture Notes in Ccomputer Science},
+volume={5142},
+pages={516--541},
+year={2008}
+}
+
+@article{DezaniCiancagliniM:sestoo1,
+author={Mariangiola Dezani-Ciancaglini and Dimitris Mostrous and Nobuko Yoshida and Sophia Drossopolou},
+title={Session Types for Object-Oriented Languages},
+journal={ECOOP, Springer LNCS},
+publisher={Springer},
+series={LNCS},
+volume={4067},
+pages={328--352},
+year={2006}
+}
+
+@inproceedings{DezaniCiancagliniM:sestoo,
+author={Mariangiola Dezani-Ciancaglini and Dimitris Mostrous and Nobuko Yoshida and Sophia Drossopolou},
+title={Session Types for Object-Oriented Languages},
+booktitle={Proceedings of the 20th European Conference on Object-Oriented Programming},
+publisher_={Springer},
+series={Springer Lecture Notes in Computer Science},
+volume={4067},
+pages={328--352},
+year={2006}
+}
+
+@article{CairesL:spabtc,
+author={Luis Caires},
+title={Spatial-behavioral types for concurrency and resource control in distributed systems},
+journal={Theoret.\ Comp.\ Sci.},
+volume={402},
+number={2--3},
+pages={120--141},
+year={2008}}
+
+@article{CairesL:spabtd,
+author={Luis Caires},
+title={Spatial-Behavioral Types, Distributed Services, and Resources},
+journal={TGC, Springer LNCS},
+volume={4661},
+pages={98--115},
+year={2006}}
+
+@article{BakerHG:usevlo,
+author={Henry G. Baker},
+title={`{U}se-once' variables and linear objects --- storage management,
+reflection and multi-threading},
+journal={ACM SIGPLAN Notices},
+volume={30},
+number={1},
+pages={45--52},
+year={1995}
+}
+
+@inproceedings{ChanEC:prolsa,
+author={Edwin C. Chan and John T. Boyland and William L. Scherlis},
+title={Promises: Limited specifications for analysis and manipulation},
+booktitle={ICSE},
+publisher={IEEE Press},
+year={1998}
+}
+
+@article{HarmsDE:copsid,
+author={Douglas E. Harms and Bruce W. Weide},
+title={Copying and swapping: Influences on the design of reusable software components},
+journal={IEEE Trans.\ on Software Engineering},
+volume={17},
+number={5},
+year={1991}
+}
+
+@techreport{LeinoKRM:vircso,
+author={K. Rustan M. Leino and Raymie Stata},
+title={Virginity: A contribution to the specification of object-oriented software},
+number={SRC-TN-97-001},
+institution={Digital Systems Research Center},
+year={1997}
+}
+
+@inproceedings{MinskyN:towap,
+author={Naftaly Minsky},
+title={Towards alias-free pointers},
+booktitle={ECOOP},
+series={LNCS},
+publisher={Springer},
+volume={1098},
+pages={189--209},
+year={1996}
+}
+
+@article{HoggJ:islapo,
+author={John Hogg},
+title={Islands: aliasing protection in object-oriented languages},
+pages={271--285},
+year={1991},
+journal={OOPSLA, ACM SIGPLAN Notices},
+volume={26},
+number={11}
+}
+
+@article{AlmeidaPS:baltcs,
+    author = "Paulo S{\'e}rgio Almeida",
+    title = "Balloon Types: Controlling Sharing of State in Data Types",
+    journal={ECOOP, Springer LNCS},
+    series = "LNCS",
+    publisher={Springer},
+    volume = "1241",
+    pages = "32--59",
+    year = "1997"
+}
+
+@inproceedings{AlmeidaPS:baltcsold,
+    author = "Paulo S{\'e}rgio Almeida",
+    title = "Balloon Types: Controlling Sharing of State in Data Types",
+    booktitle={ECOOP},
+    series = "LNCS",
+    publisher={Springer},
+    volume = "1241",
+    pages = "32--59",
+    year = "1997"
+}
+
+@article{NobleJ:fleap,
+    author = "James Noble and Jan Vitek and John Potter",
+    title = "Flexible Alias Protection",
+    journal={ECOOP, Springer LNCS},
+    series = "LNCS",
+    publisher={Springer},
+    volume = "1445",
+    pages = "158--185",
+    year = "1998"
+}
+
+@inproceedings{NobleJ:fleapold,
+    author = "James Noble and Jan Vitek and John Potter",
+    title = "Flexible Alias Protection",
+    booktitle={ECOOP},
+    series = "LNCS",
+    publisher={Springer},
+    volume = "1445",
+    pages = "158--185",
+    year = "1998"
+}
+
+@article{ClarkeDG:owntfa,
+author={D. G. Clarke and J. M. Potter and J. Noble},
+title={Ownership types for flexible alias protection},
+booktitle={OOPSLA},
+pages={48--64},
+year={1998},
+journal={OOPSLA, ACM SIGPLAN Not.},
+volume={33},
+number={10}
+}
+
+@article{KobayashiN:resuap,
+author={Naoki Kobayashi and Kohei Suenaga and Lucian Wischik},
+title={Resource Usage Analysis for the $\pi$-Calculus},
+journal={Logical Methods in Comp.\ Sci.},
+volume={2},
+number={3:4},
+pages={1--42},
+year={2006}
+}
+
+@article{IgarashiA:resua,
+author={Atsushi Igarashi and Naoki Kobayashi},
+title={Resource Usage Analysis},
+journal={ACM Trans.\ on Programming Languages and Systems},
+volume={27},
+number={2},
+pages={264--313},
+year={2005}
+}
+
+@article{KobayashiN:typifa,
+author={Naoki Kobayashi},
+title={Type-Based Information Flow Analysis for the Pi-Calculus},
+journal={Acta Informatica},
+volume={42},
+number={4--5},
+pages={291--347},
+year={2005}
+}
+
+@article{GaySJ:lintta,
+author={Simon J. Gay and Vasco T. Vasconcelos},
+title={Linear Type Theory for Asynchronous Session Types},
+url={http://www.dcs.gla.ac.uk/~simon/publications/Lin-Async.pdf},
+journal={Journal of Functional Programming},
+volume={20},
+number={1},
+pages={19--50},
+year={2010}
+}
+
+
+@article{VasconcelosVT:sestfm,
+  author       = {Vasco T. Vasconcelos and Ant\'onio Ravara and Simon J. Gay},
+  title        = {Session types for functional multithreading},
+  journal    = {CONCUR, Springer LNCS},
+  pages        = {497--511},
+  year         = 2004,
+  volume       = 3170,
+  series       = {LNCS},
+  publisher = {Springer}
+}
+
+@article{VasconcelosVT:typmfl,
+  author = 	 {Vasco T. Vasconcelos and Simon J. Gay and Ant\'onio Ravara},
+  title = 	 {Typechecking a Multithreaded Functional Language with Session Types},
+  journal = 	 {Theoret.\ {C}omp.\ {S}ci.},
+  year = 	 {2006},
+  volume = 	 {368},
+  number = 	 {1--2},
+  pages = 	 {64--87},
+  url =          {http://www.di.fc.ul.pt/~vv/papers/vasconcelos.gay.ravara:tychecking-session-types.pdf}
+}
+@inproceedings{NeubauerM:impst,
+  author = 	 {Matthias Neubauer and Peter Thiemann},
+  title = 	 {An Implementation of Session Types},
+  booktitle = {Proceedings of the 6th International Symposium on Practical Aspects of Declarative Languages (PADL)},
+  pages = 	 {56--70},
+  year = 	 {2004},
+  volume = 	 {3057},
+  series = 	 {Springer Lecture Notes in Computer Science},
+  publisher_ = {Springer}
+}
+
+@inproceedings{PucellaR:hassta,
+ author = {Riccardo Pucella and Jesse A. Tov},
+ title = {Haskell session types with (almost) no class},
+ booktitle = {Proceedings of the 1st ACM SIGPLAN Symposium on Haskell},
+ year = {2008},
+ pages = {25--36},
+ publisher = {ACM Press}
+ }
+
+@article{VallecilloA:typbsc,
+  author = {Antonio Vallecillo and Vasco T.~Vasconcelos and Ant\'onio Ravara},
+  title = {Typing the Behavior of Software Components using Session Types},
+  journal = {Fundamenta {I}nformatic\ae},
+  volume = {73},
+  number = {4},
+  pages = {583--598},
+  year = 2006
+}
+
+@article{typestates,
+ author = {Robert E. Strom and Shaula Yemini},
+ title = {Typestate: A programming language concept for enhancing software reliability},
+ journal = {IEEE Trans. Softw. Eng.},
+ volume = {12},
+ number = {1},
+ year = {1986},
+ issn = {0098-5589},
+ pages = {157--171},
+ publisher = {IEEE Press},
+ address = {Piscataway, NJ, USA},
+ }
+
+@unpublished{GaySJ:dyni,
+author={Vasco T. Vasconcelos and Simon J. Gay and Ant\'onio Ravara and Nils Gesbert and Alexandre Z. Caldeira},
+title={Dynamic Interfaces},
+note_={\texttt{www.dcs.gla.ac.uk/\~{}simon/publications/\\Dyn-Int.pdf}. FOOL},
+note={FOOL},
+year={2009}
+}
+
+@unpublished{MostrousD:sesocs,
+author={Dimitris Mostrous and Nobuko Yoshida},
+title={A Session Object Calculus for Structured Communication-Based Programming},
+note_={\texttt{www.doc.ic.ac.uk/\~{}mostrous/sesobj.pdf}. Submitted},
+note={Submitted},
+year={2008}
+}
+
+@article{NystromN:polecf,
+ title={Polyglot: an extensible compiler framework for {J}ava},
+ author={Nathaniel Nystrom and Michael R. Clarkson and Andrew C. Myers},
+ journal = {Compiler Construction, Springer LNCS},
+ year = {2003},
+ volume = {2622},
+ pages = {138--152}
+}
+
+@MastersThesis{MilitaoF:yak,
+  author={Filipe {Milit\~{a}o}},
+  title = 	 {Design and Implementation of a Behaviorally Typed Programming System for Web Services},
+  school = 	 {New University of Lisbon},
+  year = 	 2008
+}
+  note = 	 {\texttt{ctp.di.fct.unl.pt/yak}}}
+
+@inproceedings{BierhoffAldrich:lightweightobject,
+ author = {Kevin Bierhoff and Jonathan Aldrich},
+ title = {Lightweight object specification with typestates},
+ booktitle = {Proceedings of the 13th {ACM} {SIGSOFT} Symposium on Foundations of Software Engineering ({FSE} '05)},
+ booktitle_= {13th {ACM} {SIGSOFT} Symposium on Foundations of Software Engineering ({FSE} '05)},
+ year = {2005},
+ pages = {217--226},
+ publisher = {ACM Press}
+}
+
+@inproceedings{BierhoffAldrich:aliasedobjects,
+ author = {Kevin Bierhoff and Jonathan Aldrich},
+ title = {Modular typestate checking of aliased objects},
+ booktitle = {Proceedings of the 22nd ACM SIGPLAN Conference on Object-Oriented Programming, Systems, Languages and Applications (OOPSLA)},
+ booktitle_ = {OOPSLA '07},
+ year = {2007},
+ isbn = {978-1-59593-786-5},
+ pages = {301--320},
+ location = {Montreal, Quebec, Canada},
+ doi = {http://doi.acm.org/10.1145/1297027.1297050},
+ publisher = {ACM Press}
+}
+
+@inproceedings{BierhoffAldrich:plural,
+ author = {Kevin Bierhoff and Jonathan Aldrich},
+ title = {{PLURAL}: checking protocol compliance under aliasing},
+ booktitle_ = {Companion of the 30th international conference on Software engineering (ICSE Companion '08)},
+ booktitle = {ICSE Companion '08},
+ year = {2008},
+ isbn = {978-1-60558-079-1},
+ pages = {971--972},
+ location = {Leipzig, Germany},
+ doi = {http://doi.acm.org/10.1145/1370175.1370213},
+ publisher = {ACM Press}
+}
+
+@inproceedings{Bierhoff.etal:practicalapichecking,
+ author = {Kevin Bierhoff and Nels E. Beckman and Jonathan Aldrich},
+ title = {Practical {API} Protocol Checking with Access Permissions},
+ booktitle = {Proceedings of the 23rd European Conference on Object Oriented Programming (ECOOP)},
+ booktitle_ = {ECOOP '09},
+ pages = {195--219},
+ year = 2009,
+}
+
+@inproceedings{Beckman.etal:atomicblockstypestates,
+ author = {Nels E. Beckman and Kevin Bierhoff and Jonathan Aldrich},
+ title = {Verifying correct usage of atomic blocks and typestate},
+ booktitle = {Proceedings of the 23rd ACM SIGPLAN conference on Object-Oriented Programming, Systems, Languages and Applications (OOPSLA)},
+ booktitle_ = {OOPSLA '08},
+ pages = {227--244},
+ year = {2008},
+ isbn = {978-1-60558-215-3},
+ location = {Nashville, TN, USA},
+ doi = {http://doi.acm.org/10.1145/1449764.1449783},
+ publisher = {ACM Press}
+}
+
+@phdthesis{MezzinaLG:typs,
+ title={Typing Services},
+ author={Leonardo G. Mezzina},
+ year={2009},
+ school={IMT Institute for Advanced Studies, Lucca, Italy}
+}
+
+@inproceedings{DDDG01,
+  author    = {Sophia Drossopoulou and
+               Ferruccio Damiani and
+               Mariangiola Dezani{-}Ciancaglini and
+               Paola Giannini},
+  title     = {Fickle : Dynamic Object Re-classification},
+  booktitle = {{ECOOP} 2001 - Object-Oriented Programming, 15th European Conference,
+               Budapest, Hungary, June 18-22, 2001, Proceedings},
+  pages     = {130--149},
+  series    = {Lecture Notes in Computer Science},
+  volume    = {2072},
+  publisher = {Springer},
+  year      = {2001},
+  isbn      = {3-540-42206-4},
+  url       = {http://dx.doi.org/10.1007/3-540-45337-7_8},
+  doi       = {10.1007/3-540-45337-7_8}
+}
+
+@InProceedings{gay.vasconcelos.etal_modular-session-types,
+  author = {Simon J. Gay and Vasco T. Vasconcelos and Ant\'onio Ravara and
+            Nils Gesbert and Alexandre Z. Caldeira},
+  title = {Modular Session Types for Distributed Object-Oriented Programming},
+ booktitle = {Proceedings of the 37th ACM SIGACT-SIGPLAN Symposium on Principles of Programming Languages (POPL)},
+  pages = 	 {299--312},
+  year = 	 2010,
+  publisher = {ACM Press},
+  _url = {http://www.di.fc.ul.pt/~vv/papers/gay.vasconcelos.etal_modular-session-types.pdf}
+}
+
+@inproceedings{jastadd,
+year={2011},
+isbn={978-3-642-18022-4},
+booktitle={Generative and Transformational Techniques in Software Engineering III},
+volume={6491},
+series={Springer Lecture Notes in Computer Science},
+editor_={Fernandes, JoÃ£oM. and LÃ¤mmel, Ralf and Visser, Joost and Saraiva, JoÃ£o},
+doi={10.1007/978-3-642-18023-1_4},
+title={An Introductory Tutorial on {J}ast{A}dd Attribute Grammars},
+url={http://dx.doi.org/10.1007/978-3-642-18023-1_4},
+publisher_={Springer Berlin Heidelberg},
+keywords={attribute grammars; language-based tools; reference attributes; object-oriented model},
+author={Hedin, G\"{o}rel},
+pages={166-200},
+language={English}
+}
+
+@article{GarciaR:foutop,
+  author    = {Ronald Garcia and
+               {\'{E}}ric Tanter and
+               Roger Wolff and
+               Jonathan Aldrich},
+  title     = {Foundations of Typestate-Oriented Programming},
+  journal   = {{ACM} Trans. Program. Lang. Syst.},
+  volume    = {36},
+  number    = {4},
+  pages     = {12:1--12:44},
+  year      = {2014},
+  url       = {http://doi.acm.org/10.1145/2629609},
+  doi       = {10.1145/2629609},
+  timestamp = {Wed, 29 Apr 2015 17:56:44 +0200},
+  biburl    = {http://dblp.uni-trier.de/rec/bib/journals/toplas/GarciaTWA14},
+  bibsource = {dblp computer science bibliography, http://dblp.org}
+}
+
+@inproceedings{DBLP:conf/oopsla/AldrichSSS09,
+  author    = {Jonathan Aldrich and
+               Joshua Sunshine and
+               Darpan Saini and
+               Zachary Sparks},
+  title     = {Typestate-oriented programming},
+  booktitle = {Companion to the 24th Annual {ACM} {SIGPLAN} Conference on Object-Oriented
+               Programming, Systems, Languages and Applications, ({OOPSLA})},
+  _place=     {October 25-29, 2009, Orlando, Florida, {USA}},
+  pages     = {1015--1022},
+  year      = {2009},
+  publisher = {ACM Press},
+  _crossref  = {DBLP:conf/oopsla/2009c},
+  url       = {http://doi.acm.org/10.1145/1639950.1640073},
+  doi       = {10.1145/1639950.1640073},
+  timestamp = {Fri, 30 Oct 2009 14:45:38 +0100},
+  biburl    = {http://dblp.uni-trier.de/rec/bib/conf/oopsla/AldrichSSS09},
+  bibsource = {dblp computer science bibliography, http://dblp.org}
+}
+
+@proceedings{DBLP:conf/oopsla/2009c,
+  editor    = {Shail Arora and
+               Gary T. Leavens},
+  title     = {Companion to the 24th Annual {ACM} {SIGPLAN} Conference on Object-Oriented
+               Programming, Systems, Languages, and Applications, {OOPSLA} 2009,
+               October 25-29, 2009, Orlando, Florida, {USA}},
+  publisher = {{ACM}},
+  year      = {2009},
+  isbn      = {978-1-60558-768-4},
+  timestamp = {Fri, 30 Oct 2009 14:03:24 +0100},
+  biburl    = {http://dblp.uni-trier.de/rec/bib/conf/oopsla/2009c},
+  bibsource = {dblp computer science bibliography, http://dblp.org}
+}
+
+@inproceedings{DBLP:conf/oopsla/SunshineNSAT11,
+  author    = {Joshua Sunshine and
+               Karl Naden and
+               Sven Stork and
+               Jonathan Aldrich and
+               {\'{E}}ric Tanter},
+  title     = {First-class state change in {P}laid},
+  booktitle = {Proceedings of the 26th Annual {ACM} {SIGPLAN} Conference on Object-Oriented
+               Programming, Systems, Languages, and Applications, (OOPSLA)},
+  pages     = {713--732},
+  year      = {2011},
+publisher = {ACM Press},
+  crossref_  = {DBLP:conf/oopsla/2011},
+  url       = {http://doi.acm.org/10.1145/2048066.2048122},
+  doi       = {10.1145/2048066.2048122},
+  timestamp = {Tue, 25 Oct 2011 20:48:58 +0200},
+  biburl    = {http://dblp.uni-trier.de/rec/bib/conf/oopsla/SunshineNSAT11},
+  bibsource = {dblp computer science bibliography, http://dblp.org}
+}
+
+@proceedings{DBLP:conf/oopsla/2011,
+  editor    = {Cristina Videira Lopes and
+               Kathleen Fisher},
+  title     = {Proceedings of the 26th Annual {ACM} {SIGPLAN} Conference on Object-Oriented
+               Programming, Systems, Languages, and Applications, {OOPSLA} 2011,
+               part of {SPLASH} 2011, Portland, OR, USA, October 22 - 27, 2011},
+  publisher = {{ACM}},
+  year      = {2011},
+  isbn      = {978-1-4503-0940-0},
+  timestamp = {Tue, 25 Oct 2011 20:30:27 +0200},
+  biburl    = {http://dblp.uni-trier.de/rec/bib/conf/oopsla/2011},
+  bibsource = {dblp computer science bibliography, http://dblp.org}
+}
+
+@inproceedings{DBLP:conf/rv/NeykovaYH13,
+  author    = {Rumyana Neykova and
+               Nobuko Yoshida and
+               Raymond Hu},
+  title     = {{SPY:} Local Verification of Global Protocols},
+  booktitle = {Proceedings of the 4th International Conference on Runtime Verification (RV)},
+  series = {Springer Lecture Notes in Computer Science},
+  volume    = {8174},
+  pages     = {358--363},
+  year      = {2013},
+  crossref_  = {DBLP:conf/rv/2013},
+  url       = {http://dx.doi.org/10.1007/978-3-642-40787-1_25},
+  doi       = {10.1007/978-3-642-40787-1_25},
+  timestamp = {Fri, 20 Sep 2013 12:14:39 +0200},
+  biburl    = {http://dblp.uni-trier.de/rec/bib/conf/rv/NeykovaYH13},
+  bibsource = {dblp computer science bibliography, http://dblp.org}
+}
+
+
+
+@misc{rust,
+key={RUST},
+title={Rust language homepage},
+note={\url{www.rust-lang.org}}
+}
+
+@misc{idris,
+key={IDRIS},
+title={Idris language homepage},
+note={\url{www.idris-lang.org}}
+}
+
+@inproceedings{HuRetal:tsesj,
+  author    = {Raymond Hu and
+               Dimitrios Kouzapas and
+               Olivier Pernet and
+               Nobuko Yoshida and
+               Kohei Honda},
+  title     = {Type-Safe Eventful Sessions in {J}ava},
+  booktitle = {Proceedings of the 24th European
+               Conference on Object-Oriented Programming (ECOOP)},
+  publisher_ = {Springer},
+  series    = {Springer Lecture Notes in Computer Science},
+  volume    = {6183},
+  year      = {2010},
+  pages     = {329--353},
+}
+
+@inproceedings{Ng.ea:safeSJ,
+  author    = {Nicholas Ng and
+               Nobuko Yoshida and
+               Olivier Pernet and
+               Raymond Hu and
+               Yiannos Kryftis},
+  title     = {Safe Parallel Programming with {S}ession {J}ava},
+  booktitle = {Proceedings of the 13th International Conference on
+               Coordination Models and Languages ({COORDINATION})},
+  pages     = {110--126},
+  year      = {2011},
+  doi       = {10.1007/978-3-642-21464-6_8},
+  series    = {Springer Lecture Notes in Computer Science},
+  volume    = {6721},
+  publisher_ = {Springer},
+}
+
+@MastersThesis{CamposJ:linear-and-shared,
+  author = {Joana Campos},
+  title  = {Linear and Shared Objects in Concurrent Programming},
+  school = {University of Lisbon},
+  year   = 2010
+  }
+
+@InProceedings{campos.vasconcelos:channels-as-objects,
+  author =    {Joana Campos and Vasco T. Vasconcelos},
+  title =     {Channels as Objects in Concurrent Object-Oriented Programming},
+  booktitle = {Proceedings of the 3rd International Workshop on Programming Language Approaches to Concurrency and Communication-cEntric Software (PLACES)},
+  year = 2010,
+  series =  eptcs,
+  note = {To appear}
+}
+
+@article{CairesVieira:ct,
+  author    = {Lu\'{\i}s Caires and
+               Hugo Torres Vieira},
+  title     = {Conversation Types},
+  journal  = {Theoretical Computer Science},
+  volume   = {411},
+  number   = {51--52},
+  pages    = {4399--4440},
+  year      = {2010}
+}
+
+@inproceedings{RossieJ:LOEs,
+  author  = {Jonathan G. {Rossie, Jr.}},
+  title   = {Logical observable entities},
+ booktitle = {Proceedings of the 25th ACM SIGPLAN-SIGACT Symposium on Principles of Programming Languages (POPL)},
+ publisher = {ACM},
+  pages = {154--165},
+  year    = {1998}
+}
+
+@inproceedings{MilitaoFetal:aliasing-control,
+  author = {Filipe Milit{\~a}o and Jonathan Aldrich and Lu\'{\i}s Caires},
+  title =  {Aliasing control with view-based typestate},
+  booktitle = {Proceedings of the 12th Workshop on Formal Techniques for Java-Like Programs (FTfJP)},
+ publisher = {ACM Press},
+  year = {2010},
+}
+
+@inproceedings{BonoV:typcmp,
+	Author = {Viviana Bono and Chiara Messa and Luca Padovani},
+	Booktitle = {Proceedings of the 20th European Symposium on Programming (ESOP)},
+	Date-Added = {2014-07-18 14:22:48 +0000},
+	Date-Modified = {2014-07-18 14:42:48 +0000},
+	Keywords = {session types, singularity},
+	volume = {6602},
+	Pages = {57--76},
+	Series = {Springer Lecture Notes in Computer Science},
+	Title = {Typing Copyless Message Passing},
+	Year = {2011}}
+
+@inproceedings{WolffR:grat,
+	Author = {Roger Wolff and Ronald Garcia and Eric Tanter and Jonathan Aldrich},
+	Booktitle = {Proceedings of the 25th European Conference on Object-Oriented Programming (ECOOP)},
+	volume = {6813},
+	Pages = {459--483},
+	Series = {Springer Lecture Notes in Computer Science},
+	Date-Added = {2014-07-22 15:54:57 +0000},
+	Date-Modified = {2014-07-22 15:56:45 +0000},
+	Keywords = {gradual typing, typestate},
+	Title = {Gradual Typestate},
+	Year = {2011}
+	}
+
+@inproceedings{TovJ:praat,
+title={Practical Affine Types},
+author={Jesse A. Tov and Ricardo Pucella},
+booktitle={Proceedings of POPL},
+year={2011}
+}
+
+@article{DezaniCiancagliniMetal:ost,
+  author    = {Mariangiola Dezani-Ciancaglini and
+               Sophia Drossopoulou and
+               Dimitris Mostrous and
+               Nobuko Yoshida},
+  title     = {Objects and session types},
+  journal   = {Information and Computation},
+  volume    = {207},
+  number    = {5},
+  year      = {2009},
+  pages     = {595--641},
+}
+
+@misc{HuR:smtp,
+author={Raymond Hu},
+title={Monitoring {SMTP} with {S}cribble and {J}ava},
+howpublished={Unpublished workshop presentations},
+year={2015}
+}
+
+@online{abcd,
+  title={A Basis for Concurrency and Distribution},
+  note={http://groups.inf.ed.ac.uk/abcd/}
+}
+@online{links,
+  title={Links: Linking Theory to Practice for the Web},
+  note={http://groups.inf.ed.ac.uk/links/}
+}
+
+
+@online{eabcd,
+  title={From Data Types to Session Types - A Basis for Concurrency and Distribution},
+  note={http://gow.epsrc.ac.uk/NGBOViewGrant.aspx?GrantRef=EP/K034413/1}
+}

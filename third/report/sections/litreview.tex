@@ -1,0 +1,35 @@
+\section{Literature review}
+\label{litreview}
+
+% //From the literature surveyed, two main areas of interest will be presented bellow, namely typestate and language usability and evaluation.
+
+\subsection{Session types, a short history}
+\label{st}
+
+
+Session types~\cite{HondaK:typdi, HondaK:intblt1, HondaK:lanptd} are an established formalism for the enforcement of communication protocols through static analysis.
+
+
+% Session types are a way of modelling communication between different entities and enforcing the order of communication, as well as the types of the messages that may be sent.
+
+A session type describes the types of individual messages and the state transitions of the protocol i.e. the allowed sequences of messages. Each end of a communication channel is associated with a session type, which is the dual of the other, meaning that if the session type for one process prescribes that it may only send a string, then the other party may only receive an string. Type-checking may be used to verify processes’ compliance to the session type system and establish properties such as deadlock and race freedom, or session fidelity between two parties.
+
+Three main properties are ensured for a session:
+\begin{itemize}
+	\item Linearity.
+  \item Duality.
+	\item Type matching.
+\end{itemize}
+
+A session typing system ensures three main properties for a session:
+1. The linearity of usage. A session name is a linear resource used as a communication link between at most two endpoints. The term linearity is used here to identify a session name as a finite resource.
+2. The duality of usage. Two session endpoints that implement the same session should have a dual send/receive correspondence, i.e. the send/receive sequence of one endpoint is dual to the send/receive sequence of the other endpoint.
+3. Type matching. On a communication interaction, the type of the object being sent should be the same with the type of the object being received.
+The above three main characteristics offer solutions for fundamental problems in concur- rent computing. A linear typing system ensures the sound access to scarce and/or limited resources. The duality of communication on session types excludes the possibility of communication deadlocks inside a session. Furthermore, if we combine duality with linearity we can avoid other communication related erroneous situations such as starvation. Type match- ing ensures the soundness of the message exchange and ensures the safety of a program.
+
+
+
+Session types have and continue to be the subject of a wide body of work aimed at extending their theoretical foundations as well as developing new tools and techniques. For example, session types have been augmented with subtyping polymorphism to enable protocols to describe richer behaviours\cite{GaySJ:substp}.
+They have been extended to ensure the progress property and deadlock freedom \cite{dyl08}. Session types have also been extended to multiparty session types to support communication instances with more than two participants while still guaranteeing the absence of deadlock\cite{HondaK:mulast}. In other work \cite{ch07}, global session types have been used to detect choreographies that can be realized in the context of web services.
+
+Session types have been successfully applied in functional programming languages \cite{VasconcelosVT:sestfm}, object-oriented languages like Java \cite{HuR:sesbdp, gay.vasconcelos.etal_modular-session-types}, low-level programming languages like C in \cite{NgYH12}, dynamically-typed languages like Python\cite{DBLP:conf/rv/NeykovaYH13} or Erlang \cite{erlang},  or in the operating systems context with the Sing\# language \cite{FahndrichM:lansfr}.

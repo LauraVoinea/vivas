@@ -1,0 +1,27 @@
+% \begin{frame}\frametitle{Conclusion}
+% \begin{itemize}
+%   % \item Session Types are a very simple but powerful formalism to model protocols in distributed systems
+%   \item Plenty of scope to study the impact of session type design
+%   \item Many interesting questions
+%
+%   \item different tools and implementations for the same language with no comparison between them
+% \end{itemize}
+%
+% \textbf{Goal:} Improve session types by identifying which designs and implementations help or hinder programmers
+%
+% \end{frame}
+
+\begin{frame}[fragile]\frametitle{Q\&A}
+  \begin{lstlisting}
+  global protocol Q&A(role you, role me) {
+    rec Loop
+    {
+        question(question:String) from you to me;
+        answer(answer:String) from me to you;
+        continue Loop;
+    }
+  }
+  \end{lstlisting}
+  %\footnote{written in Scribble, a protocol description language that can describe how two or more participating entities interact should interact with each other \url{www.scribble.org}}
+
+\end{frame}

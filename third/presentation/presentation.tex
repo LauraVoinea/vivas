@@ -1,0 +1,103 @@
+%===============================================================================
+% Template Name:      SUnORE Starter Presentation template
+% Template URI:       http://sunore.co.za/sunore-presentation/
+% Description:        Starter Presentation template for SUnORE
+%                     Department of Industrial Engineering,
+%                     Stellenbosch University
+% Version:            1.1.0
+% Author:             Johan Janse van Rensburg
+% Author URI:         http://johanjvrens.co.za/
+% License:            MIT License
+% License URI:        http://opensource.org/licenses/MIT
+%===============================================================================
+\documentclass[helvetica,11pt]{beamer}
+
+%=================================================
+% theme and color
+%=================================================
+% \usetheme{metropolis}
+\usecolortheme[snowy]{owl}
+
+%=================================================
+% packages and new commands
+%=================================================
+\usepackage[ruled, linesnumbered, vlined]{algorithm2e}
+\usepackage{epsfig, subfigure, amssymb, multirow, algorithmic, amsmath}
+\usepackage{listings}
+% \usepackage{harvard}
+% \usepackage{natbib}
+\usepackage{xcolor}
+
+\lstset{%
+    %backgroundcolor=\color{yellow!20},%
+    basicstyle=\footnotesize\ttfamily,%
+    }%
+
+% Add your keywords here, and have this in a separate file
+% and include it in your preamble
+\lstset{emph={%
+    global, protocol, from, to, choice%
+    },emphstyle={\color{blue}\bfseries}%
+}%
+\newcommand*{\superscript}[1]{\ensuremath{^{\rm #1}}}
+\newcommand*{\subscript}[1]{\ensuremath{_{\rm #1}}}
+\newcommand\blfootnote[1]{%
+  \begingroup
+  \renewcommand\thefootnote{}\footnote{#1}%
+  \addtocounter{footnote}{-1}%
+  \endgroup
+}
+
+%=================================================
+% thesis details (preamble)
+%=================================================
+\title[{\sc Session Types in the Wild } \hspace{0.8cm} \insertframenumber/\inserttotalframenumber]{{\sc Session Types in the Wild}}
+\author[Viva --- {\sc Jun 15\superscript{st}, 2017}]{{A. Laura Voinea}}
+\date{15 Jun 2017}
+% \institute{School of Computing Science\\ University of Glasgow, UK}
+\institute{First supervisor: Simon Gay\\ Second supervisor: Wim Vanderbauwhede}
+
+%=================================================
+% start presentation
+%=================================================
+\begin{document}
+
+%========================
+% title page
+%========================
+\begin{frame}
+  \begin{center}
+    \vspace{0.1cm}
+    \includegraphics[scale=0.65]{compsci_logo.pdf}
+  \end{center}
+  \titlepage
+% \blfootnote{Funded by UK EPSRC grant “From
+%   Data Types to Session Types: A Basis for Concurrency and
+%   Distribution” (EP/K034413/1) (Simon Gay, Phil Wadler and Nobuko Yoshida)}
+\end{frame}
+
+%========================
+% your slides:
+%========================
+\input{slides/thesis.tex}
+\input{slides/sessiontypes.tex}
+\input{slides/mungo.tex}
+\input{slides/stmungo.tex}
+\input{slides/evaluation.tex}
+
+\input{slides/plan.tex}
+\input{slides/conclusion.tex}
+% \input{slides/experiment.tex}
+\input{slides/hypotheses.tex}
+\input{slides/proposedex2.tex}
+
+
+%========================
+% bibliography
+%========================
+\input{bib.tex}
+
+%=================================================
+% end presentation
+%=================================================
+\end{document}

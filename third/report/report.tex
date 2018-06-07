@@ -1,0 +1,79 @@
+\documentclass{mproj}
+
+\input{def/packages}
+\input{def/macros}
+% \input{def/listings}
+
+\usepackage{graphicx}
+
+\usepackage{url}
+\usepackage{fancyvrb}
+\usepackage[final]{pdfpages}
+\usepackage{times}
+\usepackage{listings}
+\usepackage{lscape}
+\usepackage{rotating}
+
+
+% for alternative page numbering use the following package
+% and see documentation for commands
+%\usepackage{fancyheadings}
+
+
+% other potentially useful packages
+%\uspackage{amssymb,amsmath}
+\usepackage{url}
+%\usepackage{fancyvrb}
+%\usepackage[final]{pdfpages}
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\title{Session types in the wild}
+
+
+\author{A. Laura Voinea}
+\date{\today}
+
+\maketitle
+
+\tableofcontents
+\clearpage
+% \listoffigures
+% \clearpage
+% \listoftables
+% \clearpage
+
+\renewcommand*\thesection{\arabic{section}}
+\input{sections/introduction.tex}
+\input{sections/litreview.tex}
+\input{sections/sofar.tex}
+
+\clearpage
+
+\appendix
+%----------------------------------------------------------------------------------------
+% \section{Second Year Plan}
+% \label{appendix:gantt}
+% \begin{figure}[h!]
+%     \includegraphics[height=0.9\vsize, width=1.1\hsize]{workplan.pdf}
+% \end{figure}
+%----------------------------------------------------------------------------------------
+% \section{User Study Plan}
+% \label{appendix:usertrial}
+
+%----------------------------------------------------------------------------------------
+% \section{Training Needs Analysis Form}
+% \label{traininglog}
+% \includepdf[pages=-,landscape=true]{traininglog.pdf}
+% %\includepdf[pages=-,pagecommand=\thispagestyle{plain}]{include/form.pdf}
+
+%	BIBLIOGRAPHY
+%----------------------------------------------------------------------------------------
+
+\newpage
+\bibliographystyle{plain}
+\bibliography{report}
+
+
+\end{document}

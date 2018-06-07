@@ -1,0 +1,57 @@
+Laura's first year viva
+-----------------------
+
+Good statement of research questions.
+
+Typestate/Mungo - didn't have enough on the slide to support the
+explanation.
+
+Report suggests adding more sophisticated alias control. Maybe this is
+a good thing that we can do in Mungo that isn't natural in Ray's
+approach - or can it be done in Ray's approach?
+
+Paul: has she kept records of how long it takes to implement FTP with
+session types? This is relevant to the aim of showing that session
+types make programming easier.
+
+Both FTP and Paxos have been investigated a little bit and then paused
+- we need to make sure we get something out of them both.
+
+Can we identify a series of extensions that would progressively get
+closer to specifying the whole of each protocol?
+
+Is it too difficult to evaluate the usability of session types? We
+might need to narrow the research questions. Can we use students in
+relevant courses?
+
+Are we trying to show that programming is faster, or more correct?
+
+How do we measure correctness? We could measure the time taken to
+reach a working system, and use an automated test environment - like a
+programming competition.
+
+Is there a standard test suite for FTP, for example? Maybe there is
+something open source for Linux?
+
+Trying to measure the effectiveness of session types seems like a
+difficult but worthwhile problem. Should we really look at extensions
+of Scribble and other tools? - maybe there is enough work to do with
+the current tools. Wim and Paul suggest focussing on protocols that
+can already be handled.
+
+Wim thinks she might be overconfident about implementing extensions to
+Scribble.
+
+Is it feasible to do an initial study during the summer? Who will the
+participants be?
+
+Paul thinks the balance of planned work looks wrong - too much on tool
+development and not enough on designing and analysing the experiments.
+
+Wim would like to see more detail about exactly what the experiments
+will compare and measure, and how long it will take.
+
+
+
+
+
