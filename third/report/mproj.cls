@@ -42,14 +42,14 @@
   \Large
   \vskip 2em%
   First Supervisor: Dr.\ Simon Gay\\ % Supervisor's Name
-  Second Supervisor: Dr.\ Wim Wanderbaude
+  Second Supervisor: Dr.\ Wim Vanderbauwhede
   % School of Computing Science\\
   % Sir Alwyn Williams Building\\
   % University of Glasgow\\
   % G12 8QQ
   \Large
   \vskip 2em
-  2nd Year PhD Report
+  3nd Year PhD Report
   %A dissertation presented in part fulfilment of the requirements of the Degree of Master of Science at The University of Glasgow
   \vskip 2em%
   \@date
