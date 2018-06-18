@@ -1,215 +1,35 @@
 \section{Work Undertaken}
 \label{Research}
+%
+% In the past year I have largely hit the goals agreed upon at the
+% last annual review, an overview of which I present here. Some items, remained on hold, while other research problems appeared.
 
-In the past year I have largely hit the goals agreed upon at the
-last annual review, an overview of which I present here. Some items, remained on hold, while other research problems appeared.
+Over the past year the focus of my research has shifted to a more theoretical one. As such, some of the goals stated last year have been met, while others have been superseded by new ones. An overview of which I present here.
 
 \subsection{Modular linearity}
 \label{sub:modlinearity}
+Existing work typically assumes linear type systems as necessary for session types. In order to maintain session fidelity and ensure that all communication actions in a session type occur, session type systems typically require that endpoints are used linearly: each endpoint must be used exactly once.
+This work sets out to investigate whether linear types are necessary to provide resource control/ownership for session types; what are the characteristics necessary to assure session fidelity; what other semantic properties should/might be guaranteed; how can more general approaches to resource control/ownership be integrated with session types.
+
+Our approach builds on work done to deal with memory management, explicit region deallocation in the Capability Calculus~\cite{Crary:1999:TMM:292540.292564}; changing the type of a mutable object whenever the contents of the object is changed~\cite{Ahmed:2007:LLL:1365997.1366003}; or aliasing data structures that point to linear objects~\cite{FahndrichM:adofpl1}. The work presented below is inspired by the work done by Fähndrich and DeLine~\cite{FahndrichM:adofpl1}
 
 
-Mungo\cite{kouzapas16} is a Java front-end tool, developed at the University of Glasgow, used to statically typecheck Java programs augmented with typestate
-\Mungo implements two main components. First, a Java-like syntax to define
-typestate specifications for classes, and second, a typechecker
-that checks whether objects that have typestate specifications are used correctly. Typestates are specified in separate files and
-are associated with Java classes by means of a Java
-annotation. This allows programs that have been
-checked by \Mungo to be compiled and run using standard
-Java tools. If a class has a typestate specification, the \Mungo typechecker analyses each object of that class in the program and extracts the
-method call behaviour (sequences of method calls) through the object's life. Finally, it checks the extracted information against
-the sequences of method calls allowed by the typestate specification.
+\subsubsection{Capabilities in $\pi$-calculus with sessions}
+
+\input{sections/capabilities.tex}
+
+An implementation of this work is planned for later in the year. It will be implemented within the Mungo tool\cite{kouzapas16}, developed at Glasgow University. This will allow for more flexible aliasing.
+
+\subsubsection{A semantic approach to $\pi$-calculus with sessions}
+\input{sections/semantics.tex}
 
 
-
-\Mungo supports typechecking for a subset of Java.
-The programmer can define both classes that follow
-a typestate specification and classes that do not.
-The typechecking procedure follows objects (instances
-of the former classes) through argument passing and
-return values. Moreover, the typechecking procedure
-for the fields of a class follows the typestate
-specification of the class to infer a typestate
-usage for the fields. For this reason fields that
-follow a typestate specification are only allowed to be defined
-in a class that also follows a typestate specification.
-
-\Mungo uses the JastAdd framework\footnote{http://jastadd.org/web/extendj/}\cite{jastadd}. The JastAdd framework provides a Java parser
-which was used for the implementation of the \Mungo typechecker. The JastAdd suite was also used to implement a parser
-for the Java-like typestate specification language.
-
-The following work has been undertaken on the Mungo tool:
-\begin{itemize}
-  \item The tool has been moved from the Java 1.4 compiler to the Java 1.8 compiler and adapted to work with the new framework.(joint work with Dr. Dimitrios Kouzapas)
-  \item Moving the tool to a new compiler framework was a good opportunity for some Refactoring(such as getting rid of dead code or method extraction).
-  \item the tool has been extended to support Java enumerations.(joint work with Dr. Dimitrios Kouzapas)
-  \item Syntactic support  for annotations.
-  \item Syntactic support for generic types.
-  \item Special checking for the typestate annotation, through which typestate
-specifications are associated with Java classes.
-\end{itemize}
-
-Areas of ongoing work:
-\begin{itemize}
-\item Update repositories.
-\item Typecheck exceptions.
-Exceptions are supported syntactically but are type-checked under
-the (unsound) assumption that no exceptions are thrown;
-a \lstinline|try{...} catch(Exception e) {...}| statement is typechecked by
-typechecking the try body and if an exception is thrown a typestate violation may result.
-Typechecking exceptions requires definition of state transitions that are dependent upon return values and thrown exceptions, propagating unhandled exceptions to other participants in the interaction. New theory may be required for this.
-
-
-\item Typecheck generic types.
-Generics are currently supported syntactically, but not typechecked. Java generics are viewed as complex, and typestate adds additional complexity on top of that. This is closely related with typechecking collections.
-
-\item Extended support for more straightforward Java features such as synchronised statements, inner and anonymous classes, or static initialisers.
-\end{itemize}
-
-Areas of future work:
-\begin{itemize}
-\item Typecheck collections. Adding typestate to Java collections without changes to the compiler, requires some way of keeping track of each objects' state while part of a collection. For instance, mechanisms such as type parameterization need to be duplicated for typestate, so we can talk not only about a list of files, but also about a list of open or closed files.
-
-Work on collections together with work on generics will form the basis of a conference paper to be submitted in the next academic year.
-
-\item Context-free typestates. A proposed extension of the theory, and respectively implementation of context-free session types introduced in \cite{Thiemann:2016:CST:3022670.2951926, Padovani2017}. Some interesting communication protocols such as  the serialization of tree-like data structures and XML documents\cite{Thiemann:2016:CST:3022670.2951926}, can be expressed only by context-free session types, an extension of conventional session types with a general form of sequential composition.
-
-Typestate has similar limitations, and would benefit from such extension. This is aimed to be implemented as part of the Mungo tool.
-
-Context-free typestates are a novel idea, and work on this is expected to form the basis of a conference paper.
-
-\item Flexible aliasing. If the program uses one reference to change the typestate of an object, the typestate system must ensure that either the declared typestate of the other references is updated to reflect the new typestate or that the new typestate is compatible with the old declared typestate at the other references.
-An existing aliasing system such as the one in \cite{BierhoffAldrich:plural} or in \cite{FahndrichM:typo} could be adapted for the Mungo tool.
-
-Introducing aliasing in Mungo would make an interesting addition to evaluation. There is the well-know, but still anecdotal belief that linearity is difficult to work with. As such, this could form the basis for a user study at a later stage.
-
-\item Research/implement new features and issues that may arise.
-\end{itemize}
-
-\subsection{StMungo}
-\label{sub:StMungo}
-
-StMungo (Scribble to \Mungo) \cite{kouzapas16} is a Java-based tool, developed at the University of Glasgow, that translates a Scribble\cite{scribble, YHNN2013} local protocol into a \Mungo specification and skeleton socket-based implementation code. The resulting code is typechecked using \Mungo. Scribble is a protocol description language that can describe how two or more participating entities interact should interact with each other.
-
-After the Scribble protocol is translated to a \Mungo specification, \Mungo\ref{Mungo} is used to generate a Java implementation for the protocol. This tool allows an easy transition from a Scribble global protocol definition to working Java implementation. We start by specifying distributed multiparty protocol in Scribble. We can then use the Scribble toolchain to validate and project the global protocol into a local one describing the interactions from the point of view of a specific participant. For every Scribble local protocol, StMungo will produce .mungo files containing: a typestate specification describing the local protocol as a sequence of method calls, an API for the participant implementing the typestate methods and a main class skeleton calling the methods in the typestate.
-
-To improve this tool various extensions have been implemented:
-
-\begin{itemize}
-\item extended the tool to translate messages with no payload i.e.
-\begin{lstlisting}[basicstyle=\footnotesize]
-  message_operator ()
-\end{lstlisting}
-\item extended the tool to translate messages with multiple payload i.e.
-\begin{lstlisting}[basicstyle=\footnotesize]
-  message_operator ( payload_type1, ..., payload_typen )
-\end{lstlisting}
-\item extended the tool to translate messages without a message signature i.e.
-\begin{lstlisting}[basicstyle=\footnotesize]
-  ( payload_type1, ..., payload_typen )
-\end{lstlisting}
-\item extended the tool to translate messages with annotated payloads i.e.
-\begin{lstlisting}[basicstyle=\footnotesize]
-  message_operator ( annotation:payload_type)
-\end{lstlisting}
-\item various small improvements to allow most translations to run without having to be edited by a human
-\item various improvements allowing the tool to crash gracefully
-\item adapted the tool to work with multiple versions of scribble specification
-\item improved the tool by implementing support for special cases of recursions nested in choice structures
-A simple example of a problematic scribble specification is:
-\begin{lstlisting}[basicstyle=\footnotesize]
-  global protocol Example(role S, role C) {
-  choice at C{
-          rcpt(String) from C to S;
-      } or {
-          msg(String) from C to S;
-          rec loop {
-                  subject(String) from C to S;
-                  continue loop;
-              }
-          }
-      }
-  }
-\end{lstlisting}
-\item improved the tool by implementing support for special cases of nested choice inside a recursion
-
-A simple example of a problematic scribble specification is:
-\begin{lstlisting}[basicstyle=\footnotesize]
-global protocol ProtocolName(role S, role C) {
-  command(String) from C to S;
-  rec overall {
-  choice at S
-  	{
-  	ok(String) from S to C;
-  			choice at S {end(String) from S to C;}
-  			or {
-  			sum(String) from S to C;
-  			}
-  			message(String) from S to C;
-  	} or {	 error(String) from S to C;	}
-  	continue overall;
-  }
-  }
-\end{lstlisting}
-\item Refactoring(such as method extraction or getting rid of dead code) to keep everything simple
-\item Regression testing to find any new bugs introduced
-\item Collaborated with fellow PhD student Florian Weber on a plug-in for mapping between concrete and abstract messages from Scribble to the `real-world' representation. Author's contributions being: debugging, refactoring, integrating with StMungo, and partly writing a paper(rejected).
-\end{itemize}
-
-Areas of further work:
-\begin{itemize}
-\item Extending the tool to translate to support inlined protocols and sub-protocols(ongoing)
-\item Extension to translate more complex constructs such as interruptible or parallel
-\item Keeping it up to date with changes in Scribble and \Mungo(ongoing)
-\end{itemize}
-
-\subsection{Session type evaluation}
-\label{sub:eval}
-\subsubsection{Usecases}
-\label{sub:usecases}
-
-To better understand the expressive power of current session type technology together with any limitations that may need to be addressed, the current use case repository\footnote{https://github.com/epsrc-abcd/session-types-use-cases} was surveyed as a first step. As a second step, new real-world examples were sought. From the various protocols looked after, representations were attempted for two, Paxos and the File Transfer Protocol(FTP).
-
-One protocol chosen was the File Transfer Protocol described by Request for Comments(RFC): 959\cite{FTP-rfc}. FTP is a standard network protocol for transferring  files between a client and server on a network.  FTP is an unusual protocol in that it utilizes two ports, a data port and a command(control) port. FTP may run in active or passive mode, which determines how the data connection is established. In both cases, the client creates a TCP control connection from a random, usually an unprivileged, port number to the FTP server command port 21.
-
-Some representations of the algorithm have been attempted using Scribble, combined with StMungo and Mungo to give a working Java code. However in trying to represent it some shortcomings of StMungo became apparent. Hence, work on an FTP representation has been paused to improve StMungo and Mungo, to allow a better representation. Work on this usecase is planned to be restarted in the autumn.
-
-
-Another protocol chosen as a usecase was Paxos. Paxos is a protocol for solving consensus in a network of unreliable processes. It ensures that a single value among the proposed values can be chosen. It assumes an asynchronous, non-Byzantine model.\cite{lamport1998part}
-
-Two major advantages of Paxos are that it is provably correct in asynchronous networks that eventually become synchronous and it does not block if a majority of participants are available. Furthermore it has provably minimal message delays in the best case. Despite it's reputation of being difficult to understand \& implement it is widely, a couple of examples would be Google in Chubby\cite{chandra2007paxos}, Yahoo use something based on it in ZooKeeper.
-The protocol comes with three roles and a two-phase approach. A proposer
-responsible for initiating the protocol, that handles client requests and
-proposes values to be chosen. An acceptor that responds to messages from proposers by either rejecting them or agreeing in principle and making a promise about the proposals it will accept in the future. An a listener or learner, who wants to know which value was chosen. Each Paxos server can act as any or all 3 roles.\cite{lamport2001paxos} Some representations of the algorithm have been attempted using Scribble, combined with StMungo and Mungo to give a working Java code. However in trying to represent it some shortcomings of the toolset became apparent:
-\begin{itemize}
-\item Representing broadcasting
-\item Representing quorum/a majority
-\item Representing express the dynamic aspects such as processes failing, restarting
-\item Expressing multiple instances of the protocol
-\end{itemize}
-
-A successful implementation of Paxos has been achieved using the session type system for unreliable broadcast communication devised by Gutkovas, Kouzapas and Gay. The example has been written up as part of a paper describing the type system that has been submitted to CONCUR\footnote{https://www.concur2017.tu-berlin.de}.
-
-\subsubsection{User study}
-\label{us}
-
-New programming language constructs are more often than not introduced without first exploring how well suited their are for their purpose or how they would be used in the real world. While proving they solve the problem is a good thing, checking how well they solve it would be nice.
-
-Session types have been developed for some time now with industry input, and a closer look at what exactly their effect is on software development is in order. Otherwise, we run the risk of developing something that may not be quite suitable. An example of this can be seen in gradual typing, another very active area of research, which is now having its practicality called into question \cite{Takikawa:2016:SGT:2837614.2837630}. By identifying which designs and implementations help or hinder programmers, we can improve them to help developers use session type effectively.
-
-
-As a first step in testing session type designs and implementations through empirical studies, I surveyed existing literature to identify beliefs held by the session type community about how session types affect software development. Some explicit hypotheses were formulated as a result.\cite{Voinea:2016:BST:3001878.3001883}
-
-Areas of further work:
-\begin{itemize}
-\item Develop study methodology( ongoing)
-\item Develop necessary tools for carrying out studies( ongoing)
-\item Carry out studies for Scribble and Mungo
-\end{itemize}
-
+\input{sections/paxos.tex}
 
 \subsection{Other Activities}
 \label{sec:Activities}
 
-As part of the first year of my PhD, various additional activities have been undertaken, such as training courses, ABCD group meetings of various sizes, seminars and talks(e.g. The Scottish programming language seminar series, FATA seminars) which improved my knowledge of the field and gave me some insight of the exciting research ongoing. Some notable events attended so far were the BETTY (Behavioural Types for Reliable Large-Scale Software Systems)\footnote{http://www.behavioural-types.eu/meetings/wg-mc-meetings-17th-18th-march-2016-in-malta}, Wadlerfest\footnote{http://events.inf.ed.ac.uk/wf2016/}, BETTY summer school in 2017 in Limassol, Cyprus, PLATEAU 2016\footnote{http://2016.splashcon.org/track/plateau2016} or POPL 2017\footnote{http://conf.researchr.org/home/POPL-2017}.
+As part of the third year of PhD, various additional activities have been undertaken, such as attending conferences, ABCD group meetings of various sizes, seminars and talks(e.g. The Scottish programming language seminar series, FATA seminars) which improved my knowledge of the field and gave me some insight of the exciting research ongoing. Notably, I have attended the Oregon Programming Languages Summer School\footnote{https://www.cs.uoregon.edu/research/summerschool/summer17/}
+which was a great opportunity to learn more about programming languages, from  foundational work on semantics and type theory to advanced program verification techniques; and had a big impact on the direction my research has taken since.
 
-I plan on attending the Oregon Programming Languages Summer School\footnote{https://www.cs.uoregon.edu/research/summerschool/summer17/} from 23 June to 8 July.
+% I plan on attending the Oregon Programming Languages Summer School\footnote{https://www.cs.uoregon.edu/research/summerschool/summer17/} from 23 June to 8 July.

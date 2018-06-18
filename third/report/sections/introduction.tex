@@ -1,26 +1,28 @@
 \section{Introduction}
 
-
 Nowadays, distributed systems are ubiquitous and communication is an important feature and reason for its success. Communication-centred programming has proven to be one of the most successful attempts to replace shared memory for building concurrent, distributed systems. Communication is easier to reason about and scales well as opposed to shared memory, making it a more suitable approach for systems where scalability is a must, as in the case of multi-core programming, service-oriented applications or cloud computing\cite{abcd}.
-%make this one flow better
 
 Communication is usually standardised via protocols that specify the possible interactions between the communicating parties in a specific order. Mainstream programming languages fail to adequately support the development of communication-centred software. Thus, implementations of communication behaviours are often based on informal protocol specification, and so informal verification. As a result they are prone to errors such as communication mismatch, when the message sent by one party is not expected by the other party, or deadlock, when parties are waiting for a message from each other causing the system to block.\cite{abcd}.
 
-
-Session types [9, 10, 12] are an established formalism for the enforcement of communication protocols through static analysis. Session types describe communication by specifying the type and direction of messages exchanged between parties[6]. Programmers can express a protocol specification as a session type, which can guarantee, within the scope where the session type applies, that communications will always match and the system will never deadlock.
+Session types~\cite{HondaK:typdi, HondaK:intblt1, HondaK:lanptd} are types for communication protocols, describing types of the messages being sent as well as the order of communication.Programmers can express a protocol specification as a session type, which can guarantee, within the scope where the session type applies, that communications will always match and the system will never deadlock.
 
 The main goal of the ABCD project\cite{abcd} is to improve the practice of software development for concurrent and distributed systems through the use of session types. This is to be accomplished through built-in language support for protocol codification in existing languages such as Java or Python, in new languages such as Links\cite{links}, inter-language interoperability via session types, and through adapting interactive development environments and modelling techniques to support session types. Logical and automata foundations of session types will be further developed to express a wider class of behaviour and, as need arises, to support the former. Empirical studies to assess methodologies and tools are to be carried out, with results being used to improve language and tool design and implementation.
 
+% an established formalism for the enforcement of communication protocols through static analysis. Session types describe the
+
+
 
 \subsection{Thesis Statement}
-Session types are a useful addition to the syntax and semantics of modern languages. Programming with session types and the constraints that this comes with i.e. linearity can be understood and used by real world programmers. Moreover session types can help programmers understand the problem they are tying to solve with more ease and structure their code better.
-Session typed languages provide useful additional safeguards and diagnostic information that lead to a system with the expected behaviour with less effort.
+Session types are a useful addition to the syntax and semantics of modern languages.
 
+Programming with session types and the constraints that this comes with i.e. linearity can be understood and used by real world programmers.
 
-\subsection{Outline}
+%Moreover session types can help programmers understand the problem they are tying to solve with more ease and structure their code better. Session typed languages provide useful additional safeguards and diagnostic information that lead to a system with the expected behaviour with less effort.
+%
+% Session typing is important for concurrent programming, as much as typing theories for functional and object languages have proved to be essential for sequential computation: sessions control and discipline the power of processes, which is what is needed to incorporate them in practical settings. Thus, a formalisation of sessions applicable to the fundamental range of primitives found in functions, mobile processes and objects, can constitute a basis for the development of future programming languages in which verifiable concurrency is — and it must be — a core feature.
 
- A short literature review of the most relevant work can be found in \ref{litreview}.
-
- % I have done implementation work on two session type tools developed at the University of Glasgow as part of the ABCD project\cite{abcd}, namely Mungo, and StMungo\cite{kouzapas16}, as well as looked at some possible usecases. This will be discussed in more detail in section \ref{Research}. Alongside that, I have looked into defining a suitable methodology and plan to carry out a user study to explore how "real-world" programmers will interact with session types through Mungo, StMungo and Scribble. More on this can be found in \ref{us}.
-
-Further work along with a plan for the time remaining is discussed in section \ref{future}.
+\subsection{Publications}
+\begin{enumerate}
+   \item \bibentry{dardha2017mungo}
+   \item \bibentry{voinea2016benefits}
+ \end{enumerate}

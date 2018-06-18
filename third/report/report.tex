@@ -16,6 +16,8 @@
 \usepackage{kpfonts}
 
 \usepackage{xcolor,colortbl}
+\usepackage{bibentry}
+
 
 
 % A package which allows simple repetition counts, and some useful commands
@@ -35,9 +37,10 @@
 \usepackage{url}
 %\usepackage{fancyvrb}
 %\usepackage[final]{pdfpages}
+\input{macros}
 
 \begin{document}
-
+\nobibliography*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \title{Session types in the wild}
 
@@ -56,8 +59,9 @@
 
 \renewcommand*\thesection{\arabic{section}}
 \input{sections/introduction.tex}
-% \input{sections/litreview.tex}
-% \input{sections/sofar.tex}
+\input{sections/litreview.tex}
+\input{sections/sofar.tex}
+% \input{sections/paxos.tex}
 \input{sections/yearplan.tex}
 
 \clearpage
