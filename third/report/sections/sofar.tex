@@ -11,14 +11,14 @@ Over the past year the focus of my research has shifted to a more theoretical on
 Existing work typically assumes linear type systems as necessary for session types. In order to maintain session fidelity and ensure that all communication actions in a session type occur, session type systems typically require that endpoints are used linearly: each endpoint must be used exactly once.
 This work sets out to investigate whether linear types are necessary to provide resource control/ownership for session types; what are the characteristics necessary to assure session fidelity; what other semantic properties should/might be guaranteed; how can more general approaches to resource control/ownership be integrated with session types.
 
-Our approach builds on work done to deal with memory management, explicit region deallocation in the Capability Calculus~\cite{Crary:1999:TMM:292540.292564}; changing the type of a mutable object whenever the contents of the object is changed~\cite{Ahmed:2007:LLL:1365997.1366003}; or aliasing data structures that point to linear objects~\cite{FahndrichM:adofpl1}. The work presented below is inspired by the work done by Fähndrich and DeLine~\cite{FahndrichM:adofpl1}
+The $pi$-calculus with session types has been chosen as a suitable starting point for its simplicity and expressivity. An overview of the syntax, semantics and typing rules is to be found in the appendix.
 
+
+To begin to explore these questions this work has taken two directions. The first looks at general approaches to deal with control/ownership for session types. The second looks at analysing properties of the type system, especially linearity and how it is used to guarantee session safety, separately from the format of the typing rules. Both are described below.
 
 \subsubsection{Capabilities in $\pi$-calculus with sessions}
 
 \input{sections/capabilities.tex}
-
-An implementation of this work is planned for later in the year. It will be implemented within the Mungo tool\cite{kouzapas16}, developed at Glasgow University. This will allow for more flexible aliasing.
 
 \subsubsection{A semantic approach to $\pi$-calculus with sessions}
 \input{sections/semantics.tex}

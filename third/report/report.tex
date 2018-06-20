@@ -17,7 +17,7 @@
 
 \usepackage{xcolor,colortbl}
 \usepackage{bibentry}
-
+\usepackage[shortlabels]{enumitem}
 
 
 % A package which allows simple repetition counts, and some useful commands
@@ -38,6 +38,10 @@
 %\usepackage{fancyvrb}
 %\usepackage[final]{pdfpages}
 \input{macros}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{definition}{Definition}
+\newtheorem{lemma}{Lemma}
 
 \begin{document}
 \nobibliography*
@@ -61,12 +65,13 @@
 \input{sections/introduction.tex}
 \input{sections/litreview.tex}
 \input{sections/sofar.tex}
-% \input{sections/paxos.tex}
 \input{sections/yearplan.tex}
 
 \clearpage
 
 \appendix
+\input{sections/picalculus.tex}
+
 %----------------------------------------------------------------------------------------
 % \section{Second Year Plan}
 % \label{appendix:gantt}

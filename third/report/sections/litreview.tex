@@ -1,33 +1,24 @@
 \section{Literature review}
 \label{litreview}
 
-% //From the literature surveyed, two main areas of interest will be presented bellow, namely typestate and language usability and evaluation.
-%
-% \subsection{Session types, a short history}
-% \label{st}
-
-% Session types~\cite{HondaK:typdi, HondaK:intblt1, HondaK:lanptd} are an established formalism for the enforcement of communication protocols through static analysis. Session types describe the types of the messages being sent as well as the order of communication.
-%
-% Session types are an active area of research aimed at extending their theoretical foundations, as well as developing new tools, and techniques. For example, session types have been augmented with subtyping polymorphism to enable protocols to describe richer behaviours\cite{GaySJ:substp}.
-% They have been extended to ensure the progress property and deadlock freedom \cite{dyl08}. Session types have also been extended to multiparty session types to support communication instances with more than two participants while still guaranteeing the absence of deadlock~\cite{HondaK:mulast}. In other work \cite{ch07}, global session types have been used to detect choreographies that can be realized in the context of web services.
-%
-% Session types have been successfully applied in functional programming languages \cite{VasconcelosVT:sestfm}, object-oriented languages like Java ~\cite{HuR:sesbdp, gay.vasconcelos.etal_modular-session-types}, low-level programming languages like C in \cite{NgYH12}, dynamically-typed languages like Python~\cite{DBLP:conf/rv/NeykovaYH13} or Erlang \cite{erlang},  or in the operating systems context with the Sing\# language~\cite{FahndrichM:lansfr}.
-
-
 Session types~\cite{HondaK:typdi, HondaK:intblt1, HondaK:lanptd} describe a protocol as a type abstraction, guaranteeing privacy, communication safety and session fidelity. Privacy, since the session channel is owned only by the communicating parties. Communication safety is the requirement that the exchanged data have the expected type. Lastly, session fidelity is a typical property of sessions and is the requirement that the session channel has the expected structure.
 
-Session types are defined as a sequence of input and output operations, explicitly indicating the types of messages being transmitted. Beside this, they permit choice, internal and external, branch and select.
-
-A fundamental notion of session types is that of duality. In order to achieve communication safety, a binary session channel is split by giving rise to two opposite endpoints, each of which is owned by one of the interacting participants. These endpoints are required to have dual behaviour and thus have dual types.
+Session types are defined as a sequence of input and output operations, explicitly indicating the types of messages being transmitted. Beside this, they permit choice, internal and external, branch and select. A fundamental notion of session types is that of duality. In order to achieve communication safety, a binary session channel is split by giving rise to two opposite endpoints, each of which is owned by one of the interacting participants. These endpoints are required to have dual behaviour and thus have dual types.
 
 Session types are an active area of research aimed at extending their theoretical foundations, as well as developing new tools, and techniques. For example, session types have been augmented with subtyping polymorphism to enable protocols to describe richer behaviours\cite{GaySJ:substp}.
-They have been extended to ensure the progress property and deadlock freedom \cite{dyl08}. Session types have also been extended to multiparty session types to support communication instances with more than two participants while still guaranteeing the absence of deadlock~\cite{HondaK:mulast}. In other work \cite{ch07}, global session types have been used to detect choreographies that can be realized in the context of web services.
+They have been extended to ensure the progress property and deadlock freedom \cite{dyl08}. Session types have also been extended to multiparty session types to support communication instances with more than two participants while still guaranteeing the absence of deadlock~\cite{HondaK:mulast}. In other work \cite{ch07}, global session types have been used to detect choreographies that can be realised in the context of web services.
 
-Session types have been successfully applied in functional programming languages \cite{VasconcelosVT:sestfm}, object-oriented languages like Java ~\cite{HuR:sesbdp, gay.vasconcelos.etal_modular-session-types}, low-level programming languages like C in \cite{NgYH12}, dynamically-typed languages like Python~\cite{DBLP:conf/rv/NeykovaYH13} or Erlang \cite{erlang},  or in the operating systems context with the Sing\# language~\cite{FahndrichM:lansfr}.
+Session types have been successfully applied in many different settings, with implementations varying from language primitives to compiler plugin to libraries or some external tool. Conformance to session types is checked either statically, dynamically or a combination of the two. Static checking ensures that any error, be it sending the wrong message, not completing a session, or duplicating a channel endpoint, will be reported before the program compiles. For dynamic checking conformance to session types is checked at runtime. Session types are compiled into communicating finite-state machines, and messages are verified against these. Lastly, in hybrid checking, sending messages in the right order is checked statically, and linearity is checked dynamically. The language Links~\cite{lindley2017lightweight}, designed at the University of Edinburgh, offers support for binary session types as language primitives.
+Many mainstream languages have various implementations of session types. For C, it is Multiparty Session C~\cite{ng2010high, ng2012session}, where session communication happens using a runtime library, and type-checking is done via a clang plugin. For Haskell there are several options~\cite{lindley2016embedding,sackman2008session,orchard2016effects}, all for binary sessions with full static checking. For OCaml, FuSe~\cite{padovani2017simple} implements binary session types, verifying message ordering statically and linearity violations dynamically.
+For Java, several tools are available. CO2 Middleware~\cite{bartoletti2015contract, bartoletti2015compliance},based on the theory of timed session types, offers middleware for Java applications, and dynamically monitors conformance to timing constraints.
+The Scribble Endpoint Generation tool~\cite{hu2016hybrid} generates endpoint APIs from Scribble~\cite{YHNN2013} protocols. It is multiparty, hybrid approach with message ordering checked statically, and linearity checked dynamically.
+The Mungo/StMungo~\cite{kouzapas16, dardha2017mungo} toolset is another alternative, providing an external implementation of multiparty session types.
+This last tool, on which some of my research is carried out, will be detailed below.
+
 
 \subsection{Mungo}
 A typestate defines the valid sequence of operations that can be performed on an instance of a certain type by associating state information with variables of that type. This state information can then be used at compile-time to determine the operations that can be invoked with valid results on an instance of a type.
-Mungo\cite{kouzapas16} is a Java front-end tool, developed at the University of Glasgow, used to statically typecheck Java programs augmented with typestate
+Mungo\cite{kouzapas16, dardha2017mungo} is a Java front-end tool, developed at the University of Glasgow, used to statically typecheck Java programs augmented with typestate
 \Mungo implements two main components. First, a Java-like syntax to define
 typestate specifications for classes, and second, a typechecker
 that checks whether objects that have typestate specifications are used correctly. Typestates are specified in separate files and
@@ -49,17 +40,3 @@ specification of the class to infer a typestate
 usage for the fields. For this reason fields that
 follow a typestate specification are only allowed to be defined
 in a class that also follows a typestate specification.
-
-\Mungo uses the JastAdd framework\footnote{http://jastadd.org/web/extendj/}\cite{jastadd}. The JastAdd framework provides a Java parser
-which was used for the implementation of the \Mungo typechecker. The JastAdd suite was also used to implement a parser
-for the Java-like typestate specification language.
-
-%
-% Existing work typically assumes linear type systems as necessary for session types. In order to maintain session fidelity and ensure that all communication actions in a session type occur, session type systems typically require that endpoints are used linearly: each endpoint must be used exactly once.
-%
-% In order to better understand session types and the notion of duality, let us consider a simple example: a client and a server communicating over a session channel. The endpoints x and y of the channel are owned by the client and the server, respectively and should have dual types.
-
-%
-% \subsection{Capability calculus}
-%
-% \subsection{Logical relations}
