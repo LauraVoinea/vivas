@@ -1,0 +1,176 @@
+\paragraph{Operational Semantics.}
+\label{subsec:os}
+%
+The operational semantics are defined as a reduction relation
+on networks with the use of a standard structural congruence.
+%
+	Structural congruence
+	is defined to be the smallest congruence relation satisfying the following rules:
+
+	$
+	\begin{array}{c}
+		B \pll B' \equiv B' \pll B
+		\andalso \andalso
+		(B \pll B') \pll B'' \equiv B \pll (B' \pll B'')
+		\\
+		N_1 \npll N_2 \equiv N_2 \npll N_1
+		\andalso \andalso
+		(N_1 \npll N_2) \npll N_3 \equiv N_1 \npll (N_2 \npll N_3)
+		\andalso \andalso
+		N \equiv \net{\nil \recover \nil} \npll N
+		\\
+		\newn{n} N \npll M \equiv \newnp{n}{N \npll M} \quad \IF n \notin \fn{M}
+		\\
+		\net{P \recover R \pll B} \equiv \net{P' \recover R' \pll B'} \quad \IF P \equiv P' \AND R \equiv R' \AND B \equiv B'
+	\end{array}
+	$
+%
+Parallel composition is commutative and associative for buffer terms
+and for network terms, with the $\netnil$ as the unit
+for network terms.
+Scope extrusion holds for networks.
+The last clause extends congruence for network nodes.
+
+\input{fig-reduction}
+
+The operational semantics is defined as the smallest relation on networks,
+$N \reduces N'$, satisfying the rules given in \Figure{reduction-relation}.
+%
+Rule \Connect establishes a session between a request network node and
+several accept network nodes. It is a broadcast (one-to-many) communication,
+where there might not be any accepting nodes ($I = \emptyset$).
+%
+The interaction creates a fresh session $s$ with a unique $\aggr s$-endpoint
+in the request side and a shared $s$-endpoint on the accept sides.
+A corresponding session buffer term is created in all connected network nodes.
+
+There are two kind of session communication distinguished
+by the interaction between $\aggr s$-endpoint and $s$-endpoint:
+broadcast communication; and unicast communication.
+%
+Rule \Broadcast defines the asynchronous broadcasting semantics;
+the $\aggr s$-endpoint broadcasts message $e$, with $e$
+being enqueued to the buffers of the $s$-endpoints,
+thus modelling asynchrony.
+%
+The crucial condition for broadcast interaction is that
+all participating nodes exist, i.e.~are synchronised,
+in the same session state $c$. After the interaction all
+participating nodes update their state to $c+1$.
+%
+Unreliability is modelled by the fact that set $I$ is chosen
+arbitrarily, possibly being empty, even if there is a
+node available for communication.
+
+Rule \Unicast defines the case where an $s$-endpoint enqueues a
+message $e$ in the $\aggr s$-endpoint buffer.
+Asynchronous communication requires that an $s$-endpoint may
+interact with the $\aggr s$-endpoint buffer if it exists in the same or in a
+later state than the session state of the $\aggr s$-endpoint -- condition $c_1 \geq c_2$.
+%
+Message $e$ when enqueued is tagged with the sender's session
+state $c$, as $h = (c, e)$, since all the messages on the same
+state will be gathered by the $\aggr s$-endpoint (rule \Gather).
+
+Rule \Receive defines the interaction of a process with its $s$-session
+buffer; a \Rcv process on the $s$-endpoint receives the next available
+expression, $e$, from the $s$-session buffer. Session state $c$ is not updated,
+because it was updated by the operation that stored expression $e$ in the buffer.
+%
+Rule \Gather defines the interaction between a process and its $\aggr s$-session
+buffer, where it gathers, via the \mult operator, all the expression messages that
+are tagged with state, $c$, of the state of the $\aggr s$-endpoint. After
+the reduction the state of the $\aggr s$-endpoint increases by $1$.
+%
+The rule uses auxiliary operations \gthr{\pol{h}}{c} and \newbuffer{\pol{h}}{c}:
+
+\noindent
+$
+\small
+\arraycolsep=2pt
+\begin{array}{rclcrclcrclr}
+	\gthr{(c, e) \cat \pol{h}}{c} &=& e \mult \gthr{\pol{h}}{c}
+	& &
+	\gthr{\equeue}{c} &=& \unit
+	& &
+	\gthr{(c', e) \cat \pol{h}}{c} &=& \gthr{\pol{h}}{c} & \IF c' \not= c
+	\\
+	\newbuffer{(c, e) \cat \pol{h}}{c} &=& \newbuffer{\pol{h}}{c}
+	&\ &
+	\newbuffer{\equeue}{c} &=& \equeue
+	& &
+	\newbuffer{(c', e) \cat \pol{h}}{c} &=& (c', e) \cat \newbuffer{\pol{h}}{c} & \IF c' \not= c
+\end{array}
+$
+
+\noindent
+Operation \gthr{\pol{h}}{c} goes through the messages $\pol{h}$ and returns,
+up-to operator \mult, all expressions $e$ tagged with session state $c$, $(c, e)$.
+Operation \newbuffer{\pol{h}}{c} returns a new $\pol{h}'$ by removing
+all messages tagged with session state $c$, $(c, e)$.
+%
+The \Gather semantics also describes the case where the $\aggr s$-endpoint
+gathers no messages, capturing the case where all message where either lost
+or not delivered yet; operator \gthr{\pol{h}}{\pol{s}} will
+return unit, \unit, if there are no messages tagged with state $c$ in \pol{h}.
+%
+The gather pattern is common in ad-hoc networks; see, for example, the RIME
+communication stack~\cite{Dunkels2007} for wireless sensor networks.
+
+Rules \Select and \Branch are similar to rules \Broadcast and \Receive;
+the $\aggr s$-endpoint selects and broadcasts a label to the corresponding
+$s$-endpoint buffer terms, and dually the $s$-endpoints receive a label
+from its session buffer and proceeds accordingly.
+%
+The case where an $s$-endpoint is not defined since gathering multiple
+labels on the $\aggr s$-endpoint makes no sense.
+
+An implementation of the above semantics in real systems,
+e.g.~wireless ad-hoc networks, requires that sent messages are
+tagged with the session state of the sender.
+This allows a perspective receiver to check the session state
+conditions of the interaction and act accordingly,
+e.g.~implementing a broadcast requires from a receiver to check its
+session state against the message tag and only then store a broadcast message.
+
+The semantics of the calculus offer flexibility, in a context
+of asynchrony and unreliability.
+%
+Rule \Loss allows for message loss on the $s$-endpoint;
+a process simply proceeds by dropping is sending prefix.
+%
+On a message loss the session state is updated/increased, allowing the $s$-endpoint
+to synchronise with the $\aggr s$-endpoint, if the $\aggr s$-endpoint is
+in a later session state, i.e.~a session state with a higher $c$ number.
+%
+The \Loss and \Unicast semantics are realistic since, e.g.~in sensor
+networks, a sender cannot possibly know if a message was received by the
+receiver and should always update its state.
+%
+Rule \Recover allows a network node to unconditionally recover
+by replacing the running process with a recovery process $R$.
+The recovery is hard: all active sessions and session buffers are dropped.
+The purpose of the semantics is to recover from a situation where a process
+may not be able to continue, due to unreliability.
+The rules do not have a condition that triggers recovery:
+this allows nodes to act autonomously, which means that
+network nodes can recover even though their session state is still
+synchronised, a situation that allows us to
+model and react to real situations where a time-out
+or failure detection occurs.
+%
+Rules \True and \False allow flexibility when handling shared session endpoints.
+The conditional process gives the ability to discontinue using some
+sessions in its branches. Thus, a session can be dropped based on the
+condition evaluation.
+%
+When the process proceeds to a branch it must drop the buffers not used
+by the continuation (condition $\fs{B'} = \fn{P_i} - \fn{P_j}, i \not= j$).
+The case where no sessions are dropped, corresponds to standard conditional
+semantics.
+Dropping a communication session
+is a common pattern in the context of
+unreliable communication.
+
+Finally, rules \RPar, \RRes, and \RCong are congruence for operators
+$\npll$, name restriction, and structural congruence, respectively.

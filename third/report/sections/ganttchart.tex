@@ -1,0 +1,55 @@
+\newcounter{loopcntr}
+\newcommand{\rpt}[2][1]{%
+  \forloop{loopcntr}{0}{\value{loopcntr}<#1}{#2}%
+}
+\newcommand{\on}[1][1]{
+  \forloop{loopcntr}{0}{\value{loopcntr}<#1}{&\cellcolor{gray}}
+}
+\newcommand{\off}[1][1]{
+  \forloop{loopcntr}{0}{\value{loopcntr}<#1}{&}
+}
+\newcommand{\onx}[1][1]{
+  \forloop{loopcntr}{0}{\value{loopcntr}<#1}{&\cellcolor{cyan}}
+}
+
+
+\noindent\begin{tabular}{p{0.27\textwidth}*{16}{|p{0.02\textwidth}}|}
+% The top line
+\textbf{Gantt chart}
+           & \multicolumn{7}{c|}{2018}
+           & \multicolumn{9}{c|}{2019}\\
+% The second line, with its five years of four quarters
+% \rpt[2]{& 1 & 2 & 3 & 4} \\
+& 06 & 07 & 08 & 09 & 10 & 11 & 12
+& 01 & 02 & 03 & 04 & 05 & 06 & 07 & 08 & 09\\
+
+\hline
+% using the on macro to fill in twenty cells as `on'
+
+A. Modular linearity with Capabilities  \on[3] \off[13] \\
+\hline
+B. Semantic approach to modular linearity \on[5] \off[11]\\
+\hline
+C. Paxos \& Mungo \off[5] \on[4] \off[7] \\
+\hline
+D. Thesis write-up  \off[6] \on[4] \off[6]\\
+\hline
+\end{tabular}
+
+The last six months will be used for any task that overruns its allotted time.
+\begin{enumerate}[A]
+\item Modular linearity with Capabilities
+Over the coming months my focus will be on finishing and publishing this work.
+
+\item Semantic approach to modular linearity
+I have already begun research on this, so this will be carried out in the next five months.
+\item Paxos \& Mungo
+The implementation of Paxos may need some refinement as the language in which is implemented might itself be refined. This however is expected to be a minor task. The bulk of the work remaining is exploring the extent to which this can be translated into the Mungo setup and implementing any extensions necessary to support it.
+\item Thesis write-up
+In the final four months outlined here I will focus exclusively on the write up of the thesis. As writing material relevant to the final thesis is a significant part of my day to day activities I do not foresee there being any issue in producing the final thesis in this timescale.
+I expect the thesis will structured as following:
+\input{sections/thesisoutline.tex}
+
+\end{enumerate}
+
+% In the final three months outlined here I will focus exclusively on the write up of the thesis. As writing material relevant to the final thesis is a significant part of my day to day activities I do not foresee there being any issue in producing the final thesis in this timescale.

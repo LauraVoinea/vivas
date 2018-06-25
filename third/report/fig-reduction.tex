@@ -1,0 +1,164 @@
+\begin{figure}[!h]
+	\[
+%	\small
+%	\def\arraystretch{1.3}
+	\begin{array}{c}
+		\tree {
+			%\forall i \in I, (l,l_i) \in G
+		}{
+			\net{\request{a}{\aggr x} P \recover R \pll B} \,\npll\,
+			\Par{i}{I}{\net{\accept{a}{x} Q_i \recover R_i \pll B_i}}
+			\\
+			\qquad\quad
+			\reduces
+			\newnp{s}{\net{P \subst{\aggr s}{\aggr x} \recover R \pll B \pll \squeue{\aggr s}{0}{\equeue} } \npll
+		    \Par{i}{I}{\net{Q_i \subst{s}{x} \recover R_i \pll B_i \pll \squeue{s}{0}{\equeue} }}}
+		}{\Connect}
+%
+		\treeline
+%
+		\tree {
+			%\forall i \in I, (l, l_i) \in G
+		}{
+			\net{\pout{\aggr s}{e} P \recover R \pll B \pll \squeue{\aggr s}{c}{\pol{m}} } \,\npll\,
+			\Par{i}{I}{\net{P_i \recover R_i \pll B_i \pll \squeue{s}{c}{\pol{m}_i}}}
+			\\
+			\qquad\qquad 
+			\reduces
+			\net{P \recover R \pll B \pll \squeue{\aggr s}{c + 1}{\pol{m}}} \,\npll\,
+			\Par{i}{I}{\net{P_i \recover R_i \pll B_i \pll \squeue{s}{c + 1}{\pol{m}_i \cat e} } }
+		}{\Broadcast}
+%
+		\treeline
+%
+		\tree {
+			%(l_1,l_2) \in G \andalso
+			c_1 \geq c_2
+		}{
+			\net{\pout{s}{e} P_1 \recover R_1 \pll B_1 \pll \squeue{s}{c_1}{\pol{m}}} \,\npll\,
+			\net{P_2 \recover R_2 \pll B_2 \pll \squeue{\aggr s}{c_2}{\pol{h}} }
+			\\
+			\qquad\qquad
+			\reduces
+			\net{P_1 \recover R_1 \pll B_1 \pll \squeue{s}{c_1 + 1}{\pol{m}} } \,\npll\,
+			\net{P_2 \recover R_2 \pll \squeue{\aggr s}{c_2}{\pol{h} \cat (c_1, e)} }
+		}{\Unicast}
+%
+		\\[6mm]
+%
+		\tree {
+		}{
+			\net{\pin{s}{x} P \recover R \pll B \pll \squeue{s}{c}{e \cat \pol{m}}}
+			\reduces
+			\net{P \subst{e}{x} \recover R \pll B \pll \squeue{s}{c}{\pol{m}}}
+		}{\Receive}
+%
+		\treeline
+%
+		\tree {
+			\pol{h}' = \newbuffer{\pol{h}}{c + 1}
+			\andalso
+			e = \gthr{\pol{h}}{c + 1}
+		}{
+			\net{\pin{\aggr s}{x} P \recover R \pll B \pll \squeue{\aggr s}{c}{ \pol{h} }}
+			\reduces
+			\net{P \subst{e}{x} \recover R \pll B \pll \squeue{\aggr s}{c + 1}{ \pol{h}' }}
+		}{\Gather}
+%
+		\treeline
+%
+		\tree {
+			%\forall i \in I, (l, l_i) \in G
+		}{
+			\begin{array}{l}
+				\net{\sel{\aggr s}{\ell} P \recover R \pll B \pll \squeue{\aggr s}{c}{\pol{m}}} \,\npll\,
+				\Par{i}{I}{\net{P_i \recover R_i \pll B_i \pll \squeue{s}{c}{\pol{m}_i}}}
+				\\
+				\qquad\qquad 
+				\reduces
+				\net{P \recover R \pll B \pll \squeue{\aggr s}{c + 1}{\pol{m}}} \,\npll\,
+				\Par{i}{I}{\net{P_i \recover R_i \pll B_i \pll \squeue{s}{c + 1}{\pol{m}_i \cat \ell} }}
+			\end{array}
+		}{\Select}
+%
+		\treeline
+%
+		\tree {
+			k \in I
+		}{
+			\net{\branch{s}{\ell_i: P_i}_{i \in I} \recover R \pll B \pll \squeue{s}{c}{\ell_k \cat \pol{m}}}
+			\reduces
+			\net{P_k \recover R \pll B \pll \squeue{s}{c}{\pol{m}}}
+		}{\Branch}
+%
+		\treeline
+%
+		\tree[\Loss] {}{
+			\net{\pout{s}{e} P \recover R \pll B \pll \squeue{s}{c}{\pol{m}}}
+			\reduces
+			\net{P \recover R \pll B \pll \squeue{s}{c + 1}{\pol{m}}}
+		}{}
+%
+		\andalso
+%
+		\tree[\Recover] {}{
+			\net{P \recover R \pll B}
+			\reduces
+			\net{R \recover R}
+		}{}
+%
+		\\[5mm]
+%
+		\tree {
+			\condtrue \econd
+			\andalso
+			\fs{B'} = \fs{P_2} - \fs{P_1}
+		}{
+			\net{\cond{\econd}{P_1}{P_2} \recover R \pll B \pll B'}
+			\reduces
+			\net{P_1 \recover R \pll B}
+		}{\True}
+%
+		\treeline
+%
+		\tree {
+			\not\condtrue \econd
+			\andalso
+			\fs{B'} = \fs{P_1} - \fs{P_2}
+		}{
+			\net{\cond{\econd}{P_1}{P_2} \recover R \pll B \pll B'}
+			\reduces
+			\net{P_2 \recover R \pll B}
+		}{\False}
+%
+		\treeline
+%
+		\tree[\RPar] {
+			N \reduces N'
+		}{
+			N \npll M \reduces N' \npll M
+		}{}
+		\andalso
+		\tree[\RCong] {
+			N \equiv N_1
+			\andalso
+			N_1 \reduces N_2
+			\andalso
+			N_2 \equiv N'
+		}{
+			N \reduces N'
+		}{}
+		\andalso
+		\tree[\RRes] {
+			N \reduces N'
+		}{
+			\newn{n} N
+			\reduces
+			\newn{n} N'
+		}{}
+	\end{array}
+	\]
+        \caption{Reduction rules for the asynchronous broadcast calculus.}
+        \label{fig:reduction-relation}
+\vspace{-5mm}
+\end{figure}

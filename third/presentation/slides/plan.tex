@@ -1,9 +1,40 @@
 %\subsection{Figures}
+\newcounter{loopcntr}
+\newcommand{\rpt}[2][1]{%
+  \forloop{loopcntr}{0}{\value{loopcntr}<#1}{#2}%
+}
+\newcommand{\on}[1][1]{
+  \forloop{loopcntr}{0}{\value{loopcntr}<#1}{&\cellcolor{gray}}
+}
+\newcommand{\off}[1][1]{
+  \forloop{loopcntr}{0}{\value{loopcntr}<#1}{&}
+}
+\newcommand{\onx}[1][1]{
+  \forloop{loopcntr}{0}{\value{loopcntr}<#1}{&\cellcolor{cyan}}
+}
+
 \label{figures2}
 \begin{frame}\frametitle{Work Plan}
-  \begin{figure}[htb]
-    % \centering
-    \includegraphics[scale=0.30]{slides/workplan.png}
-    % \caption{This is an caption!}
-  \end{figure}
+  \noindent\begin{tabular}{p{0.15\textwidth}*{16}{|p{0.015\textwidth}}|}
+  % The top line
+  \textbf{Gantt chart}
+             & \multicolumn{7}{c|}{2018}
+             & \multicolumn{9}{c|}{2019}\\
+  % The second line, with its five years of four quarters
+  % \rpt[2]{& 1 & 2 & 3 & 4} \\
+  & 06 & 07 & 08 & 09 & 10 & 11 & 12
+  & 01 & 02 & 03 & 04 & 05 & 06 & 07 & 08 & 09\\
+
+  \hline
+  % using the on macro to fill in twenty cells as `on'
+
+  Capabilities  \on[3] \off[13] \\
+  \hline
+  Semantic approach \on[5] \off[11]\\
+  \hline
+  Paxos \& Mungo \off[5] \on[4] \off[7] \\
+  \hline
+  Thesis write-up  \off[6] \on[4] \off[6]\\
+  \hline
+  \end{tabular}
 \end{frame}

@@ -1,0 +1,353 @@
+
+\section{$\pi$-calculus with sessions}
+
+\subsection{Syntax}
+
+\begin{definition}[$\pi$-calculus with sessions]
+
+$
+	\arraycolsep=1pt
+	\begin{array}{rclr}
+		P, Q &\bnfis& \nil & \Inact
+		\\
+		&\bnfbar& \pout{x}{v} P & \Send
+    \\
+    &\bnfbar& \pin{x}{y} P & \Rcv
+    \\
+		& \bnfbar & \sel{x}{\ell_j} P & \Selection
+    \\
+    &\bnfbar& \branch{x}{\ell_i: P_i}_{i \in I} & \Branching
+    \\
+    &\bnfbar& P\pll Q & \Composition
+		\\
+    &\bnfbar& \newn{xy} P& \Restriction
+		\\
+    &\bnfbar& \cond{v}{P}{Q}& \Conditional
+    \\
+    v &\bnfis& x & \Variable
+    \\
+    &\bnfbar& \true \bnfbar \false & \Booleans
+	\end{array}
+$
+\end{definition}
+Let P, Q range over processes, x, y over variables, v over values, and l over labels. Process $\nil$ is the terminated process. The send process $\pout{x}{v} P$ sends a value v on channel x and proceeds as process P; the receive process $\pin{x}{y} P$ receives a value on channel x, stores it in variable y and proceeds as P. The internal choice process $\sel{x}{\ell_j} P $selects label $\ell_j$ on channel x and proceeds as P. The branching process $\branch{x}{\ell_i: P_i}_{i \in I}$ offers a range of labelled alternatives on channel x, followed by their respective process continuation.  The order of labelled processes is not important and the labels are all different. Process $\cond{v}{P}{Q}$ proceeds as either P or Q depending on the value of boolean v. Process $\cond{v}{P}{Q}$ is the parallel composition of processes P and Q. Process $\newn{xy} P$ restricts variables x, y with scope P. It states that variables x and y are bound with scope P, and most importantly, are bound together, by representing two endpoints of the same channel. When occurring under the same restriction, x and y are called co-variables.
+\vspace{-2mm}
+
+\subsection{Semantics}
+
+\begin{definition}[Structural congruence for the $\pi$-calculus with sessions]
+\label{def:structural_congruence}
+	\vspace{-3mm}
+	\[
+	\begin{array}{rcl}
+    P \pll Q & \equiv & Q \pll P
+    \\
+    (P \pll Q) \pll R & \equiv & P \pll (Q \pll R)
+    \\
+    P \pll \nil & \equiv & P
+    \\
+    \newn{xy} \nil & \equiv & \nil
+    \\
+    \newn{xy}\newn{zw}P & \equiv & \newn{zw}\newn{xy}P
+    \\
+    \newn{xy}P \pll Q &\equiv& \newn{xy}(P \pll Q) (x, y \not\in \fv {Q})
+    \\
+	\end{array}
+	\]
+\end{definition}
+\vspace{-6mm}
+
+
+\begin{definition}[Reduction for the $\pi$-calculus with sessions]
+  \label{def:reduction}
+	\vspace{-2mm}
+	\[
+	\begin{array}{c}
+	  \tree{}{}{ \newn{xy}(\pout{x}{v} P \pll \pin{y}{z} Q) \reduces \newn{xy} (P \pll Q \subs{v}{z})}{\RCom}
+		\\ \\
+		\tree{}{}{ \newn{xy}(\sel{x}{\ell_j} P \pll \branch{y}{\ell_i: P_i}_{i \in I}) \reduces \newn{xy} (P \pll P_j) j \in I}{\RSel}
+		\\ \\
+    \tree{}{}{  \If\ \true\ \Then\ P\ \Else\ Q \reduces P}{\True}
+		\\ \\
+		\tree{}{}{  \If\ \false\ \Then\ P\ \Else\ Q \reduces Q}{\False}
+    \\ \\
+    \tree{
+      P \equiv P^\prime
+      \andalso
+      P^\prime \reduces Q^\prime
+      \andalso
+      Q \equiv Q^\prime
+    }{
+      P \reduces Q
+    }{}{\RCong}
+    \\ \\
+    \tree{
+      P \reduces Q
+    }{
+      \newn{xy} P
+      \reduces
+      \newn{xy} Q
+    }{}{\RRes}
+		\\ \\
+    \tree{
+      P \reduces P^\prime
+    }{
+      P \pll Q
+      \reduces
+      P^\prime \pll Q
+    }{}{\RPar}
+	\end{array}
+	\]
+\end{definition}
+\vspace{-2mm}
+
+\subsection{Session Types}
+\begin{definition}[Syntax of Session Types]
+  \label{def:session_types}
+	\vspace{-2mm}
+	\[
+		T	\DEF	\tout T U
+			\OR		\tin T U
+			\OR		\tselI{\ell}{T}
+			\OR		\tbranchI{\ell}{T}
+			\OR		\tend
+			\OR		\tvar Bool
+	\]
+  % \[ t \DEF \bool
+  % \]
+\end{definition}
+\vspace{-2mm}
+Where $ \tout T U,	\tin T U,	\tselI{\ell}{T}, \tbranchI{\ell}{T}$ are linear; and $\tend, \tvar Bool$ are unrestricted. We define predicates $\un(S)$ and $\lin(S)$ as follows:
+\begin{itemize}
+	\item $\un(S)$ if and only if $S = \tend $, or $ S = \tvar Bool$
+	\item $\lin(S)$ if and only if $S = \tout T U $, or $S = \tselI{\ell}{T} $, or $S = \tbranchI{\ell}{T} $, or $S = \tin T U $.
+\end{itemize}
+
+\begin{definition}[Type duality]
+\label{def:duality}
+\vspace{-2mm}
+\[
+	\arraycolsep=3pt
+	\begin{array}{cccc}
+		\tdual\tend	=	\tend
+		&
+		\begin{array}{rcl}
+			% \tdual\tend				&=&	\tend \\
+			\tdual{\tout T U}	&=&	\tin T \tdual U \\
+			\tdual{\tin T U}		&=&	\tout T \tdual U \\
+		\end{array}
+		&
+		\begin{array}{rcl}
+			\tdual{\tselI{\ell}{T}}	&=&	\tbranchI{\ell}{\tdual{T}} \\
+			\tdual{\tbranchI{\ell}{T}} &=&	\tselI{\ell}{\tdual{T}} \\
+		\end{array}
+		&
+		\begin{array}{rcl}
+			\tdual{\tvar Bool}			&=&	\tvar Bool \\
+		\end{array}
+	\end{array}
+\]
+\end{definition}
+
+
+\begin{definition}[Typing Context]
+	\label{def:typing_context}
+The syntax of typing contexts is defined as follows:
+
+		$\Gamma \bnfis \econtext \bnfbar \Gamma, x: T$
+\end{definition}
+
+We consider the typing context $\Gamma$ to be a partial function from variables to types.
+
+$\Gamma$ is unlimited, $un(\Gamma)$ if it contains no linear types, $lin(T)$.
+
+By $\Gamma, \Gamma'$ we denote the concatenation of contexts $\Gamma$ and $\Gamma'$. $\Gamma$ and $\Gamma'$ must have disjoint domains.
+The definition of context split follows.
+
+
+\begin{definition}[Context split]
+ \label{def:context_split}
+ \vspace{-2mm}
+ \[
+	 \begin{array}{ll}
+
+		 \tree{\\}{\econtext = \econtext \sessionop \econtext}{}
+		 &
+		 \qquad
+		 \tree{\Gamma = \Gamma_1 \sessionop \Gamma_2 \andalso un(T)}{\Gamma, x: T = (\Gamma_1, x: T) \sessionop (\Gamma_2, x: T)  }{}
+		 \\\\
+		 \tree{\Gamma = \Gamma_1 \sessionop \Gamma_2 \andalso lin(T) }{\Gamma, x: T = \Gamma_1,x: T \sessionop \Gamma_2}{}
+		 &
+		 \qquad
+		 \tree{\Gamma = \Gamma_1 \sessionop \Gamma_2 \andalso lin(T)}{\Gamma, x: T = \Gamma_1 \sessionop \Gamma_2,x: T}{}
+	 \end{array}
+ \]
+\end{definition}
+\vspace{-2mm}
+
+The context split operator, $\sessionop$, adds a linear type $\lin(T)$ to either $\Gamma_1$ or $\Gamma_2$, when $\Gamma_1 \sessionop \Gamma_2$ is defined. When $\lin(T)$ is added to $\Gamma_1$ it is not present in $\Gamma_2$ and vice versa, when it is added to $\Gamma_2$ it is not present in $\Gamma_1$. If $\Un{T}$, then it is possible to add this type to both $\Gamma_1$ and $\Gamma_2$.
+
+Let $\dom {\Gamma}$ denote the set of variables x such that $x: T$ is in $\Gamma$, and let $\U {\Gamma}$ denote the typing context containing exactly the entries $x: T$ in $\Gamma$ such that $\Un {T}$.
+% and similarly for $ \Linset {\Gamma}$ and the $\lin$ predicate.
+
+\begin{lemma}[Properties of context split]~\label{lmm:propertiesofctxsplit}
+Let $\Gamma = \Gamma_1 \sessionop \Gamma_2$. Then:
+\begin{enumerate}
+  \item $\U {\Gamma} = \U {\Gamma_1} = \U {\Gamma_2}$
+  \item if $x: \lin(T)\in \Gamma $ then either $x: \lin(T) \in \Gamma_1$ and $x \notin \dom {\Gamma_2} $, or $x: \lin(T) \in \Gamma_2$ and $x \notin \dom {\Gamma_1}$
+  \item $\Gamma = \Gamma_2 \sessionop \Gamma_1$
+  \item $\Gamma_1 = \Delta_1 \sessionop \Delta_2$ then $\Delta = \Delta_2 \sessionop \Gamma_2$ and $\Gamma = \Delta_1 \sessionop \Delta$.
+\end{enumerate}
+\end{lemma}
+
+
+ We say that a process is \textbf{prefixed at} a variable x, if it is of the form $\pout{x}{v} P, \pin{x}{y} P, \sel{x}{\ell} P, \branch{x}{\ell_i:P_i}_{i \in I}$. We call a \textbf{redex} a process of the form $(\pout{x}{\pol{v}} P \pll \pin{x}{\pol{y}} Q)$, or of the form $\newn{xy}(\sel{x}{\ell_j} P \pll \branch{y}{\ell_i: P_i}_{i \in I})$ for $j \in I$.
+
+\begin{definition}[Well-Formedness]~\label{lmm:wellformedness}
+  A process is well-formed if for each of its structural congruent processes $ \newn{\pol{xy}}( P \pll Q)$, the following conditions hold:
+\begin{itemize}
+  \item  if $P$ is of the form $ \If\ v\ \Then\ P\ \Else\ Q$, then $v$ is either $\true$ or $\false$, and
+  \item  if $P$ and $Q$ are processes prefixed at the same variable, then they are of the same nature (input, output, branch, selection), and
+  \item if $P$ is prefixed in $x_i$ and $Q$ is prefixed in $y_i$ where $x_i \in \pol{x}$, $y_i \in \pol{y}$ , then $P \pll Q$ is a redex.
+\end{itemize}
+\end{definition}
+
+\subsection{Typing Rules}
+
+Typing judgements for values have the form $\Gamma \types v: T$, stating that a value v has type T in the typing context $\Gamma$, and for processes $\Gamma \types P$, stating that a process P is well typed in the typing context $\Gamma$.
+\begin{definition}[Typing Rules]
+  \label{def:linear_typing}
+  \vspace{-2mm}
+  \[
+  \begin{array}{ll}
+  \tree{
+    \un(\Gamma)
+  }{
+    \Gamma, x: T \types x: T
+  }{}{\TVar}
+  &
+  \qquad
+  \tree{
+  \un(\Gamma)
+  \andalso
+    v = true / false
+  }{
+    \Gamma \types v: Bool
+  }{}{\TVal}
+  \\ \\
+  \tree{
+  \un(\Gamma)
+  }{
+  \Gamma \types \nil
+  }{\TInact}
+  &
+  \qquad
+  \tree{
+  \Gamma_1 \types P
+  \andalso
+  \Gamma_2 \types Q
+  }{
+    \Gamma_1 \sessionop \Gamma_2 \types P \pll Q
+  }{}{\TPar}
+  \\ \\
+   \tree{
+     \Gamma, x: T, y: \tdual T \types P
+   }{
+     \Gamma \types \newn{xy} P
+   }{}{\TRes}
+   &
+   \qquad
+    \tree{
+      \Gamma_1 \types v: Bool \andalso \Gamma_2 \types P \andalso \Gamma_2 \types Q
+    }{
+      \Gamma_1 \sessionop \Gamma_2 \types \cond{v}{P}{Q}
+    }{}{\TCond}
+    \\ \\
+    \tree{
+    \Gamma, x : U, y: T \types P
+      }{
+        \Gamma, x: \tin T U \types \pin{x}{y} P
+      }{\TRcv}
+    &
+    \qquad
+    \tree{
+    \Gamma_1, x: U \types P
+      \andalso
+    \Gamma_2 \types v : T
+    }{
+    \Gamma_1 \sessionop \Gamma_2, x: \tout T U \types \pout{x}{v} P
+    }{\TSnd}
+  \\ \\
+    \tree{
+    \Gamma, x: T_j \types P \andalso j \in I
+    }{
+    \Gamma, x : \tselI{\ell}{T} \types \sel{x}{\ell_j} P
+    }{\TSel}
+    %
+    &
+    \qquad
+    % \andalso
+    %
+    \tree {
+    \Gamma, x : T_i \types P_i \andalso i \in I
+    }{
+      \Gamma, x : \tbranchOn{\ell_i:T_i}_{i \in I} \types \branch{x}{\ell_i:P_i}_{i \in I}
+    }{\TBr}
+  \end{array}
+  \]
+
+\end{definition}
+
+Rule $\TVar$ states that a variable x is of type T, if this is the type assumed in the typing context. Rule $\TVal$ states that a value v, being either true or false, is of type Bool. $\TInact$ states that the terminated process $\nil$ is always well-typed. Notice that in all the previous rules, the typing context Γ is an unrestricted one. $\TPar$ types the parallel composition of two processes, using the split operator for typing contexts $\sessionop$ which ensures that each linearly-typed channel x, is used linearly, i.e., in $P \pll Q$, x occurs either in P or in Q but never in both. Rule $\TRes$ states that $\newn{xy} P$ is well typed if P is well typed and the co-variables have dual types, namely T and $\tdual T$. Rule $\TCond$ states that the conditional statement is well typed if its guard is typed by a boolean type and the branches are well typed under the same typing context. Rules $\TRcv$ and $\TSnd$ type the receiving and the sending of a value. Rule $\TBr$ types an external choice on channel x, checking that each branch continuation $P_i$ follows the respective continuation type of x. Dually, rule $\TSel$ types an internal choice communicated on channel x, checking that the chosen label is among the ones offered by the receiver and that the continuation proceeds as expected by the type of x.
+
+\subsection{Main Results}
+
+Weakening allows introduction of new unrestricted channels in a typing con- text. It holds only for unrestricted channels, for linear ones it would be unsound, since when a linear channel is in a typing context, this means that it should be used in the process it types. The weakening lemma is useful when we need to relax the typing assumptions for a process and include new typing assumptions of variables not free in the process.
+
+\begin{lemma}[Unrestricted Weakening]~\label{lmm:weakening}
+  If $\Gamma \types P$ and $T$ is not linear then $\Gamma, x: T \types P$.
+\end{lemma}
+
+Strengthening is somehow the opposite operation of weakening, since it allows us to remove unrestricted channels from the typing context that are not free in the process being typed. This operation is mostly used after a context split is performed.
+
+\begin{lemma}[Strengthening for expressions]~\label{lmm:strengtheningexpressions}
+ If $\Gamma, x: T \types v: U$ and $x\notin fv(v)$ then $\un(T)$ and $\Gamma \types v: U$.
+\end{lemma}
+
+\begin{lemma}[Strengthening]~\label{lmm:strengthening}
+ If $\Gamma, x: T \types P$ and $x\notin fv(P)$ then $\un(T)$ and $\Gamma \types P$.
+\end{lemma}
+
+The substitution lemma that follows is important in proving the main results at the end of the section.
+
+\begin{lemma}[Substitution]~\label{lmm:substitution}
+Let $\Gamma_1 \types v: Z$ and $\Gamma_2, z: Z \types P$  and $\Gamma = \Gamma_1 \sessionop \Gamma_2$ then $\Gamma \types P\subs{v}{z}$.
+\end{lemma}
+
+Another important property is the following one, stating the type preservation of a process under structural congruence.
+
+\begin{lemma}[Type Preservation under $\equiv$ for $\pi$-calculus with sessions]
+~\label{lmm:type-preservation-equiv}
+Let $\Gamma \types P$ and $P \equiv P^\prime$, then $\Gamma \types P^\prime$.
+\end{lemma}
+
+
+\begin{theorem}[Type preservation]\label{thm:type-preservation}
+  %subject reduction
+  If $\Gamma \types P$ and $P \reduces Q$ then $\Gamma \types Q$
+\end{theorem}
+
+
+\begin{theorem}[Progress]
+If $\types P$, then P is well-formed.
+%either P is a value or there exists Q such that $ P \reduces Q$.
+\end{theorem}
+\vspace{-2mm}
+%
+% Notice that, since communication occurs only on co-variables, if P → Q as a result of a communication, then it implies that the session channel in which the communication occurs is restricted and is not in the typing context Γ.
+We are ready now to present the main result of the session type system. The following theorem states that a well-typed closed process does not reduce to an ill-formed one.
+
+\begin{theorem}[Type safety]
+If $\types$ P, and P reduces to Q in zero or more steps, then Q is well formed.
+\end{theorem}
+\vspace{-2mm}

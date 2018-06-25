@@ -1,0 +1,222 @@
+% \section{Modular linearity}
+
+
+
+% Existing work assumes linear type systems as necessary for session types.
+% Open questions: are linear types necessary to provide resource control/ownership?  What characteristics are necessary to assure session fidelity?  What other semantic properties should/might be guaranteed? How can more general approaches to resource control/ownership be integrated with session types?
+%Rather than check linearity at runtime check in some other way
+
+% Existing work typically assumes linear type systems as necessary for session types. In order to maintain session fidelity and ensure that all communication actions in a session type occur, session type systems typically require that endpoints are used linearly: each endpoint must be used exactly once.
+
+% We present a simple, but expressive type system that supports strong updates—updating a memory cell to hold values of unrelated types at different points in time. Our formulation is based upon a standard linear lambda calculus and, as a result, enjoys a simple semantic interpretation for types that is closely related to models for spatial logics. The typing interpretation is strong enough that, in spite of the fact that our core programming language supports shared, mutable references and cyclic graphs, every well-typed program terminates.
+We present a simple type system based on $\pi$-calculus with session types and enriched with capabilities. Our approach builds on work done to deal with memory management, explicit region deallocation in the Capability Calculus~\cite{Crary:1999:TMM:292540.292564}; changing the type of a mutable object whenever the contents of the object is changed~\cite{Ahmed:2007:LLL:1365997.1366003}; or aliasing data structures that point to linear objects~\cite{FahndrichM:adofpl1}. The work presented below is particularly inspired by the work done by F\"ahndrich and DeLine~\cite{FahndrichM:adofpl1}. The formulation allows aliasing while ensuring through capabilities that all communication actions in a session type occur.
+
+
+\begin{figure}[H]
+  \centering
+  $
+  	\arraycolsep=1pt
+  	\begin{array}{lclr}
+    \text{Ordinary types } & T \DEF & \tvar int \OR \tvar Bool \\
+    \\
+    % \sigma \DEF \exists [q | \{q \gto h\}]. tr(q)
+           % \OR T
+    % \\
+    % G \DEF q
+    % \\
+
+		\text{Session types} & S	\DEF &	\tout S U  & \text{output}\\
+			& \OR	&	\tin S U & \text{input}\\
+			& \OR	&	\tselI{\ell}{S} & \text{choice}\\
+			& \OR	&	\tbranchI{\ell}{S} & \text{branch} \\
+			& \OR	&	\tend & \text{terminated session}\\
+			% \OR		\tvar Bool
+      \\
+
+    \text{Cababilities} & C \DEF & \econtext
+       \OR  \{\rho \gto S \} \otimes C
+       \OR  \epsilon \otimes C \\
+    \\
+
+    \text{Types} & \tau \DEF & tr(\rho) & \text{ tracked type} \\
+         & \OR & T & \text{ ordinary types}\\
+         & \OR & S &  \text{session types}\\
+         & \OR & C & \text{capabilities}\\
+      \\
+
+    \text{Type Environments} & \Gamma \DEF & \econtext \bnfbar \Gamma, x: T  \\
+         & \Delta \DEF &  \econtext \bnfbar \rho,\Delta \bnfbar \epsilon,\Delta\\
+      \\
+    \end{array}
+	$
+% \end{definition}
+\caption{Types}\label{types}
+\end{figure}
+The type language distinguishes several kinds of types. Ordinary types, ranged over by T, are integers and booleans. The syntax of session types is standard.  Let S, U range over types. A type can be end, the type of the terminated channel where no communication can take place any longer. $\tout S U$ and $\tin S U$ are types for sending or receiving a value of type S with continuation of type U.  $\tselI{\ell}{S}$ and $ \tbranchI{\ell}{S}$ are sets of labelled types indicating, respectively, internal and external choice. The labels are all different and the order of the labelled types does not matter. Capabilities, ranged over by C map a channel name to a session type S. When communication starts, a new capability is added to the set, when the communication ends, it is removed. The types $\tau$ range over ordinary types, session types, capabilities, and tracked types. Tracked types are singleton types, $tr(\rho)$, where the key $\rho$ is a static name for the channel being tracked. We separate the handle to a linear object, $tr(\rho)$, from the capability to access that type.
+
+The conjunction of capabilities is formed via $C_1 \otimes C_2$, expressing that keys in $C_1$ are disjoint from keys in $C_2$.
+
+
+
+\begin{figure}[H]
+  \centering
+  $
+  	\arraycolsep=1pt
+  	\begin{array}{rclr}
+  		P, Q &\bnfis& \nil & \Inact
+  		\\
+  		&\bnfbar& \pout{x}{v} P & \Send
+      \\
+      &\bnfbar& \pin{x}{y} P & \Rcv
+      \\
+  		& \bnfbar & \sel{x}{\ell_j} P & \Selection
+      \\
+      &\bnfbar& \branch{x}{\ell_i: P_i}_{i \in I} & \Branching
+      \\
+      &\bnfbar& P\pll Q & \Composition
+  		\\
+      &\bnfbar& \newn{xy} P& \Restriction
+  		\\
+      &\bnfbar& \cond{v}{P}{Q}& \Conditional
+      \\
+      v &\bnfis& x & \Variable
+      \\
+      &\bnfbar& \true \bnfbar \false & \Booleans
+  	\end{array}
+  $
+% \end{definition}
+\caption{Processes}\label{types}
+\end{figure}
+
+The syntax of processes is standard. Let P, Q range over processes, x, y over variables, v over values, and l over labels. Process $\nil$ is the terminated process. The send process $\pout{x}{v} P$ sends a value v on channel x and proceeds as process P; the receive process $\pin{x}{y} P$ receives a value on channel x, stores it in variable y and proceeds as P. The internal choice process $\sel{x}{\ell_j} P $selects label $\ell_j$ on channel x and proceeds as P. The branching process $\branch{x}{\ell_i: P_i}_{i \in I}$ offers a range of labelled alternatives on channel x, followed by their respective process continuation.  The order of labelled processes is not important and the labels are all different. Process $\cond{v}{P}{Q}$ proceeds as either P or Q depending on the value of boolean v. Process $\cond{v}{P}{Q}$ is the parallel composition of processes P and Q. Process $\newn{xy} P$ restricts variables x, y with scope P. It states that variables x and y are bound with scope P, and most importantly, are bound together, by representing two endpoints of the same channel. When occurring under the same restriction, x and y are called co-variables.
+
+
+Typing judgments have the form $\Delta; \Gamma \types P; C$.
+$\Gamma$ maps program variables to nonlinear types $T$ only. Linearity is enforced via capabilities, rather than via environment splitting as is the case in the standard $\pi$-calculus with sessions. A process is either correctly typed or not; we do not assign types to processes.
+
+% \begin{definition}[Typing Rules]
+%   \label{def:linear_typing}
+%   \vspace{-2mm}
+\begin{figure}[H]
+\centering
+
+  \[
+  \begin{array}{cc}
+  \tree{
+  \\
+  }{
+    \Delta; \Gamma , x: T \types x: T
+  }{}{\TVar}
+  % &
+  \\ \\
+  \qquad
+  \tree{
+  \Delta; \Gamma
+  \andalso
+    v \in T
+  }{
+    \Delta; \Gamma \types v: T, C
+  }{}{\TVal}
+
+  % &
+  % \qquad
+  \\ \\
+  \tree{
+  \\
+  }{
+    \Delta; \Gamma , x: tr(\rho_x) \types x: tr(\rho_x); \{\rho_x \mapsto S\}
+  }{}{\TVar}
+  \\ \\
+  \tree{
+  C \text{ completed}
+  }{
+  \Delta; \Gamma \types \nil; C
+  }{\TInact}
+  % &
+  % \qquad
+  \\ \\
+  \tree{
+  \Delta; \Gamma \types P; C_P
+  \andalso
+  \Delta; \Gamma \types Q; C_Q
+  }{
+    \Delta; \Gamma \types P \pll Q; C_P \otimes C_Q
+  }{}{\TPar}
+  \\ \\
+   \tree{
+     \Delta; \Gamma, x: tr(\rho_x), y: tr(\rho_y) \types P; C \otimes \{\rho_x \mapsto S\} \otimes \{\rho_y \mapsto \tdual S\}
+   }{
+     \Delta; \Gamma \types \newn{xy} P; C_P
+   }{}{\TRes}
+   \\ \\
+   % &
+   % \qquad
+    \tree{
+      \Delta; \Gamma \types x: Bool \andalso \Delta; \Gamma \types P; C \andalso \Delta; \Gamma \types Q; C
+    }{
+      \Delta; \Gamma \types \cond{x}{P}{Q}; C
+    }{}{\TCond}
+    \\ \\
+    \tree{
+    \Delta, \rho_y; \Gamma, x : tr(\rho_x), y: tr(\rho_y) \types P; C \otimes \{\rho_x \mapsto U\} \otimes \{\rho_y \mapsto S\}
+      }{
+        \Delta; \Gamma, x: tr(\rho_x) \types \pin{x}{y} P; C \otimes \{\rho_x \mapsto \forall [\rho_y].\tin S U \}
+      }{\TRcv}
+
+      \\ \\
+      \tree{
+      \Delta; \Gamma, x : tr(\rho_x), y: T \types P; C \otimes \{\rho_x \mapsto U\}
+        }{
+          \Delta; \Gamma, x: tr(\rho_x) \types \pin{x}{y} P; C \otimes \{\rho_x \mapsto \tin T U \}
+        }{\TRcvVal}
+    % &
+    % \qquad
+    \\ \\
+    \tree{
+    \Delta, \rho_v; \Gamma, x: tr(\rho_x) \types P; C \otimes \{ \rho_x \mapsto U\}
+      \andalso
+    \Delta; \Gamma \types v : tr(\rho_v); \{\rho_v \mapsto S\}
+    }{
+    \Delta; \Gamma, x: tr(\rho_x) \types \pout{x}{v} P; C \otimes \{\rho_x \mapsto  \forall [\rho_v].\tout S U\} \otimes \{\rho_v \mapsto S\}
+    }{\TSnd}
+    \\ \\
+    \tree{
+    \Delta; \Gamma, x: tr(\rho_x) \types P; C \otimes \{ \rho_x \mapsto U\}
+      \andalso
+    \Delta; \Gamma \types v : T
+    }{
+    \Delta; \Gamma, x: tr(\rho_x) \types \pout{x}{v} P; C \otimes \{\rho_x \mapsto  \tout T U\}
+      }{\TSndVal}
+  \\ \\
+    \tree{
+    \Delta; \Gamma, x: tr(\rho_x) \types P; C \otimes \{\rho_x \mapsto S_j\}, j \in I
+    }{
+    \Delta; \Gamma, x : tr(\rho_x) \types \sel{x}{\ell_j} P; C \otimes \{\rho_x \mapsto \tselI{\ell}{S}\}
+    }{\TSel}
+    %
+    % &
+    % \qquad
+    % \andalso
+    %
+    \\ \\
+    \tree {
+    \Delta; \Gamma, x : tr(\rho_x) \types P_i; C \otimes \{\rho_x \mapsto S_i\}, \forall i \in I
+    }{
+      \Delta; \Gamma, x : tr(\rho_x) \types \branch{x}{\ell_i:P_i}_{i \in I}; C \otimes \{\rho_x \mapsto \tbranchOn{\ell_i:S_i}_{i \in I}\}
+    }{\TBr}
+  \end{array}
+  \]
+
+\caption{Typing rules}\label{typing_rules}
+\end{figure}
+
+Rule $\TVar$ states that a variable x is of type T, if this is the type assumed in the typing context. Rule $\TVal$ states that a value v, being either true or false, is of type Bool. $\TInact$ states that the terminated process $\nil$ is always well-typed. $\TPar$ types the parallel composition of two processes, using the split operator for typing contexts $\sessionop$ which ensures that each linearly-typed channel x, is used linearly, i.e., in $P \pll Q$, x occurs either in P or in Q but never in both. Rule $\TRes$ states that $\newn{xy} P$ is well typed if P is well typed and the co-variables have dual types, namely T and $\tdual T$. Rule $\TCond$ states that the conditional statement is well typed if its guard is typed by a boolean type and the branches are well typed under the same typing context. Rules $\TRcv$ and $\TSnd$ type the receiving and the sending of a value. Rule $\TBr$ types an external choice on channel x, checking that each branch continuation $P_i$ follows the respective continuation type of x. Dually, rule $\TSel$ types an internal choice communicated on channel x, checking that the chosen label is among the ones offered by the receiver and that the continuation proceeds as expected by the type of x.
+
+The operational semantics of the language is standard, and can be seen in the appendix.
+
+Proofs that this system still offers the same guarantees as the standard $pi$-calculus with session, namely proofs of progress and type preservation, are under way.
+
+An implementation of this work is planned for later in the year. It will be implemented within the Mungo tool\cite{kouzapas16}, developed at Glasgow University. This will allow for more flexible aliasing within Mungo.
+
+
+% Session types without tiers -- focused on exceptions, functional setting rather than process setting

@@ -1,0 +1,462 @@
+\subsection{A Paxos implementation}
+
+Paxos is a protocol for solving consensus in a network of unreliable processes. It ensures that a single value among the proposed values can be chosen. It assumes an asynchronous, non-Byzantine model.\cite{lamport1998part}
+
+Two major advantages of Paxos are that it is provably correct in asynchronous networks that eventually become synchronous and it does not block if a majority of participants are available. Furthermore, it has provably minimal message delays in the best case. Despite its reputation of being difficult to understand \& implement it is widely used in systems such as Google's Chubby\cite{chandra2007paxos} or Yahoo's ZooKeeper. The protocol comes with three roles and a two-phase approach. A proposer responsible for initiating the protocol, that handles client requests and
+proposes values to be chosen. An acceptor that responds to messages from proposers by either rejecting them or agreeing in principle and making a promise about the proposals it will accept in the future. An a listener or learner, who wants to know which value was chosen. Each Paxos server can act as any or all 3 roles.\cite{lamport2001paxos} Some representations of the algorithm have been attempted using Scribble, combined with StMungo and Mungo to give a working Java code. However in trying to represent it some shortcomings of the toolset became apparent: representing broadcasting, representing quorum/a majority, representing express the dynamic aspects such as processes failing, restarting, expressing multiple instances of the protocol
+
+Since, a successful implementation of Paxos has been achieved using the session type system for unreliable broadcast communication devised by Gutkovas, Kouzapas and Gay. The example has been written up as part of a paper describing the type system and will be submitted to the Logical Methods in Computer Science journal\footnote{https://lmcs.episciences.org}.
+
+I will first briefly introduce the language I have used, followed by the implementation itself.
+\subsubsection{Implementation language}
+
+\paragraph{Syntax.}
+\label{subsec:syntax}
+%
+Assume the following disjoint countable sets of names: $\mathcal C$ is the set of \emph{shared channels} ranged over by $a,b,c,\dots$; $\mathcal S$ is the set of \emph{session channels} ranged over by $s,s',\dots$, where each channel has two distinct endpoints $s$ and $\aggr s$
+(we write $\kappa$ to denote either $s$ or $\aggr s$);
+$\mathcal V$ is the set of \emph{variables} ranged
+over by $x,y,z,\dots$;
+and $\mathsf{Lab}$ is the set of labels ranged over
+by $\ell, \ell', \dots$.
+%
+We write $k$ to denote either $\kappa$ or $x$ or $\aggr x$,
+where $\aggr x$ is used to distinguish a variable used as a
+$\aggr s$-endpoint.
+
+Let $\mathcal E$ be a non-empty set of {\em expressions}
+ranged over by $e,e',\dots$. Assume a binary operation
+$\mult$ on $\mathcal E$ called {\em aggregation},
+and element $\unit \in \mathcal E$ called {\em unit}.
+%
+Let $\mathcal F \subseteq \mathcal E$ be a non-empty set
+of {\em conditions} ranged over by \econd, and assume a
+truth predicate $\condtrue\, \subseteq \mathcal F$.
+%
+Elements of $\mathcal E$ %and $\mathcal F$
+may contain variables.
+% and the set of free variables is denoted by
+%$\fn{e}$ and $\fn{\econd}$, respectively.
+%
+Assume a substitution function $e \subst{e'}{x}$.
+%defined on $\mathcal E$ and $\mathcal F$
+%such that
+%$\fn{e\subst{e'}{x}} \subseteq \fn{e} \cup \fn{e'}$.
+%and similarly for conditions.
+%
+
+The syntax of processes is then defined as:
+
+%
+\noindent
+$
+%	\arraycolsep=1pt
+	\begin{array}{rclrclrclr}
+		P &\bnfis& \nil & \Inact &\bnfbar& \request{a}{\aggr x} P & \Request &\bnfbar& \accept{a}{x}{P} & \Accept
+		\\
+		&\bnfbar& \pout{k}{e} P & \Send &\bnfbar& \pin{k}{x} P & \Rcv %&\bnfbar& \ndet{P}{P} & \NDet
+		& \bnfbar & \sel{k}{\ell} P & \Selection
+		\\
+		&\bnfbar& \branch{k}{\ell_i: P_i}_{i \in I} & \Branching %&\bnfbar& \appl{D}{\tilde{u}} & \PVar
+%		&\bnfbar& \multicolumn{4}{l}{\Def{\set{\abs{D_i}{\tilde{x}_i} \defeq P_i}_{i \in I}}{P}} & \Recursion
+%		\\
+		& \bnfbar & \multicolumn{4}{l}{\cond{\econd}{P}{P}} & \Conditional
+	\end{array}
+$
+%\vspace{-1mm}
+
+% Variable and name binders are standard, so is $\fn{P}$.
+%We also define $\fn{P}$ in the expected way.
+%Terms \Request and \Accept bind $s$ in $P$, and term \Rcv binds $x$ in $P$.
+%In term \Recursion $\abs{D}{\tilde{x}} \defeq P$ binds
+%$\tilde{x}$ in $P$.
+%We define $\fn{P}$ to be the set of free channels, session channels,
+%and variables of $P$ in the standard way.
+%We identify processes up to $\alpha$-equivalence.
+%%
+%
+
+\Inact is the inactive term. \Request and \Accept express the
+terms that are ready to initiate a fresh session on a shared channel $a$
+via a request/accept interaction, respectively.
+%
+\Send defines a prefix ready to send an expression
+on $k$, whereas term \Rcv defines a prefix ready to receive
+a message on $k$ and substitute it on $x$.
+%
+Session selection is defined by term \Selection where
+the prefix sends a label $\ell$ over session $k$.
+Dually, session branching is defined by term \Branching
+where the prefix receives a label from a predefined
+set of label $\set{\ell_i}_{i \in I}$.
+
+To introduce networks, assume a countable set of {\em networks}
+$\mathcal N$ ranged over by $N$. Let symbol $m$, called
+{\em message}, range over by expressions $e$ and labels $\ell$,
+with $\tilde{m}$ a message vector. Also, let $h$ denote a message
+tagged with a natural number $c$, $(c, e)$.
+%
+
+\noindent
+$
+%	\arraycolsep=1pt
+	\begin{array}{rclrclrclr}
+		B	&\bnfis&	\ebuffer & &\bnfbar& B \pll \squeue{s}{c}{\pol{m}}&  &\bnfbar& B \pll \squeue{\aggr s}{c}{\pol{h}} &
+		\\
+		N, M	&\bnfis&	\net{P \recover R \pll B} &\Node &\bnfbar& N \npll M &\Parallel &\bnfbar& \newn{n} N& \Restriction
+	\end{array}
+$
+
+% We extend the $\fn{N}$ function to networks.
+%
+Term, $B$, is a parallel composition of session
+buffers, that are used to store messages and to count
+session state via natural number $c$.
+Buffer terms are used to model a form of asynchrony that
+preserves the order of received messages.
+%
+The purpose of counter $c$ is to keep track of the
+session state in the presence of a lossy communication
+and to synchronise the interaction between session prefixes.
+%
+Message loss in an unreliable setting leads to
+participants that are not synchronised with the
+overall protocol.
+%
+% To ensure correctness, many frameworks and algorithms
+% that operate in an unreliable setting use message tagging
+% or state counting; for example, the TCP/IP protocol tags
+% packets with unique sequential numbers to maintain consistency
+% in the case of packet loss.
+%
+% In this setting, state counting is necessary
+% to maintain correct interaction within a session.
+% The session type system provides static guarantees for a session despite
+% the dynamic nature of session reduction.
+
+Buffer terms on $s$-endpoints store messages $m$, while
+Buffer terms on $\aggr s$-endpoints store expression messages
+tagged with a session counter, $h = (c, e)$.
+%
+The session counter in $h$ distinguishes the session
+state at which the expression $e$ was be received.
+%
+Network \Node consists of a process $P$,
+%executing in location~$l$ (cf.~\cite{Hennessy2002}),
+a recovery process $R$ that may take over if $P$
+cannot proceed in a session, and the necessary buffer
+terms used for asynchronous session communication.
+%
+A process may participate in several sessions, and therefore,
+more than one buffer term may be present in a node.
+The type system ensures that there is no more than one
+buffer term on the same session in each network node.
+We write $\net{P \recover R}$ for node
+$\net{P \recover R \pll \ebuffer}$.
+
+A network is a parallel composition of nodes --- term \Parallel.
+We may write $\Par{i}{I}{N_i}$ for the parallel composition of
+$N_1 \npll \cdots \npll N_n$
+for (possibly empty) $I = \set{1, \dots, n}$. %, otherwise $\netnil$.
+Network \Restriction binds both session and shared channels.
+
+\begin{definition}[Session Type]
+	Let $\mathcal B$ be a set of \emph{base types} ranged over by~$\beta$.
+	Session types are inductively defined by the following grammar:
+
+
+		\vspace{-2mm}
+		\[
+			T	\DEF	\tout \beta T
+				\OR		\tin \beta T
+				\OR		\tselI{\ell}{T}
+				\OR		\tbranchI{\ell}{T}
+				\OR		\tend
+				\OR		\tvar t
+				\OR		\trec t T
+		\]
+
+	\vspace{-2mm}
+\end{definition}
+
+
+
+%
+%Type $\trec t T$ binds free occurrences of $t$ in $T$.
+%We define a capture avoiding substitution on types $\subst{T}{t}$ in
+%the usual way.
+%We identify recursive types with their expansion: $\trec t T =
+%T\subst{\trec t T}{t}$.
+% The duality operator also follows the standard binary session type
+% definition~\cite{Honda1998}.
+
+We say that two types $T_1$ and $T_2$ are dual if $\tdual T_1 = T_2$.
+Note $\tdual{\tdual{T}} = T$ for any $T$.
+
+\noindent
+$
+	\arraycolsep=3pt
+	\begin{array}{rclcrclcrclcrcl}
+		\tdual\tend	&=&	\tend
+		&&
+		\tdual{\tout\beta T}	&=&	\tin\beta \tdual T
+		&&
+		\tdual{\tselI{\ell}{T}}	&=&	\tbranchI{\ell}{\tdual{T}}
+		&&
+		\tdual{\tvar t}			&=&	\tvar t
+		\\
+		&&&&
+		\tdual{\tin\beta T}	&=&	\tout\beta \tdual T
+		&&
+		\tdual{\tbranchI{\ell}{T}} &=&	\tselI{\ell}{\tdual{T}}
+		&&
+		\tdual{\trec t T}	&=&	\trec t \tdual T
+	\end{array}
+$
+
+%
+
+
+%Next we define a message type syntax used
+%to type message buffers.
+%
+% Message Types
+% 	$
+% 		M \bnfis \tempty \bnfbar \mtout. \beta M \bnfbar \msel \ell. M
+% 	$
+%
+% Message types represent the sequence types
+% of the values, $\mtout \beta. M$ or labels, $\msel \ell. M$
+% in a session buffer term.
+% %
+
+\begin{definition}[Typing Context]
+	We define $\Gamma$, $\Delta$, and $\Theta$ typing contexts:\\
+	\begin{tabular}{l}
+		$\Gamma \bnfis \econtext \bnfbar \Gamma, a: T \bnfbar \Gamma, x: \beta
+		\qquad
+		\Delta \bnfis \econtext \bnfbar \Delta, k: T \bnfbar \Delta, s: c
+		$
+		\\
+		$\Theta \bnfis \econtext \bnfbar \Theta, \kappa: M \bnfbar \Theta, s: c$
+	\end{tabular}
+\end{definition}
+
+
+%
+Shared context $\Gamma$ tracks shared names used in a process,
+while context $\Delta$ tracks linear (session) names or session variables
+used in a process.
+Context $\Theta$ is also linear and tracks the types of buffer terms.
+%Both linear contexts track the state of a session.
+We denote by $\Gamma, \Gamma'$ the concatenation of contexts $\Gamma$ and
+$\Gamma'$, and similarly for $\Delta,\Delta'$ and $\Theta, \Theta'$.
+%
+
+
+%===============================================================================
+\subsubsection{Implementation}
+
+The session type representation of Paxos is used to check that implementations
+correctly follow the protocol, rather than correctness of the protocol itself.
+Session types can also help to identify subtle interactions such as branching or dropping sessions.
+Furthermore, a session type representation allows the basic algorithm to be easily extended while
+still providing formal guarantees.
+
+Paxos agents implement various roles:
+i) a \emph{proposer} initiates the paxos rounds,
+in which it proposes a value to the acceptors;
+ii) an \emph{acceptor} will accept a proposal if it is from the latest round i.e. with the highest round number.
+A value accepted form a  majority of acceptors(quorum) signifies the reach of consensus and protocol termination; and
+iii) a \emph{learner} is an agent that wants to know which value has been chosen.
+%
+The Paxos setting assumes lossy communication. Agents may crash and
+recover.
+%It is assumed that acceptors maintain persistent storage
+%that survives crashes in which they record their intended responses
+%before sending them~\cite{lamport2001paxos}.
+Proposers record their highest round to stable storage and begin a new
+round with a higher round number than previously used%~\cite{lamport2001paxos}.
+If eventually a majority of the acceptor agents run for long enough without failing, consensus is guaranteed.
+
+We implement the most basic protocol of the Paxos family, as introduced in~\cite{lamport2001paxos}.
+The protocol proceeds over several rounds. A round has two phases, \PreparePh and \AcceptPh. Each run of the protocol decides on a single consensus value.
+
+%\input{figures/fig-paxos}
+
+The Paxos communication interaction is described by session type \PaxosType:
+
+$
+		\tout{\prep} \tin{\prom}
+			\oplus \left\{
+			\begin{array}{rl}
+				\restart: & \tend,
+				\\[0mm]
+				\acceptPhase: & \tout{\messageTuple} \tin{\rnumber} \oplus \{ \restart: \tend, \chosen: \tend \}
+			\end{array}
+			\right\}
+$
+
+%
+A Paxos agent is described by network node
+$\PaxosNode_{n, v} = \net{\Paxos_{n, v} \recover \Paxos_{n, v}}$
+with $n$ being the (fresh) number of the current protocol round, $v$
+being the {\em consensus value} the agent currently holds and
+process $\Paxos_{x, y}$ defined as:
+
+\noindent
+	$
+		\begin{array}{rcl}
+%			\multicolumn{3}{l}{\Paxos_{n, v} =}
+%			\\
+								&& \Def{
+								\\
+								&&
+								\begin{array}{rcl}
+									\ProposerDef{x, y}
+									&\defeq&
+										\request{a}{s}
+										\pout{\aggr s}{x}
+										\pin{\aggr s}{\set{(n, v)_i}_{i \in I}}
+									\\
+									&&	\If\ |\set{(n, v)_i)}_{i \in I}| \leq \frac{M}{2}\ \Then\ \sel{\aggr s}{\restart} \PaxosVar{x+1, y}\\
+									&&	\Else\ \If\ \Max{\set{n_i}_{i \in I}} > x\ \Then\ \sel{\aggr s}{\restart} \PaxosVar{x+1, y}\\
+									&&	\Else\ \sel{\aggr s}{\acceptPhase}
+										\\ && \quad \pout{\aggr s}{x, v_h = \Max{\set{v \,|\, (n, v) \in \set{(n, v)_i}_{i \in I}}}}
+										\pin{\aggr s}{\set{n_i}_{i \in I}}
+										\\ && \quad \If\ |\set{n_i}_{i \in I}| \leq \frac{M}{2}\ \Then\ \sel{\aggr s}{\restart}\PaxosVar{x+1, y}
+										\\ && \quad \Else\ \sel{\aggr s}{\chosen} \PaxosVar{x, v_h}
+									\\[2mm]
+									\AcceptorDef{x, y}
+									&\defeq&
+										\accept{a}{s}
+										\pin{s}{x'}\ \pout{s}{x, y} (\AccVar{s, x, y}\ \Sum\ \accept{a}{s'} \pin{s'}{x''}
+										\\ && \If\ (x'' > x')\  \Then\ \pout{s'}{x, y} \AccVar{s', x, y}\ \Else\ \AccVar{s, x, y})
+
+									\\[2mm]
+									\AccDef{w, x, y}
+									&\defeq&
+										w \triangleright
+										\left\{
+											\begin{array}{rl}
+												\restart:	& \PaxosVar{x, y},
+												\\[0mm]
+												\acceptPhase:	& \pin{w}{x', y'} \pout{w}{x'}
+														w \triangleright
+														\left\{
+														\begin{array}{rl}
+															\restart: & \PaxosVar{x, y},
+															\\[0mm]
+															\chosen: & \PaxosVar{x', y'}
+														\end{array}
+														\right\}
+											\end{array}
+										\right\}
+									\\[2mm]
+									\PaxosDef{x, y}
+									&\defeq&
+										\ProposerVar{x, y} \Sum \AcceptorVar{x, y}
+								\end{array}
+						\\		&& }{\PaxosVar{n, v}}
+		\end{array}
+	$
+%
+
+Unlike ~\cite{lamport2001paxos}, our implementation allows a agent to non-deterministically behave either as a proposer,
+(definition \ProposerDef{x, y}), or an acceptor
+(definition \AcceptorDef{x, y}).
+
+A proposer interacts within the same round with with multiple acceptors.
+The communication behaviour of an Acceptor is described by the
+session type \PaxosType, whereas the communication behaviour of the
+proposer is described by the dual type $\tdual{\PaxosType}$.
+
+During a round a Paxos agent may restart in which case it terminates its
+current sessions and proceeds to the initial Paxos network,
+$\Paxos_{x, y}$. Note that each time an initial Paxos agent enters
+a new protocol round it establishes a new session.
+Recovery by a Paxos agent is equivalent to a Paxos agent restart.
+
+If a Paxos agent decides to behave as a proposer, it first requests
+session communication and enters the \PreparePh phase. All Paxos
+agents that accept a session request behave as acceptors.
+%
+The proposer then broadcasts a \textit{prepare},type \prep, request
+with a fresh round (or session) number $n$.
+
+All the acceptors that received the \textit{prepare} message reply
+with a \textit{promise}, type \prom, not to respond to a prepare
+message with a lower round number.
+%
+The promise message contains the current round number and the current
+value of the acceptor. All the promises are gathered in a set by the
+proposer, which then checks whether the majority of acceptors
+have replied, i.e.\  $|\set{(n, v)_i)}_{i \in I}| \leq \frac{M}{2}$,
+with $M$ the number of expected connected acceptors.
+
+If the check fails the proposer sends a restart label to all the
+acceptors, and restarts its own computation with an increment on its
+round number, as in $\PaxosVar{x + 1, y}$. All acceptors that receive
+label \restart restart.
+%
+If majority is achieved, the proposer checks whether any of the acceptors
+has promised to reply on higher round numbers than $x$, in which case the
+proposer increments its round number and restarts all agents within the
+session via label \restart.
+
+If both of these checks are passed, the protocol enters the \AcceptPh
+phase. The proposer selects a value to submit to the acceptors
+by inspecting the promises received and selecting the highest value,
+i.e.~$v_h = \Max{\set{v \,|\, (n, v) \in \set{(n, v)_i}_{i \in I}}}$.
+%
+It then broadcasts an \textit{accept} message; selects label \acceptPhase
+followed by the current round number together with the chosen highest value.
+%
+The acceptors reply with a message of type \rnumber, containing
+their current round number. These messages are gathered by the
+proposer and checked for majority,
+in which case, consensus has been reached and the acceptors will
+be informed via label \chosen. All informed agents
+restart by updating their round number and consensus value.
+Otherwise, if lack of majority is detected, the proposer increments
+its round number and restarts all agents within the session via
+label \restart.
+
+On the acceptor side we use the non-deterministic construct to
+capture the case of session initiations from multiple proposers.
+In such a case, the session with the lowest round number is
+dropped. A dropped session by an acceptor will have an impact to
+the majority check by the corresponding proposer
+of the session, thus checking for majority is crucial for reaching
+consensus.
+
+Following the semantics of our framework, messages can be arbitrarily
+lost, thus triggering the recovery procedure for the corresponding
+Paxos agent. Lost messages are taken into account by the logic of the
+Paxos protocol and have an impact on the execution of the algorithm.
+%
+For example, lost messages lead to failure to reply by the majority of
+acceptors, which implies failure to reach consensus within a round,
+thus restarting a new protocol round.
+%
+%Furthermore, an Acceptor that becomes unsynchronised due to
+%lost messages can recover and wait for a new session request
+%to initiate a new protocol round.
+
+We can type the $\PaxosNode_{n, v}$ node as:
+$\Gamma, a: \PaxosType; \econtext \types \PaxosNode_{n, v}$.
+%
+Shared channel $a$ uses type \PaxosType, thus all establish sessions
+follow the behaviour described by the \PaxosType session type.
+%
+We can then define a well-typed network, $N$, that runs the
+Paxos protocol:
+$
+	N = \Par{i}{I}{\PaxosNode_{n_i, v_i}}
+$
+with $\Gamma, a: \PaxosType; \econtext \types N$. Typing is possible
+due to the typing of network node $\PaxosNode_{n, v}$ and multiple
+applications of rule \TPar.
+
+
+An implementation of this work is planned for later in the year. It would be interesting to see whether any of the typing can be expressed/checked in Mungo, even if not all aspects are there.
