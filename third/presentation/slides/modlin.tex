@@ -1,8 +1,14 @@
 \begin{frame}\frametitle{Modular linearity}
-  Existing work typically assumes linear type systems as necessary for session types. In order to maintain session fidelity and ensure that all communication actions in a session type occur, session type systems typically require that endpoints are used linearly: each endpoint must be used exactly once.
+  % Existing work typically assumes linear type systems as necessary for session types. In order to maintain session fidelity and ensure that all communication actions in a session type occur, session type systems typically require that endpoints are used linearly: each endpoint must be used exactly once.
 
-  This work sets out to investigate whether linear types are necessary to provide resource control for session types; what are the characteristics necessary to assure session fidelity; what other semantic properties should be guaranteed; how can more general approaches to resource control be integrated with session types.
+  % This work sets out to investigate whether linear types are necessary to provide resource control for session types; what are the characteristics necessary to assure session fidelity; what other semantic properties should be guaranteed; how can more general approaches to resource control be integrated with session types.
 
+  \begin{itemize}
+    \item Are linear types are necessary to provide resource control for session types?
+    \item How can more general approaches to resource control be integrated with session types?
+    \item What are the characteristics necessary to assure session fidelity?
+    \item What other semantic properties should be guaranteed?
+  \end{itemize}
   % The $pi$-calculus with session types has been chosen as a suitable starting point for its simplicity and expressivity. An overview of the syntax, semantics and typing rules is to be found in the appendix.
 
 
@@ -10,15 +16,97 @@
 \end{frame}
 
 \begin{frame}\frametitle{Modular linearity with Capabilities}
-  We present a simple type system based on $\pi$-calculus with session types and enriched with capabilities. Our approach builds on work done to deal with memory management, explicit region deallocation in the Capability Calculus~\cite{Crary:1999:TMM:292540.292564}; changing the type of a mutable object whenever the contents of the object is changed~\cite{Ahmed:2007:LLL:1365997.1366003}; or aliasing data structures that point to linear objects~\cite{FahndrichM:adofpl1}. The work presented below is particularly inspired by the work done by F\"ahndrich and DeLine~\cite{FahndrichM:adofpl1}. The formulation allows aliasing while ensuring through capabilities that all communication actions in a session type occur.
+  % We present a simple type system based on $\pi$-calculus with session types and enriched with capabilities. Our approach builds on work done to deal with memory management, explicit region deallocation in the Capability Calculus~\cite{Crary:1999:TMM:292540.292564}; changing the type of a mutable object whenever the contents of the object is changed~\cite{Ahmed:2007:LLL:1365997.1366003}; or aliasing data structures that point to linear objects~\cite{FahndrichM:adofpl1}. The work presented below is particularly inspired by the work done by F\"ahndrich and DeLine~\cite{FahndrichM:adofpl1}. The formulation allows aliasing while ensuring through capabilities that all communication actions in a session type occur.
+  \begin{itemize}
+    \item $\pi$-calculus with session types and enriched with capabilities
+    \item Builds on techniques used for memory management such as region deallocation in the Capability Calculus~\cite{Crary:1999:TMM:292540.292564}, or aliasing data structures that point to linear objects~\cite{FahndrichM:adofpl1}
+    \item  Capabilities -- set of key value pairs, which map a channel name to a session type S, associated with each process
+    \item Linearity is enforced via capabilities, rather than via environment splitting
+    \item Allows aliasing while ensuring, through capabilities, that all communication actions in a session type occur.
+
+  \end{itemize}
 \end{frame}
 
+\begin{frame}\frametitle{Modular linearity with Capabilities -- Types}
+  \begin{figure}[H]
+    \centering
+    $
+    	\arraycolsep=1pt
+    	\begin{array}{llll}
+      \text{Ordinary types }
+      &
+       T \DEF  \tvar int \OR \tvar Bool \\
+
+  		\text{Session types} &
+        S	\DEF	\tout S U  & \text{output}\\
+  			& \OR	\tin S U & \text{input}\\
+  			& \OR	\tselI{\ell}{S} & \text{choice}\\
+  			& \OR	\tbranchI{\ell}{S} & \text{branch} \\
+  			& \OR	\tend & \text{terminated}\\
+  			% \OR		\tvar Bool
+      \text{Cababilities}  &
+       C \DEF \econtext
+         \OR  \{\rho \gto S \} \otimes C
+         \OR  \epsilon \otimes C \\
+      \text{Types} &
+       \tau \DEF tr(\rho) & \text{ tracked type} \\
+           & \OR  T & \text{ ordinary types}\\
+           & \OR  S &  \text{session types}\\
+           & \OR  C & \text{capabilities}\\
+      \text{Environments} &
+       \Gamma \DEF \econtext \bnfbar \Gamma, x: T  \\
+           & \Delta \DEF  \econtext \bnfbar \rho,\Delta \bnfbar \epsilon,\Delta\\
+      \end{array}
+  	$
+  \end{figure}
+\end{frame}
+
+\begin{frame}\frametitle{Modular linearity with Capabilities -- Processes}
+  \begin{figure}
+    $
+    	% \arraycolsep=1pt
+    	\begin{array}{llll}
+    		P, Q &\bnfis& \nil & \Inact
+    		\\
+    		& \OR & \pout{x}{v} P & \Send
+        \\
+        & \OR & \pin{x}{y} P & \Rcv
+        \\
+    		& \OR & \sel{x}{\ell_j} P & \Selection
+        \\
+        & \OR & \branch{x}{\ell_i: P_i}_{i \in I} & \Branching
+        \\
+        & \OR & P\pll Q & \Composition
+    		\\
+        & \OR & \newn{xy} P& \Restriction
+    		\\
+        & \OR & \cond{v}{P}{Q}& \Conditional
+        \\
+        v &\bnfis& x & \Variable
+        \\
+        & \OR & \true \OR \false & \Booleans
+    	\end{array}
+    $
+\end{figure}
+\end{frame}
+
+
 \begin{frame}\frametitle{Semantic approach to modular linearity}
-  To explore what characteristics are necessary to assure session fidelity or what other semantic properties might be guaranteed; we have taken a semantic approach in the style of \cite{Ahmed:2004:STM:1037736}. This is achieved through defining logical relations that explain the meaning of the type in terms of the operational semantics of the language. Using this model of types, I prove each typing rule as a lemma.
+  \begin{itemize}
+    \item $\pi$-calculus with session types
+    \item Use logical relations(proof technique) to explain the meaning of the type in terms of the operational semantics of the language
+    \item Analyse properties of the type system, especially linearity and how it is used to guarantee session safety, separately from the format of the typing rules
+    \item Define the characteristics necessary to assure session fidelity
+    \item Define any other semantic properties that would need to be guaranteed
+    % \item Logical relations remain largely unexplored in the context of session types
+  \end{itemize}
 
-  Logical relations have been used in the works of P{\'e}rez et al. in~\cite{  10.1007/978-3-642-28869-2_27} and in~\cite{PEREZ2014254} for proving properties about session types in an intuitionistic linear logic setting. However, this approach remains largely unexplored in the context of session types.
-  In particular, we want to analyse properties of the type system, especially linearity and how it is used to guarantee session safety, separately from the format of the typing rules.
-
-  This work has been started fairly recently, with definitions being under construction.
+  %
+  % To explore what characteristics are necessary to assure session fidelity or what other semantic properties might be guaranteed; we have taken a semantic approach in the style of \cite{Ahmed:2004:STM:1037736}. This is achieved through defining logical relations that explain the meaning of the type in terms of the operational semantics of the language. Using this model of types, I prove each typing rule as a lemma.
+  %
+  % Logical relations have been used in the works of P{\'e}rez et al. in~\cite{  10.1007/978-3-642-28869-2_27} and in~\cite{PEREZ2014254} for proving properties about session types in an intuitionistic linear logic setting. However, this approach remains largely unexplored in the context of session types.
+  % In particular, we want to analyse properties of the type system, especially linearity and how it is used to guarantee session safety, separately from the format of the typing rules.
+  %
+  % This work has been started fairly recently, with definitions being under construction.
 
 \end{frame}

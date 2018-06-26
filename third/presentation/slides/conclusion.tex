@@ -25,3 +25,161 @@
   %\footnote{written in Scribble, a protocol description language that can describe how two or more participating entities interact should interact with each other \url{www.scribble.org}}
 
 \end{frame}
+
+
+\begin{frame}\frametitle{Modular linearity with Capabilities -- Typing Rules}
+  \begin{figure}
+  \tiny{
+    \[
+    \arraycolsep=0pt
+    \begin{array}{ll}
+    \tree{
+    % \\
+    }{
+      \Delta; \Gamma , x: T \types x: T
+    }{}{\TVar}
+
+    \qquad
+    \tree{
+    % \\
+    }{
+      \Delta; \Gamma , x: tr(\rho_x) \types x: tr(\rho_x); \{\rho_x \mapsto S\}
+    }{}{\TVar}
+    \\ \\
+    \tree{
+    \Delta; \Gamma
+    \andalso
+      v \in T
+    }{
+      \Delta; \Gamma \types v: T, C
+    }{}{\TVal}
+
+    \qquad
+
+
+    \tree{
+    C \text{ completed}
+    }{
+    \Delta; \Gamma \types \nil; C
+    }{\TInact}
+
+    \\ \\
+
+    \tree{
+    \Delta; \Gamma \types P; C_P
+    \andalso
+    \Delta; \Gamma \types Q; C_Q
+    }{
+      \Delta; \Gamma \types P \pll Q; C_P \otimes C_Q
+    }{}{\TPar}
+
+    \qquad
+
+    \tree{
+      \Delta; \Gamma \types x: Bool \andalso \Delta; \Gamma \types P; C \andalso \Delta; \Gamma \types Q; C
+    }{
+      \Delta; \Gamma \types \cond{x}{P}{Q}; C
+    }{}{\TCond}
+    \\ \\
+     \tree{
+       \Delta; \Gamma, x: tr(\rho_x), y: tr(\rho_y) \types P; C \otimes \{\rho_x \mapsto S\} \otimes \{\rho_y \mapsto \tdual S\}
+     }{
+       \Delta; \Gamma \types \newn{xy} P; C_P
+     }{}{\TRes}
+
+     \\ \\
+
+      % \qquad
+
+
+      \tree{
+      \Delta, \rho_y; \Gamma, x : tr(\rho_x), y: tr(\rho_y) \types P; C \otimes \{\rho_x \mapsto U\} \otimes \{\rho_y \mapsto S\}
+        }{
+          \Delta; \Gamma, x: tr(\rho_x) \types \pin{x}{y} P; C \otimes \{\rho_x \mapsto \forall [\rho_y].\tin S U \}
+        }{\TRcv}
+
+        \\ \\
+        \tree{
+        \Delta; \Gamma, x : tr(\rho_x), y: T \types P; C \otimes \{\rho_x \mapsto U\}
+          }{
+            \Delta; \Gamma, x: tr(\rho_x) \types \pin{x}{y} P; C \otimes \{\rho_x \mapsto \tin T U \}
+          }{\TRcvVal}
+      % \qquad
+
+      \\ \\
+      \tree{
+      \Delta, \rho_v; \Gamma, x: tr(\rho_x) \types P; C \otimes \{ \rho_x \mapsto U\}
+        \andalso
+      \Delta; \Gamma \types v : tr(\rho_v); \{\rho_v \mapsto S\}
+      }{
+      \Delta; \Gamma, x: tr(\rho_x) \types \pout{x}{v} P; C \otimes \{\rho_x \mapsto  \forall [\rho_v].\tout S U\} \otimes \{\rho_v \mapsto S\}
+      }{\TSnd}
+      \\ \\
+      \tree{
+      \Delta; \Gamma, x: tr(\rho_x) \types P; C \otimes \{ \rho_x \mapsto U\}
+        \andalso
+      \Delta; \Gamma \types v : T
+      }{
+      \Delta; \Gamma, x: tr(\rho_x) \types \pout{x}{v} P; C \otimes \{\rho_x \mapsto  \tout T U\}
+        }{\TSndVal}
+    \\ \\
+    % \qquad
+
+      \tree{
+      \Delta; \Gamma, x: tr(\rho_x) \types P; C \otimes \{\rho_x \mapsto S_j\}, j \in I
+      }{
+      \Delta; \Gamma, x : tr(\rho_x) \types \sel{x}{\ell_j} P; C \otimes \{\rho_x \mapsto \tselI{\ell}{S}\}
+      }{\TSel}
+
+
+      \\ \\
+      \tree {
+      \Delta; \Gamma, x : tr(\rho_x) \types P_i; C \otimes \{\rho_x \mapsto S_i\}, \forall i \in I
+      }{
+        \Delta; \Gamma, x : tr(\rho_x) \types \branch{x}{\ell_i:P_i}_{i \in I}; C \otimes \{\rho_x \mapsto \tbranchOn{\ell_i:S_i}_{i \in I}\}
+      }{\TBr}
+    \end{array}
+    \]
+    }
+  \end{figure}
+\end{frame}
+
+\begin{frame}\frametitle{Example -- Addition server}
+
+  Type: $ S = \tin \tint \tin \tint \tout \tint \tend $
+
+
+  Process: $ server(x) = \pin{x}{int} \pin{x}{int} \pout{x}{int} \nil $
+
+  Let $\Theta = \Delta; \Gamma, x: tr(\rho_x)$ and $c = a + b$.
+  \begin{figure}[H]
+    \noindent
+  $
+  % \infrule{
+    % \infrule{
+      % \infrule{
+      %   \Theta \types \nil; C \otimes \{ \rho_x \mapsto U\}
+      %     \quad
+
+        \infrule{\Delta; \Gamma}
+                {\Delta; \Gamma \types c: \tint}{\TVal}
+        % }{\Theta, c: \tint \types \pout{x}{c} \nil; C \otimes \{\rho_x \mapsto \tout \tint U\}}\rulename{\TSndVal}
+        % \quad
+        % \infrule{\Delta; \Gamma}
+        % {\Delta; \Gamma \types b : \tint}{\TVal}
+        % }{\Theta, a : \tint \types \pin{x}{b} \pout{x}{c} \nil; C \otimes \{\rho_x \mapsto \tin \tint U\}}\rulename{\TRcvVal}
+
+    %
+    % \quad
+    % \infrule{\Delta; \Gamma}
+    % {\Delta; \Gamma \types a : \tint}\rulename{\TVal}
+    % }
+    % {\Theta \types \pin{x}{a} \pin{x}{b} \pout{x}{a+b} \nil; C \otimes \{\rho_x \mapsto \tin \tint U\}}\rulename{\TRcvVal}
+  $
+
+%   \caption{}
+%   \label{}
+% \end{sidewaysfigure}
+\end{figure}
+
+\end{frame}

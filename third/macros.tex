@@ -1,6 +1,5 @@
 \usepackage{xspace}
 \usepackage{ifthen}
-\usepackage{amssymb}
 
 \newif\ifdraft
  \drafttrue
@@ -14,7 +13,7 @@
 \newcommand\OR{\ \ |\ \ }
 
 \newcommand{\set}[1]{\{#1\}}
-\newcommand{\setbar}{\mathrel{|}}
+\newcommand{\setbar}{\ \ |\ \ }
 
 \newcommand{\bnfis}{\ensuremath{\ \ ::=\ \ }}
 \newcommand{\bnfbar}{\ensuremath{\ \ |\ \ }}
@@ -24,9 +23,7 @@
 %\def\infrulestyle{\textstyle}
 %\def\makeinfrulesmall{\def\infrulestyle{\textstyle}}
 %\def\makeinfrulenormal{\def\infrulestyle{\displaystyle}}
-
 \newcommand{\tree}[4][] {
-%	\def\arraystretch{1}
 	\begin{array}{l}
 		\ifthenelse { \equal {#1} {} }
 		{}
@@ -39,10 +36,8 @@
 			#2
 			\end{array}
 		}{
-		%	\def\arraystretch{1.4}
 			\begin{array}{l}
-%				\rule{0pt}{4mm} 
-				#3
+			#3
 			\end{array}
 		}
 		}
@@ -53,18 +48,8 @@
 		}
 	\end{array}
 }
-\newcommand{\treeline}{\\[4mm]}
+\newcommand{\treeline}{\\[6mm]}
 \newcommand\andalso{\quad}
-
-\newcommand{\btree}[4][]{
-	\boxed{
-		\tree[#1]{
-			#2
-		}{
-			#3
-		}{#4}
-	}
-}
 
 %\newcommand{\implies}{\Rightarrow}
 
@@ -78,9 +63,8 @@
 
 \newcommand\recover{\,\triangleright\,}
 \newcommand\aggr[1]{\breve{#1}}
-\newcommand\dual[1]{\overline{#1}}
-\newcommand\pout[2]{#1{}_!\langle #2\rangle.}
-\newcommand\pin[2]{{#1}{}_?(#2).}
+\newcommand\pout[2]{#1{}!\langle #2\rangle.}
+\newcommand\pin[2]{{#1}{}?(#2).}
 \newcommand\pll{\,|\,}
 \newcommand{\Sum}{\ensuremath{+}\xspace}
 \newcommand\sel[2]{#1\triangleleft #2.}
@@ -90,74 +74,88 @@
 \newcommand{\ndet}[2]{#1 \Sum #2}
 \newcommand\rec[1]{\mu #1.}
 \newcommand\recvar[1]{X}
-
-\newcommand{\defi}{\ensuremath{\mathsf{def}}\xspace}
-\newcommand{\Def}[2]{\ensuremath{\defi\ #1\ \mathsf{in}\ #2} \xspace}
-\newcommand{\appl}[2]{\ensuremath{#1\langle#2\rangle}\xspace}
-\newcommand{\abs}[2]{\ensuremath{#1(#2)}\xspace}
-
-\newcommand{\defeq}{\ensuremath{\stackrel{\mathsf{def}}{=}}\xspace}
+\newcommand{\Def}[2]{\ensuremath{\mathsf{def}\ #1\ \mathsf{in}\ #2} \xspace}
+\newcommand{\appl}[2]{#1\langle#2\rangle}
+\newcommand{\abs}[2]{#1(#2)}
 
 \newcommand{\If}{\ensuremath{\mathsf{if}}\xspace}
 \newcommand{\Then}{\ensuremath{\mathsf{then}}\xspace}
 \newcommand{\Else}{\ensuremath{\mathsf{else}}\xspace}
 \newcommand\cond[3]{\If\,#1\,\Then\,#2\,\Else\,#3}
-\newcommand\request[2]{#1_!(#2).}
-\newcommand\accept[2]{#1_?(#2).}
+\newcommand\request[2]{#1!(#2).}
+\newcommand\accept[2]{#1?(#2).}
 \newcommand\nil{\mathbf{0}}
+\newcommand{\un}{\ensuremath{\mathsf{un}}\xspace}
+\newcommand{\lin}{\ensuremath{\mathsf{lin}}\xspace}
+
+
+
+
+
+% \newcommand{\bool}{\ensuremath{\mathsf{bool}}\xspace}
+\newcommand{\true}{\ensuremath{\mathsf{true}}\xspace}
+\newcommand{\false}{\ensuremath{\mathsf{false}}\xspace}
+
 
 \newcommand{\newn}[1]{(\nu\,#1)}
 \newcommand{\newnp}[2]{\newn{#1}(#2)}
 
-\newcommand{\net}[1]{[#1]}
-\newcommand{\npll}{\,|\!|\,}
+\newcommand{\net}[2]{[#1]_{#2}}
+\newcommand{\npll}{|}
 \let\node\net
 \newcommand{\assert}{\psi}
-\newcommand{\netnil}{\node{\nil\recover\nil}}
+\newcommand{\netnil}{\node{\nil\recover\nil}{l}}
 
 \newcommand\condtrue{\Vdash}
 
 % Exprs and conditions
 \newcommand{\econd}{\ensuremath{\varphi}\xspace}
 
+
+%\newcommand\loc[1]{[#1]}
+\newcommand\locl[1]{\net{#1}{l}}
+
 \newcommand{\Par}[3]{\prod_{#1 \in #2} #3}
 
+% \newcommand{\cnt}[2]{|#2|_{#1}}
+%\newcommand{\cnt}[2]{\mathsf{cnt}(#1, #2)}
+\newcommand{\cnt}[1]{\mathsf{cnt}(#1)}
 \newcommand{\dom}[1]{\mathrm{dom}(#1)}
+\newcommand{\U}[1]{\mathcal{U}(#1)}
+\newcommand{\Linset}[1]{\mathcal{L}(#1)}
 
 
 \newcommand{\mult}{\ensuremath{\odot}\xspace}
+\newcommand{\sessionop}{\ensuremath{\circ}\xspace}
 \newcommand{\unit}{\ensuremath{\mathbf{1}}}
 
 \newcommand\subst[2]{\{{#1}/{#2}\}}
+\newcommand\subs[2]{[{#1}/{#2}]}
 % \newcommand\subst[2]{\{{}^{#1}/{}_{#2}\}}
-
-% Reduction system
-\newcommand\reduces{\mathrel{\longrightarrow}}
-
-\newcommand{\gthr}[2]{\ensuremath{\mathsf{V}(#1, #2)}\xspace}
-\newcommand{\newbuffer}[2]{\ensuremath{\mathsf{B}(#1, #2)}\xspace}
-
+\newcommand\reduces{\,\longrightarrow\,}
 
 % Buffer terms
 
-\newcommand{\ebuffer}{\ensuremath{\varepsilon}\xspace}
-
 \newcommand{\squeue}[3]{\ensuremath{#1[#2, #3]}}
+%\newcommand{\squeue}[2]{\ensuremath{#1[#2]}}
 \newcommand{\pol}[1]{\ensuremath{\tilde{#1}}}
-\newcommand{\cat}{\cdot}
-\newcommand{\equeue}{\ensuremath{\varepsilon}\xspace}
 
+\newcommand{\cat}{\cdot}
+
+
+\newcommand{\equeue}{\varepsilon}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Types
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
 \newcommand{\tsep}{.}
 
-\newcommand\tout[1]{{}_!#1.}
-\newcommand\tin[1]{{}_?#1.}
+\newcommand\tout[1]{{}!#1.}
+\newcommand\tin[1]{{}?#1.}
+%\newcommand\tsel[2]{\oplus\{#1\mathrel:#2\}}
 \newcommand\tsel[1]{\oplus\set{#1}}
+%\newcommand\tselI[2]{\tsel{{#1}_i}{{#2}_i}_{i\in I}}
 \newcommand\tselI[2]{\tsel{{#1}_i: {#2}_i}_{i\in I}}
 \newcommand\tbranchOn[1]{\&\{#1\}}
 \newcommand\tbranch[2]{\&\{#1\mathrel:#2\}}
@@ -168,17 +166,18 @@
 \newcommand\tdual[1]{\overline{#1}}
 \newcommand\tadvance{\mathrel{\shortrightarrow}}
 
+\newcommand\tchan[3]{#1^#2[\ensuremath{\tilde{#3}]}}
+
 \newcommand{\tempty}{\ensuremath{\varepsilon}\xspace}
 
-% Context
-\newcommand{\econtext}{\ensuremath{\emptyset}\xspace}
-
 % Message type
-\newcommand\msel[1]{{}_{\oplus}#1}
-\newcommand{\mtout}[1]{{}_{!}#1}
-\newcommand{\sessionop}{\ensuremath{\circ}\xspace}
+\newcommand\msel[1]{{}_{\oplus}#1.}
 
-\newcommand{\synchronise}[2]{\ensuremath{#1 \mathrel{\hookrightarrow} #2}}
+% Type system
+\newcommand{\gthr}[2]{\ensuremath{\mathsf{V}(#1, #2)}\xspace}
+\newcommand{\newbuffer}[2]{\ensuremath{\mathsf{B}(#1, #2)}\xspace}
+
+\newcommand{\synchronise}[1]{ \ensuremath{ \mathsf{synch}(#1)}\xspace }
 
 
 
@@ -187,14 +186,19 @@
 % Operators on Processes
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%\newcommand\freshfor{\mathrel{\#}}
+\newcommand\freshfor{\mathrel{\#}}
 \newcommand{\fn}[1]{\mathrm{fn}(#1)}
 \newcommand{\fs}[1]{\mathrm{fs}(#1)}
 \newcommand{\fv}[1]{\mathrm{fv}(#1)}
+\newcommand{\Lin}[1]{\mathrm{lin}(#1)}
+\newcommand{\Un}[1]{\mathrm{un}(#1)}
+% \newcommand\fv{\mathrm{fv}}
 \newcommand\subj{\mathrm{subj}}
 \newcommand\seq[1]{\widetilde{#1}}
 \newcommand\types{\mathrel{\vdash}}
 \newcommand\etypes{\mathrel{\succ}}
+\newcommand\expo[1]{\overline{#1}}
+\newcommand\Set[1]{\{#1\}}
 
 
 
@@ -205,61 +209,62 @@
 \newcommand\Section[1]{Section~\ref{sec:#1}}
 \newcommand\IF{\mathrel{\mbox{if}}}
 \newcommand\AND{\mathrel{\mbox{and}}}
+\newcommand\OTHERWISE{\mbox{otherwise}}
+
 
 % rules
 
 \newcommand{\bool}{\mathsf{bool}}
+\newcommand{\tint}{\mathsf{int}}
 
 \def\infrulestyle{\displaystyle}
 \def\makeinfrulesmall{\def\infrulestyle{\textstyle}}
 \def\makeinfrulenormal{\def\infrulestyle{\displaystyle}}
 \newcommand\infrule[2]{{\infrulestyle\frac{#1}{#2}}}
 
+%\newcommand\rulename[1]{\mbox{\textsc{{\small [#1]}}}}
+% \newcommand\rulename[1]{\mbox{\textsc{[#1]}}}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Rule Names
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\newcommand\rname[1]{\ensuremath{\small \textsc{{[#1]}}}\xspace}
+\newcommand\rname[1]{\ensuremath{\mathsf{{\displaystyle (#1)}}}\xspace}
 \newcommand\rulename[1]{\rname{#1}}
 
-\newcommand\sname[1]{\ensuremath{\mathsf{(#1)}}\xspace}
 
 % Syntax
-\newcommand{\Request}{\sname{Request}}
-\newcommand{\Accept}{\sname{Accept}}
-\newcommand{\Send}{\sname{Send}}
-\newcommand{\Rcv}{\sname{Receive}}
-\newcommand{\Selection}{\sname{Select}}
-\newcommand{\Branching}{\sname{Branch}}
-\newcommand{\Conditional}{\sname{Cond}}
-\newcommand{\NDet}{\sname{Sum}}
-\newcommand{\Recursion}{\sname{Definition}}
-\newcommand{\PVar}{\sname{PVar}}
-\newcommand{\Inact}{\sname{Inaction}}
+\newcommand{\Request}{\rname{Request}}
+\newcommand{\Accept}{\rname{Accept}}
+\newcommand{\Send}{\rname{Send}}
+\newcommand{\Rcv}{\rname{Receive}}
+\newcommand{\Selection}{\rname{Selection}}
+\newcommand{\Branching}{\rname{Branching}}
+\newcommand{\Conditional}{\rname{Conditional}}
+\newcommand{\NDet}{\rname{Sum}}
+\newcommand{\Recursion}{\rname{Definition}}
+\newcommand{\Composition}{\rname{Composition}}
+\newcommand{\Inact}{\rname{Inaction}}
+\newcommand{\Variable}{\rname{Variable}}
+\newcommand{\Booleans}{\rname{Booleans}}
 
-\newcommand{\Node}{\sname{Node}}
-\newcommand{\Parallel}{\sname{Parallel}}
-\newcommand{\Restriction}{\sname{Restr}}
 
-%\newcommand{\EBuffer}{\sname{EBuffer}}
-%\newcommand{\Buffer}{\sname{Buffer}}
+\newcommand{\Node}{\rname{Node}}
+\newcommand{\Parallel}{\rname{Parallel}}
+\newcommand{\Restriction}{\rname{Restriction}}
+
+\newcommand{\EBuffer}{\rname{EBuffer}}
+\newcommand{\Buffer}{\rname{Buffer}}
 
 % Semantics
-\newcommand{\Connect}{\rname{Connect}}
-\newcommand{\Broadcast}{\rname{Broadcast}}
-\newcommand{\Unicast}{\rname{Unicast}}
 \newcommand{\Receive}{\rname{Receive}}
-\newcommand{\Gather}{\rname{Gather}}
 \newcommand{\Select}{\rname{Select}}
 \newcommand{\Branch}{\rname{Branch}}
-\newcommand{\Loss}{\rname{Loss}}
-\newcommand{\Recover}{\rname{Recover}}
-\newcommand{\RecoverB}{\rname{RecoverB}}
-\newcommand{\True}{\rname{True}}
-\newcommand{\False}{\rname{False}}
-\newcommand{\NonDet}{\rname{NDet}}
-\newcommand{\RDef}{\rname{Def}}
+\newcommand{\True}{\rname{RTrue}}
+\newcommand{\False}{\rname{RFalse}}
 \newcommand{\RPar}{\rname{RPar}}
+\newcommand{\RCom}{\rname{RCom}}
+\newcommand{\RSel}{\rname{RSel}}
 \newcommand{\RCong}{\rname{RCong}}
 \newcommand{\RRes}{\rname{RRes}}
 
@@ -271,7 +276,6 @@
 \newcommand{\SSt}{\rname{SSt}}
 
 \newcommand{\BEmp}{\rname{BEmp}}
-\newcommand{\SEmp}{\rname{SEmp}}
 \newcommand{\SExp}{\rname{SExp}}
 \newcommand{\SLab}{\rname{SLab}}
 \newcommand{\LExp}{\rname{LExp}}
@@ -280,7 +284,9 @@
 \newcommand{\TReq}{\rname{TReq}}
 \newcommand{\TAcc}{\rname{TAcc}}
 \newcommand{\TSnd}{\rname{TSnd}}
+\newcommand{\TSndVal}{\rname{TSndVal}}
 \newcommand{\TRcv}{\rname{TRcv}}
+\newcommand{\TRcvVal}{\rname{TRcvVal}}
 \newcommand{\TSel}{\rname{TSel}}
 \newcommand{\TBr}{\rname{TBr}}
 
@@ -289,131 +295,18 @@
 
 \newcommand{\TInact}{\rname{TInact}}
 \newcommand{\TVar}{\rname{TVar}}
+\newcommand{\TVal}{\rname{TVal}}
 \newcommand{\TRec}{\rname{TRec}}
 \newcommand{\TSum}{\rname{TSum}}
 
 \newcommand{\TNode}{\rname{TNode}}
-\newcommand{\TSynch}{\rname{TSynch}}
 \newcommand{\TPar}{\rname{TPar}}
-\newcommand{\TCRes}{\rname{TCRes}}
-\newcommand{\TSRes}{\rname{TSRes}}
-
-
-% Error Nodes
-\def\nname#1{\textsc{#1}\xspace}
-\newcommand{\Nbrc}{\nname{Brc}}
-\newcommand{\Nuni}{\nname{Uni}}
-\newcommand{\Ngth}{\nname{Gth}}
-\newcommand{\Nrcv}{\nname{Rcv}}
-\newcommand{\Nsel}{\nname{Sel}}
-\newcommand{\Nbra}{\nname{Bra}}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Examples
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%\newcommand{\role}[1]{\ensuremath{\mathtt{#1}}\xspace}
-%\newcommand{\p}{\role{p}}
-%\newcommand{\q}{\role{q}}
-%\newcommand{\m}{\role{m}}
-%\newcommand{\gto}{\rightarrow}
-%\newcommand{\gval}[3]{\role{#1} \gto \role{#2}: #3;}
-%\newcommand{\gsel}[3]{\role{#1} \gto \role{#2} : \{#3\}}
-%\newcommand{\ginact}{\mathtt{end}}
-
-\newcommand{\mytype}[1]{\ensuremath{\mathtt{#1}}\xspace}
-\newcommand{\nat}{\mytype{nat}}
-%
-%\newcommand{\sender}{\mytype{s}}
-%\newcommand{\medium}{\mytype{m}}
-%\newcommand{\recv}{\mytype{r}}
-%\newcommand{\lost}{\mytype{lost}}
-
-\newcommand{\myprocess}[1]{\ensuremath{\mathsf{#1}}\xspace}
-
-\newcommand{\Sender}{\myprocess{Sender}}
-\newcommand{\Medium}{\myprocess{Medium}}
-\newcommand{\Receiver}{\myprocess{Receiver}}
-
-\newcommand{\queue}[2]{\ensuremath{#1[#2]}}
-
-%\newcommand{\out}[4]{#1[#2][#3]!\langle #4\rangle.}
-%\newcommand{\inp}[4]{#1[#2][#3]?(#4).}
-%\newcommand{\ssel}[4]{#1[#2][#3]\triangleleft #4.}
-%\newcommand{\bra}[4]{#1[#2][#3]\triangleright\{#4\}}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Examples
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-\def\ba{\beta_1}
-\def\bb{\beta_2}
-
-% protocol phases
-\newcommand{\PreparePh}{\ensuremath{\mathsf{Prepare}}\xspace}
-\newcommand{\AcceptPh}{\ensuremath{\mathsf{Accept}}\xspace}
-
-% processes and networks
-\newcommand{\Proposer}{\myprocess{Proposer}}
-\newcommand{\ProposerDef}[1]{\abs{\Proposer}{#1}}
-\newcommand{\ProposerVar}[1]{\appl{\Proposer}{#1}}
-
-\newcommand{\ProposerNode}{\ensuremath{\mathsf{ProposerNode}}\xspace}
-
-
-\newcommand{\Acceptor}{\myprocess{Acceptor}}
-\newcommand{\AcceptorDef}[1]{\abs{\Acceptor}{#1}}
-\newcommand{\AcceptorVar}[1]{\appl{\Acceptor}{#1}}
-
-\newcommand{\AcceptorNode}{\ensuremath{\mathsf{AcceptorNode}}\xspace}
-
-
-\newcommand{\Acc}{\myprocess{Acc}}
-\newcommand{\AccDef}[1]{\abs{\Acc}{#1}}
-\newcommand{\AccVar}[1]{\appl{\Acc}{#1}}
-
-
-\newcommand{\Paxos}{\ensuremath{\mathsf{Paxos}}\xspace}
-\newcommand{\PaxosDef}[1]{\abs{\Paxos}{#1}}
-\newcommand{\PaxosVar}[1]{\appl{\Paxos}{#1}}
-\newcommand{\PaxosNode}{\ensuremath{\mathsf{PaxosNode}}\xspace}
-
-
-%labels
-\newcommand{\restart}{\ensuremath{\mathsf{restart}}\xspace}
-\newcommand{\acceptPhase}{\ensuremath{\mathsf{accept}}\xspace}
-\newcommand{\chosen}{\ensuremath{\mathsf{chosen}}\xspace}
-\newcommand{\Max}[1]{\ensuremath{\mathsf{max}(#1)}\xspace}
-
-
-% Types
-
-\newcommand{\messageTuple}{(\rnumber, \pvalue)}
-\newcommand{\prep}{\mytype{prep}}
-\newcommand{\prom}{\mytype{prom}}
-
-\newcommand{\rnumber}{\mytype{rnd}}
-\newcommand{\pvalue}{\mytype{value}}
-
-\newcommand{\PaxosType}{\ensuremath{\mathsf{PaxosType}}\xspace}
-%\newcommand{\AcceptorType}{\ensuremath{\mathsf{AcceptorType}}\xspace}
-
-
-%\newcommand{\tuple}{\ensuremath{\mathsf{ituple}}\xspace}
-%\newcommand{\prep}{\ensuremath{\mathsf{prepare}}\xspace}
-%\newcommand{\prom}{\ensuremath{\mathsf{promise}}\xspace}
-%\newcommand{\rnumber}{\ensuremath{\mathsf{rnum}}\xspace}
-%\newcommand{\PVal}{\ensuremath{\mathsf{PVal}}\xspace}
+\newcommand{\TRes}{\rname{TRes}}
 
 
 
-%\newcommand\pn[1]{\textsc{#1}}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Misc
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Context
+\newcommand{\econtext}{\ensuremath{\emptyset}\xspace}
 
 
 \newcommand{\myparagraph}[1]{\noindent{\em #1.}\xspace}
@@ -431,5 +324,31 @@
 \newcommand\rg[1]{\marginnote{magenta}{RG: #1}}
 \newcommand\sjg[1]{\marginnote{red}{SJG: #1}}
 
+\newcommand{\role}[1]{\ensuremath{\mathtt{#1}}\xspace}
+\newcommand{\p}{\role{p}}
+\newcommand{\q}{\role{q}}
+\newcommand{\m}{\role{m}}
+\newcommand{\gto}{\rightarrow}
+\newcommand{\gval}[3]{\role{#1} \gto \role{#2}: #3;}
+\newcommand{\gsel}[3]{\role{#1} \gto \role{#2} : \{#3\}}
+\newcommand{\ginact}{\mathtt{end}}
+
+\newcommand{\mytype}[1]{\ensuremath{\mathtt{#1}}\xspace}
+
+\newcommand{\sender}{\mytype{s}}
+\newcommand{\medium}{\mytype{m}}
+\newcommand{\recv}{\mytype{r}}
+\newcommand{\lost}{\mytype{lost}}
+
+\newcommand{\myprocess}[1]{\ensuremath{\mathsf{#1}}\xspace}
+
+\newcommand{\Sender}{\myprocess{S}}
+\newcommand{\Medium}{\myprocess{M}}
+\newcommand{\Receiver}{\myprocess{R}}
+
+\newcommand{\out}[4]{#1[#2][#3]!\langle #4\rangle.}
+\newcommand{\inp}[4]{#1[#2][#3]?(#4).}
+\newcommand{\ssel}[4]{#1[#2][#3]\triangleleft #4.}
+\newcommand{\bra}[4]{#1[#2][#3]\triangleright\{#4\}}
 
 \newcommand{\dkextend}[1]{{\color{blue} #1}}

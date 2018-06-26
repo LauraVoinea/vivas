@@ -4,7 +4,7 @@
   \forloop{loopcntr}{0}{\value{loopcntr}<#1}{#2}%
 }
 \newcommand{\on}[1][1]{
-  \forloop{loopcntr}{0}{\value{loopcntr}<#1}{&\cellcolor{gray}}
+  \forloop{loopcntr}{0}{\value{loopcntr}<#1}{&\cellcolor{blue}}
 }
 \newcommand{\off}[1][1]{
   \forloop{loopcntr}{0}{\value{loopcntr}<#1}{&}
@@ -15,9 +15,9 @@
 
 \label{figures2}
 \begin{frame}\frametitle{Work Plan}
-  \noindent\begin{tabular}{p{0.15\textwidth}*{16}{|p{0.015\textwidth}}|}
+  \noindent\begin{tabular}{p{0.08\textwidth}*{16}{|p{0.019\textwidth}}|}
   % The top line
-  \textbf{Gantt chart}
+  Task
              & \multicolumn{7}{c|}{2018}
              & \multicolumn{9}{c|}{2019}\\
   % The second line, with its five years of four quarters
@@ -28,13 +28,19 @@
   \hline
   % using the on macro to fill in twenty cells as `on'
 
-  Capabilities  \on[3] \off[13] \\
+  A  \on[3] \off[13] \\
   \hline
-  Semantic approach \on[5] \off[11]\\
+  B \on[5] \off[11]\\
   \hline
-  Paxos \& Mungo \off[5] \on[4] \off[7] \\
+  C \off[5] \on[4] \off[7] \\
   \hline
-  Thesis write-up  \off[6] \on[4] \off[6]\\
+  D  \off[6] \on[4] \off[6]\\
   \hline
   \end{tabular}
+  \begin{enumerate}[A]
+  \item Modular linearity with Capabilities
+  \item Semantic approach to modular linearity
+  \item Paxos \& Mungo
+  \item Thesis write-up
+  \end{enumerate}
 \end{frame}
